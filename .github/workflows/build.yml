@@ -17,10 +17,12 @@ jobs:
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
       with :
+            # projectBaseDir: my-custom-directory
             args: >
               -Dsonar.organization=naedri
               -Dsonar.projectKey=Naedri_company-simulation
               -Dsonar.verbose=true
+              -Dsonar.sources=client
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
