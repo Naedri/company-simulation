@@ -1,5 +1,7 @@
 // server/database/config.js
-require('dotenv').config({path: __dirname + '/.env'}); // fait reference aux log du service database en pgsql
+if(process.env.NODE_ENV = "dev"){
+    require('dotenv').config({path: __dirname + '/.env.local'});
+}
 
 const USER = process.env.DB_USER;
 const HOST = process.env.DB_HOST;
