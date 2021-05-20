@@ -133,4 +133,4 @@ sketch
 
 # logdetails
 /server/services/users/.env
-/server/db/.env.local
+/server/database/.env.local

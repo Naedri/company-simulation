@@ -1,5 +1,5 @@
 // server/database/config.js
-if(process.env.NODE_ENV = "dev"){
+if(process.env.NODE_ENV === "dev"){
     require('dotenv').config({path: __dirname + '/.env.local'});
 }
 
