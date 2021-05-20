@@ -99,3 +99,42 @@ Add login details in the following file :
    - `DB_PASSWORD=dddddd`
    - `DB_PORT=5432`
    - `DB_SECRET=ssssss`
+
+### Launching the server
+
+Terminal 1 to install dependencies
+
+```bash
+cd company-simulation/server/
+npm install
+```
+
+Terminal 2 to init the database
+
+```bash
+cd company-simulation/server/database/
+node import.js
+```
+
+Terminal 3 to launch the server
+
+```bash
+cd company-simulation/server/
+node app.js
+```
+
+### Launching the client
+
+Terminal 1 to install dependencies
+
+```bash
+cd company-simulation/client/
+npm install
+```
+
+Terminal 3 to launch the client
+
+```bash
+cd company-simulation/client/
+npm start
+```
