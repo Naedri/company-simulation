@@ -130,3 +130,7 @@ sketch
 # Ignore all local history of files
 .history
 .ionide
+
+# logdetails
+/server/services/users/.env
+/server/db/.env.local
