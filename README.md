@@ -91,14 +91,13 @@ entités dans la simulation et de les rendre accessibles via l’API REST.
 
 Add login details in the following file :
 
-1. `WebSimulation\server\db\.env.local`
+1. `company-simulation\server\database\.env.local`
    - which includes the following ElephantSQL data :
    - `DB_USER=xxx`
    - `DB_HOST=yyyyyyy.db.elephantsql.com`
    - `DB_DATABASE=xxx`
    - `DB_PASSWORD=dddddd`
    - `DB_PORT=5432`
-   - `DB_SECRET=ssssss`
 
 ### Launching the server
 
