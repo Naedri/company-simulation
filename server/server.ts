@@ -1,8 +1,11 @@
 import express from "express";
 import router from "./router";
+const bodyParser = require('body-parser');
 
 const app = express();
 const PORT = "3000";
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use("/", router);
 

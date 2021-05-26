@@ -1,5 +1,6 @@
 import express from "express";
 import LOGGER from "../utils/logger";
+import { login } from '../services/user/user';
 
 const router = express.Router();
 
@@ -10,9 +11,19 @@ router.get(`/register`, (req, res) => {
     res.json();
 });
 
-router.get(`/login`, (req, res) => {
+router.post(`/login`, (req, res) => {
     LOGGER.INFO("UsersRoutes", "/login entered");
-    res.json();
+    login(req.body, (err: Error, result: any)=> {
+        if(err) {
+            res.status(301).json(err);
+            return;
+        }
+        res.json(result);
+    }).then(data => {
+        console.log(data);
+    }).catch(err => {
+        console.log(err);
+    });
 });
 
 router.get(`/authenticate`, (req, res) => {
