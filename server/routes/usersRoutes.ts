@@ -10,7 +10,7 @@ router.get(`/register`, (req, res) => {
     res.json();
 });
 
-router.get(`/login`, (req, res) => {
+router.post(`/login`, (req, res) => {
     LOGGER.INFO("UsersRoutes", "/login entered");
     res.json();
 });
