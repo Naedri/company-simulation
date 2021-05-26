@@ -9,46 +9,37 @@ import executeQuery from '../../database/utils';
  * @param password
  * @param callback
  */
-export function login({
-                          mail,
-                          password
-                      }: { mail: string, password: string }, callback: (err: Error | null, result: any) => void) {
-    const query =
-        `SELECT *
-         FROM STAFF
-         WHERE mail = $1`;
-    const invalidCredentials = "invalid credentials";
+export function login({mail, password}: { mail: string, password: string }) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const query =
+                `SELECT *
+                FROM STAFF
+                WHERE mail = $1`;
+            const invalidCredentials = "invalid credentials";
 
-    executeQuery(query, [mail], (err: Error, result: any) => {
-        if (err) {
-            callback(err, err);
-        } else {
+            const result = await executeQuery(query, [mail]);
             const userFound = result.rows[0];
+
             if (userFound) {
                 // TODO remove when registration is available
-                bcrypt.hash(userFound.encrypted_password, 10).then((hash: string) => {
-                    bcrypt.compare(password, hash, (bcryptError: Error, validCredentials: any) => {
-                        if (bcryptError) {
-                            callback(bcryptError, bcryptError);
-                        } else {
-                            if (validCredentials) {
-                                LOGGER.INFO("user.login", "user FOUND with the identifiers");
-                                // we delete the password of the user object to avoid expose it
-                                delete userFound.encrypted_password;
-                                callback(null, userFound);
-                            } else {
-                                LOGGER.INFO("user.login", "NONE user found with the identifiers");
-                                callback(new Error(invalidCredentials), new Error(invalidCredentials));
-                            }
-                        }
-                    });
-                })
-            } else {
-                LOGGER.INFO("user.login", "NONE user found with the identifiers");
-                callback(new Error(invalidCredentials), new Error(invalidCredentials));
+                const hash = await bcrypt.hash(userFound.encrypted_password, 10);
+                const isValidCredentials = await bcrypt.compare(password, hash);
+
+                if (isValidCredentials) {
+                    LOGGER.INFO("user.login", "user FOUND with the identifiers");
+                    // we delete the password of the user object to avoid expose it
+                    delete userFound.encrypted_password;
+                    resolve(userFound);
+                } else {
+                    LOGGER.INFO("user.login", "NONE user found with the identifiers");
+                    throw new Error(invalidCredentials);
+                }
             }
+        } catch (error) {
+            reject(new Error(error));
         }
-    });
+    })
 }
 
 /**
@@ -56,25 +47,23 @@ export function login({
  * @param mail
  * @param callback
  */
-export function isPresent({mail}: { mail: string },
-                          callback: (err: Error | null, result: Error | boolean) => void) {
+export async function isPresent({mail}: { mail: string }) {
     const query =
         `SELECT COUNT(*)
          FROM STAFF
          WHERE mail = $1`;
 
-    executeQuery(query, [mail], (err: Error, result: any) => {
-        if (err) {
-            callback(err, err);
+    try{
+        const result = await executeQuery(query, [mail]);
+        let count = result.rows[0].count;
+        if (count === '0') {
+            LOGGER.INFO("user.present", "user mail is AVAILABLE");
+            return false;
         } else {
-            let count = result.rows[0].count;
-            if (count === '0') {
-                LOGGER.INFO("user.present", "user mail is AVAILABLE");
-                callback(null, false);
-            } else {
-                LOGGER.INFO("user.present", "user mail is BUSY");
-                callback(null, true);
-            }
+            LOGGER.INFO("user.present", "user mail is BUSY");
+            return true;
         }
-    });
+    }catch(error){
+        return false;
+    }
 }

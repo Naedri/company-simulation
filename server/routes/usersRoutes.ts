@@ -11,9 +11,7 @@ const USERS_ROUTES_BASE_PATH = "/users";
 
 router.get(`/register`, (req, res) => {
     LOGGER.INFO("UsersRoutes", "/register entered");
-    isPresent(req.body, (err: Error | null, userFound: Error | boolean ) => {
-
-    });
+    const exists = isPresent(req.body);
 });
 
 router.post(`/logout`, (req, res) => {
@@ -22,18 +20,15 @@ router.post(`/logout`, (req, res) => {
     res.json({message: "logged out"});
 });
 
-router.post(`/login`, (req, res) => {
+router.post(`/login`, async (req, res) => {
     LOGGER.INFO("UsersRoutes", "/login entered");
-    login(req.body, (err: Error | null, userFound: any) => {
-        if (err) {
-            res.status(401).json(err);
-            return;
-        }
+    try {
+        const user: any = await login(req.body);
         LOGGER.INFO("user.login", "creation of the token");
         const token = jwt.sign(
             {
-                id: userFound.id,
-                mail: userFound.mail
+                id: user.id,
+                mail: user.mail
             },
             config.token.secret,
             {expiresIn: '24h'}
@@ -41,11 +36,13 @@ router.post(`/login`, (req, res) => {
         res.cookie('token', token, {httpOnly: true});
         res.json({
             state: true,
-            id: userFound.id,
-            mail: userFound.mail,
+            id: user.id,
+            mail: user.mail,
             message: "Auth successful"
         });
-    })
+    } catch (error) {
+        res.status(301).json(error);
+    }
 });
 
 /**

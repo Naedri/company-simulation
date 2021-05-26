@@ -1,8 +1,13 @@
+if(process.env.NODE_ENV === "dev"){
+    require('dotenv').config({path: process.cwd() + '/.env.local'});
+}
+
 import express from "express";
+import bodyParser from "body-parser";
+
 import router from "./router";
 import config from './services/user/config';
 
-const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser')
 const jwt = require('express-jwt');
 
