@@ -11,9 +11,7 @@ const USERS_ROUTES_BASE_PATH = "/users";
 
 router.get(`/register`, (req, res) => {
     LOGGER.INFO("UsersRoutes", "/register entered");
-    isPresent(req.body, (err: Error | null, userFound: Error | boolean ) => {
-
-    });
+    const exists = isPresent(req.body);
 });
 
 router.post(`/logout`, (req, res) => {

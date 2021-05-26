@@ -47,25 +47,23 @@ export function login({mail, password}: { mail: string, password: string }) {
  * @param mail
  * @param callback
  */
-export function isPresent({mail}: { mail: string },
-                          callback: (err: Error | null, result: Error | boolean) => void) {
+export async function isPresent({mail}: { mail: string }) {
     const query =
         `SELECT COUNT(*)
          FROM STAFF
          WHERE mail = $1`;
 
-    executeQuery(query, [mail], (err: Error, result: any) => {
-        if (err) {
-            callback(err, err);
+    try{
+        const result = await executeQuery(query, [mail]);
+        let count = result.rows[0].count;
+        if (count === '0') {
+            LOGGER.INFO("user.present", "user mail is AVAILABLE");
+            return false;
         } else {
-            let count = result.rows[0].count;
-            if (count === '0') {
-                LOGGER.INFO("user.present", "user mail is AVAILABLE");
-                callback(null, false);
-            } else {
-                LOGGER.INFO("user.present", "user mail is BUSY");
-                callback(null, true);
-            }
+            LOGGER.INFO("user.present", "user mail is BUSY");
+            return true;
         }
-    });
+    }catch(error){
+        return false;
+    }
 }
