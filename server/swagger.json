@@ -1,0 +1,126 @@
+{
+  "info": {
+    "version": "1.0.0",
+    "title": "Company-simulation",
+    "description": "",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:3000",
+  "schemes": ["http"],
+  "swagger": "2.0",
+  "tags": [{
+    "name": "/users",
+    "description": "Authentication commands"
+  }],
+  "paths": {
+    "/users/register": {
+      "post": {
+        "summary": "Create an account with mail & password",
+        "tags": ["/users"],
+        "parameters": [
+          {
+            "name": "Register with values",
+            "in": "body",
+            "description": "user's mail & password",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Register"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string",
+              "example": "OK"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "string",
+              "example": "KO"
+            }
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "summary": "Connect with mail & password",
+        "tags": ["/users"],
+        "parameters": [
+          {
+            "name": "Connection values",
+            "in": "body",
+            "description": "user's mail & password",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string",
+              "example": "OK"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "string",
+              "example": "KO"
+            }
+          }
+        }
+      }
+    },
+    "/users/authenticate": {
+    }
+  },
+  "definitions": {
+    "Login": {
+      "properties": {
+        "mail": {
+          "type": "string",
+          "example": "test@test.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "password1"
+        }
+      },
+      "required": ["mail", "password"]
+    },
+    "Register": {
+      "properties": {
+        "mail": {
+          "type": "string",
+          "example": "test@test.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "password1"
+        },
+        "confirm_password": {
+          "type": "string",
+          "example": "password1"
+        }
+      },
+      "required": ["mail", "password", "confirm_password"]
+    }
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ]
+}
