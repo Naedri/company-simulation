@@ -28,6 +28,10 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+
+### Intellij Patch ###
+# Comment Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-215987721
+
 ### react ###
 .DS_*
 *.log
@@ -56,3 +60,7 @@ sketch
 # Ignore all local history of files
 .history
 .ionide
+
+# logdetails
+/server/services/users/.env
+/server/database/.env.local
