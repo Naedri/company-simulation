@@ -91,11 +91,35 @@ entités dans la simulation et de les rendre accessibles via l’API REST.
 
 Add login details in the following file :
 
-1. `WebSimulation\server\db\.env.local`
+1. `company-simulation\server\database\.env.local`
    - which includes the following ElephantSQL data :
    - `DB_USER=xxx`
    - `DB_HOST=yyyyyyy.db.elephantsql.com`
    - `DB_DATABASE=xxx`
    - `DB_PASSWORD=dddddd`
    - `DB_PORT=5432`
-   - `DB_SECRET=ssssss`
+
+### Launching the app
+
+#### Launching the server
+
+In a terminal, install dependencies, initialize the database and then launch the server.
+
+```bash
+cd company-simulation/server/
+npm install
+cd ./database/
+node import.js
+cd ../
+node app.js
+```
+
+#### Launching the client
+
+In another terminal, install dependencies then launch the client.
+
+```bash
+cd company-simulation/client/
+npm install
+npm run dev
+```
