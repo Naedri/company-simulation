@@ -46,36 +46,3 @@ INSERT INTO STAFF (mail, encrypted_password)
 VALUES ('a@yopmail.com', 'aqwzsxedc');
 INSERT INTO STAFF (mail, encrypted_password, role_id)
 VALUES ('b@yopmail.com', 'aqwzsxedc', 2);
-
-/*Component Table*/
-CREATE TABLE COMPONENT
-(
-    id         SERIAL PRIMARY KEY,
-    name       VARCHAR(50),
-    created_at timestamp DEFAULT current_timestamp
-);
-INSERT INTO COMPONENT (name)
-VALUES ('forest');
-INSERT INTO COMPONENT (name)
-VALUES ('sawmill');
-INSERT INTO COMPONENT (name)
-VALUES ('ikea');
-INSERT INTO COMPONENT (name)
-VALUES ('home');
-
-/*Component Relation Table*/
-CREATE TABLE COMPONENT_RELATION
-(
-    component_from INTEGER REFERENCES COMPONENT (id),
-    component_to   INTEGER REFERENCES COMPONENT (id),
-    weight         INTEGER DEFAULT 1,
-    PRIMARY KEY (component_from, component_to)
-);
-INSERT INTO COMPONENT_RELATION(component_from, component_to)
-VALUES (1, 1);
-INSERT INTO COMPONENT_RELATION(component_from, component_to, weight)
-VALUES (1, 2, 2);
-INSERT INTO COMPONENT_RELATION(component_from, component_to)
-VALUES (2, 3);
-INSERT INTO COMPONENT_RELATION(component_from, component_to, weight)
-VALUES (4, 4, 1);
