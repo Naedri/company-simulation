@@ -1,11 +1,7 @@
 // server/database/config.ts
 
-//import LOGGER from "../../utils/logger";
-console.log(process.env.NODE_ENV)
 if(process.env.NODE_ENV === "dev"){
-	console.log("Entered node dev");
-	console.log("Dirname: ", );
-    require('dotenv').config({path: __dirname + '/.env.local'});
+    require('dotenv').config({path: process.cwd() + '/.env.local'});
 }
 
 const USER = process.env.DB_USER;
@@ -20,6 +16,6 @@ export default {
 		host: HOST,
 		database: DATABASE,
 		password: PASSWORD,
-		port: PORT,
+		port: PORT
 	}
 };

@@ -14,7 +14,7 @@ export default LOGGER;
 
 function getDate(): string {
     const date = new Date(Date.now());
-    const month = date.toLocaleString("default", { month: 'short' });
+    const month = date.toLocaleString("default", {month: 'short'});
     const day = ("0" + date.getDate()).slice(-2);
     const hours = ("0" + date.getHours()).slice(-2);
     const minutes = ("0" + date.getMinutes()).slice(-2);

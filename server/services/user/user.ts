@@ -1,5 +1,5 @@
 // server/services/user/user.ts
-const {bcrypt} = require("bcrypt");
+const bcrypt = require("bcrypt");
 import LOGGER from "../../utils/logger";
 import executeQuery from '../../database/utils';
 
@@ -9,73 +9,44 @@ import executeQuery from '../../database/utils';
  * @param password
  * @param callback
  */
-export async function login({mail, password}: { mail: string, password: string }, callback: Function) {
-    try {
-        const query =
-            `SELECT *
+export function login({
+                          mail,
+                          password
+                      }: { mail: string, password: string }, callback: (err: Error | null, result: any) => void) {
+    const query =
+        `SELECT *
          FROM STAFF
          WHERE mail = $1`;
+    const invalidCredentials = "invalid credentials";
 
-        const invalidCredentials = "invalid credentials";
-        const result = await executeQuery(query, [mail]);
-        const userFound = result.rows[0];
-
-        if (userFound) {
-            let encrypt = await bcrypt.hash(userFound.encrypted_password, 10);
-            console.log("ENCRYPT", encrypt, password);
-            bcrypt.compare(password, encrypt, (errBcrypt: Error, resBcrypt: any) => {
-                if (errBcrypt) {
-                    callback(true, errBcrypt);
-                } else if (resBcrypt) {
-                    LOGGER.INFO("user.login", "user logged");
-                    // we delete the password of the user object to avoid expose it
-                    delete userFound.encrypted_password;
-                    callback(undefined, userFound);
-                } else {
-                    LOGGER.WARN("user.login", invalidCredentials);
-                    callback(true, false);
-                }
-            });
+    executeQuery(query, [mail], (err: Error, result: any) => {
+        if (err) {
+            callback(err, err);
         } else {
-            LOGGER.INFO("user.login", invalidCredentials);
-            callback(true, false);
-        }
-    } catch (e) {
-        callback(true, e);
-    }
-
-}
-
-/**
- *
- * @param mail
- * @param password
- * @param callback
- */
-export function loginWithoutCallback({mail, password}: { mail: string, password: string }) {
-    new Promise(async (resolve, reject) => {
-        const query =
-            `SELECT *
-             FROM STAFF
-             WHERE mail = $1`;
-
-        const invalidCredentials = "invalid credentials";
-        const result = await executeQuery(query, [mail])
-            .catch((e: string) => reject(e));
-
-        const userFound = result.rows[0];
-        if (userFound) {
-            const result = await bcrypt.compare(password, userFound.encrypted_password)
-                .catch((e: string) => reject(e));
-            if (result) {
-                LOGGER.INFO("user.login", "user logged");
-                // we delete the password of the user object to avoid expose it
-                delete userFound.encrypted_password;
-                resolve(userFound);
+            const userFound = result.rows[0];
+            if (userFound) {
+                // TODO remove when registration is available
+                bcrypt.hash(userFound.encrypted_password, 10).then((hash: string) => {
+                    bcrypt.compare(password, hash, (bcryptError: Error, validCredentials: any) => {
+                        if (bcryptError) {
+                            callback(bcryptError, bcryptError);
+                        } else {
+                            if (validCredentials) {
+                                LOGGER.INFO("user.login", "user FOUND with the identifiers");
+                                // we delete the password of the user object to avoid expose it
+                                delete userFound.encrypted_password;
+                                callback(null, userFound);
+                            } else {
+                                LOGGER.INFO("user.login", "NONE user found with the identifiers");
+                                callback(new Error(invalidCredentials), new Error(invalidCredentials));
+                            }
+                        }
+                    });
+                })
+            } else {
+                LOGGER.INFO("user.login", "NONE user found with the identifiers");
+                callback(new Error(invalidCredentials), new Error(invalidCredentials));
             }
         }
-
-        LOGGER.INFO("user.login", invalidCredentials);
-        reject(invalidCredentials);
     });
 }
