@@ -6,8 +6,8 @@
     "dev": "next dev -p 8080",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint pages",
-    "format": "prettier --write pages"
+    "lint": "eslint pages lib modules",
+    "format": "prettier --write pages lib modules"
   },
   "dependencies": {
     "next": "10.2.0",
