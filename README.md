@@ -108,10 +108,8 @@ In a terminal, install dependencies, initialize the database and then launch the
 ```bash
 cd company-simulation/server/
 npm install
-cd ./database/
-node import.js
-cd ../
-node app.js
+npm run build 
+npm run start
 ```
 
 #### Launching the client
