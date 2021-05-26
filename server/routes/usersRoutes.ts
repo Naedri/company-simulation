@@ -1,7 +1,9 @@
+// server/routes/usersRoutes.ts
+
 import express from "express";
 import config from '../services/user/config';
 import LOGGER from "../utils/logger";
-import {login} from '../services/user/user';
+import {isPresent, login} from '../services/user/user';
 
 const jwt = require('jsonwebtoken');
 const router = express.Router();
@@ -9,7 +11,15 @@ const USERS_ROUTES_BASE_PATH = "/users";
 
 router.get(`/register`, (req, res) => {
     LOGGER.INFO("UsersRoutes", "/register entered");
-    res.json();
+    isPresent(req.body, (err: Error | null, userFound: Error | boolean ) => {
+
+    });
+});
+
+router.post(`/logout`, (req, res) => {
+    LOGGER.INFO("UsersRoutes", "/logout entered");
+    res.clearCookie("token");
+    res.json({message: "logged out"});
 });
 
 router.post(`/login`, (req, res) => {
@@ -38,9 +48,11 @@ router.post(`/login`, (req, res) => {
     })
 });
 
+/**
+ * to know if the cookie is still valid
+ */
 router.get(`/authenticate`, (req, res) => {
     LOGGER.INFO("UsersRoutes", "/authenticate entered");
-    res.json();
 });
 
 export {router, USERS_ROUTES_BASE_PATH};
