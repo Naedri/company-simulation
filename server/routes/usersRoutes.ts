@@ -41,7 +41,7 @@ router.post(`/login`, async (req, res) => {
             message: "Auth successful"
         });
     } catch (error) {
-        res.status(301).json(error);
+        res.status(401).json(error);
     }
 });
 
