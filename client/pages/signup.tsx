@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Link from "next/link";
 import { getUserInfo, register } from "../utils/rest/auth";
-import router from "next/router";
 
 export default function Form() {
   const router = useRouter();
