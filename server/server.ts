@@ -22,7 +22,7 @@ app.use(
         secret: config.token.secret,
         algorithms: ['HS256'],
         getToken: (req: any) => req.cookies.token
-    }).unless({path: ['/users/login']})
+    }).unless({path: ['/users/login', /\/docs*/]})
 );
 app.use("/", router);
 
