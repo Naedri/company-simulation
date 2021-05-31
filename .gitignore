@@ -60,4 +60,4 @@ sketch
 
 # logdetails
 /server/services/users/.env
-/server/database/.env.local
+/server/.env.local

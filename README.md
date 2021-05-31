@@ -108,7 +108,6 @@ In a terminal, install dependencies, initialize the database and then launch the
 ```bash
 cd company-simulation/server/
 npm install
-npm run build 
 npm run start
 ```
 
