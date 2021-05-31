@@ -1,15 +1,24 @@
-import React, { useMemo, useState } from "react";
+import React, { Dispatch, SetStateAction, useMemo, useState } from "react";
 
-const UserContext = React.createContext(null);
+type User = {
+  mail: string;
+  id: number;
+};
+
+const UserContext =
+  React.createContext<{
+    user: User | null;
+    setUser: Dispatch<SetStateAction<User>>;
+  }>(null);
 
 function UserProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
 
-  // fetch with react query or useSWR
   const value = useMemo(() => ({ user, setUser }), [user, setUser]);
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }
+
 function useUserContext() {
   const context = React.useContext(UserContext);
   if (context === undefined) {
@@ -17,4 +26,5 @@ function useUserContext() {
   }
   return context;
 }
+
 export { UserProvider, useUserContext };
