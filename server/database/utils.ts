@@ -12,7 +12,7 @@ const pool = new Pool({
     port: databaseConfig.port
 });
 
-function executeQuery(sql: String, params: [String]): any {
+function executeQuery(sql: string, params: string[]): any {
     return pool.query(sql, params);
 }
 

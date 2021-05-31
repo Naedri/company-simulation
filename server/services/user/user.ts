@@ -3,6 +3,8 @@ const bcrypt = require("bcrypt");
 import LOGGER from "../../utils/logger";
 import executeQuery from '../../database/utils';
 
+const SALT_ROUNDS = 10;
+
 /**
  *
  * @param mail
@@ -14,17 +16,15 @@ export function login({mail, password}: { mail: string, password: string }) {
         try {
             const query =
                 `SELECT *
-                FROM STAFF
-                WHERE mail = $1`;
+                 FROM STAFF
+                 WHERE mail = $1`;
             const invalidCredentials = "invalid credentials";
 
             const result = await executeQuery(query, [mail]);
             const userFound = result.rows[0];
 
             if (userFound) {
-                // TODO remove when registration is available
-                const hash = await bcrypt.hash(userFound.encrypted_password, 10);
-                const isValidCredentials = await bcrypt.compare(password, hash);
+                const isValidCredentials = await bcrypt.compare(password, userFound.encrypted_password);
 
                 if (isValidCredentials) {
                     LOGGER.INFO("user.login", "user FOUND with the identifiers");
@@ -33,8 +33,11 @@ export function login({mail, password}: { mail: string, password: string }) {
                     resolve(userFound);
                 } else {
                     LOGGER.INFO("user.login", "NONE user found with the identifiers");
-                    throw new Error(invalidCredentials);
+                    reject(new Error("Password or email invalid."));
                 }
+            } else {
+                LOGGER.INFO("user.login", "NONE user found with the identifiers");
+                reject(new Error(invalidCredentials));
             }
         } catch (error) {
             reject(new Error(error));
@@ -53,17 +56,36 @@ export async function isPresent({mail}: { mail: string }) {
          FROM STAFF
          WHERE mail = $1`;
 
-    try{
+    try {
         const result = await executeQuery(query, [mail]);
-        let count = result.rows[0].count;
-        if (count === '0') {
+        if (result.rows[0].count === '0') {
             LOGGER.INFO("user.present", "user mail is AVAILABLE");
             return false;
         } else {
             LOGGER.INFO("user.present", "user mail is BUSY");
             return true;
         }
-    }catch(error){
-        return false;
+    } catch (error) {
+        return true;
+    }
+}
+
+export async function register({mail, password}: { mail: string, password: string }) {
+    try {
+        const encrypted = await bcrypt.hash(password, SALT_ROUNDS);
+        const query =
+            `INSERT INTO STAFF (mail, encrypted_password)
+             VALUES ($1, $2) RETURNING id`;
+        const result = await executeQuery(query, [mail, encrypted]);
+        const created = result.rowCount > 0;
+        if (created){
+            LOGGER.INFO("user.register", "user created: " + mail);
+            return {user: {mail, id: result.rows[0].id} , error: null}
+        }
+        LOGGER.INFO("user.register", "user creation failed");
+        return {user: null, error: new Error("Creation failed")}
+    } catch (e) {
+        LOGGER.INFO("user.register", "user creation failed: " + e);
+        return {user: null, error: e};
     }
 }
