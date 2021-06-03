@@ -3,7 +3,7 @@
 import express from "express";
 import config from '../services/user/config';
 import LOGGER from "../utils/logger";
-import {isAdmin, isPresent, login, register} from '../services/user/user';
+import {getRoleId, isAdmin, isPresent, login, register, User} from '../services/user/user';
 
 const jwt = require('jsonwebtoken');
 const router = express.Router();
@@ -74,18 +74,22 @@ router.get(`/me`, (req, res) => {
 /**
  * to know according the token if the user is an admin
  */
-
- router.get('/admin', (req, res)=> {
-         LOGGER.INFO("UsersRoutes", "/admin entered");
-try{
-//stocke token in cookie
-const user = (req as any).user;
-
-isAdmin(user.role_id);
-
-} catch(error) {
-       res.status(404).json(error);
-}});
-
+ router.get('/admin', async (req, res) => {
+     LOGGER.INFO("UsersRoutes", "/admin entered");
+     try {
+         const user: User = (req as any).user;
+         const roleId : string = await getRoleId({mail: user.mail});
+         const admin: boolean = await isAdmin({role_id: roleId});
+         const message : string = "You are" + (admin ? " " : " not " ) + "admin";
+         return res.json({
+                 state: admin,
+                 id: user.id,
+                 mail: user.mail,
+                 message: message
+             });
+     } catch (error) {
+         res.status(404).json(error);
+     }
+ });
 
 export {router, USERS_ROUTES_BASE_PATH};

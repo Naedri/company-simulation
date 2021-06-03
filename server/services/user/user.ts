@@ -8,20 +8,18 @@ const ADMIN_LABEL= "admin";
 
 export type User = {
     id: string;
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     mail: string;
-    roleId: string;
-    createdDate?: Date;
-    encryptedPassword?: string; //do not expose
+    role_id: string;
+    created_date?: Date;
+    encrypted_password?: string; //do not expose
 };
-
 
 /**
  *
  * @param mail
  * @param password
- * @param callback
  */
 export function login({mail, password}: { mail: string, password: string }) {
     return new Promise(async (resolve, reject) => {
@@ -52,6 +50,7 @@ export function login({mail, password}: { mail: string, password: string }) {
                 reject(new Error(invalidCredentials));
             }
         } catch (error) {
+            LOGGER.ERROR("user.login", error);
             reject(new Error(error));
         }
     })
@@ -77,9 +76,27 @@ export async function isPresent({mail}: { mail: string }): Promise<boolean> {
             return true;
         }
     } catch (error) {
+        LOGGER.ERROR("user.present", error);
         return true;
     }
 }
+
+export async function getRoleId({mail}: {mail: string}): Promise <string>{
+    const query =
+        `SELECT role_id from STAFF
+        WHERE mail = $1`;
+    try {
+        const result = await executeQuery(query, [mail]);
+        const roleId : string = result.rows[0].role_id;
+        const message : string = "role id is " + roleId;
+        LOGGER.INFO("user.roleId", message);
+        return roleId;
+    } catch (error){
+        LOGGER.ERROR("user.roleId", error);
+        return "-1";
+    }
+}
+
 
 /**
  *
@@ -91,19 +108,15 @@ export async function isAdmin({role_id}: {role_id: string}): Promise <boolean>{
         WHERE id = $1`;
     try {
         const result = await executeQuery(query, [role_id]);
-        return result.rows[0].label === ADMIN_LABEL;
+        const isAdmin : boolean = result.rows[0].label === ADMIN_LABEL;
+        const message: string = "role is" + (isAdmin ? " " : " not " ) + "admin";
+        LOGGER.INFO("user.admin", message);
+        return isAdmin;
     } catch (error){
+        LOGGER.ERROR("user.admin", error);
         return false;
     }
 }
-
-/*
-export async function getUser({id}: {id: string}): Promise <User> {
-    const query =
-        `SELECT * FROM STAFF
-    WHERE id = $1`;
-}
-*/
 
 export async function register({mail, password}: { mail: string, password: string }) {
     try {
@@ -120,7 +133,7 @@ export async function register({mail, password}: { mail: string, password: strin
         LOGGER.INFO("user.register", "user creation failed");
         return {user: null, error: new Error("Creation failed")}
     } catch (e) {
-        LOGGER.INFO("user.register", "user creation failed: " + e);
+        LOGGER.ERROR("user.register", "user creation failed: " + e);
         return {user: null, error: e};
     }
 }
