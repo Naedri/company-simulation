@@ -32,15 +32,8 @@ CREATE TABLE STAFF
         CONSTRAINT NN_role_id NOT NULL,
     created_at         timestamp                    DEFAULT current_timestamp
 );
-INSERT INTO STAFF (first_name, last_name, mail, encrypted_password)
-VALUES ('Bernard', 'Dublanc', 'bn@yopmail.com', 'blablabla');
-INSERT INTO STAFF (first_name, last_name, mail, encrypted_password)
-VALUES ('Bernard', 'Gilber', 'bg@yopmail.com', 'blablabla');
+CREATE UNIQUE INDEX UN_staff_mail on STAFF(mail);
 INSERT INTO STAFF (mail, encrypted_password)
-VALUES ('odt@yopmail.com', 'odt123456');
+VALUES ('odt@yopmail.com', '$2b$10$bLH7ACBfZH3oc2HLHNHHF.addC8Hdc958dFOLugd1/nWVpKcSJ0o.'); /*pwd : 123456*/
 INSERT INTO STAFF (mail, encrypted_password, role_id)
-VALUES ('odtadmin@yopmail.com', 'odt123456', 2);
-INSERT INTO STAFF (mail, encrypted_password)
-VALUES ('a@yopmail.com', 'aqwzsxedc');
-INSERT INTO STAFF (mail, encrypted_password, role_id)
-VALUES ('b@yopmail.com', 'aqwzsxedc', 2);
+VALUES ('odtadmin@yopmail.com', '$2b$10$bLH7ACBfZH3oc2HLHNHHF.addC8Hdc958dFOLugd1/nWVpKcSJ0o.', 2);
