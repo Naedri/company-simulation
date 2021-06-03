@@ -3,7 +3,19 @@ const bcrypt = require("bcrypt");
 import LOGGER from "../../utils/logger";
 import executeQuery from '../../database/utils';
 
-const SALT_ROUNDS = 10;
+const SALT_ROUNDS = 5;
+const ADMIN_LABEL= "admin";
+
+export type User = {
+    id: string;
+    firstName: string;
+    lastName: string;
+    mail: string;
+    roleId: string;
+    createdDate?: Date;
+    encryptedPassword?: string; //do not expose
+};
+
 
 /**
  *
@@ -50,12 +62,11 @@ export function login({mail, password}: { mail: string, password: string }) {
  * @param mail
  * @param callback
  */
-export async function isPresent({mail}: { mail: string }) {
+export async function isPresent({mail}: { mail: string }): Promise<boolean> {
     const query =
         `SELECT COUNT(*)
          FROM STAFF
          WHERE mail = $1`;
-
     try {
         const result = await executeQuery(query, [mail]);
         if (result.rows[0].count === '0') {
@@ -69,6 +80,30 @@ export async function isPresent({mail}: { mail: string }) {
         return true;
     }
 }
+
+/**
+ *
+ * @param role_id of the user to evaluate
+ */
+export async function isAdmin({role_id}: {role_id: string}): Promise <boolean>{
+    const query =
+        `SELECT label from ROLE
+        WHERE id = $1`;
+    try {
+        const result = await executeQuery(query, [role_id]);
+        return result.rows[0].label === ADMIN_LABEL;
+    } catch (error){
+        return false;
+    }
+}
+
+/*
+export async function getUser({id}: {id: string}): Promise <User> {
+    const query =
+        `SELECT * FROM STAFF
+    WHERE id = $1`;
+}
+*/
 
 export async function register({mail, password}: { mail: string, password: string }) {
     try {

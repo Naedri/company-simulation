@@ -3,7 +3,7 @@
 import express from "express";
 import config from '../services/user/config';
 import LOGGER from "../utils/logger";
-import {isPresent, login, register} from '../services/user/user';
+import {isAdmin, isPresent, login, register} from '../services/user/user';
 
 const jwt = require('jsonwebtoken');
 const router = express.Router();
@@ -11,7 +11,7 @@ const USERS_ROUTES_BASE_PATH = "/users";
 
 router.post(`/register`, async (req, res) => {
     LOGGER.INFO("UsersRoutes", "/register entered");
-    const emailTaken = await isPresent(req.body);
+    const emailTaken:boolean = await isPresent(req.body);
     if (emailTaken)
         return res.status(409).json({message: "email already taken."});
     const {user, error} = await register(req.body);
@@ -41,10 +41,12 @@ router.post(`/login`, async (req, res) => {
     try {
         const user: any = await login(req.body);
         LOGGER.INFO("user.login", "creation of the token");
-        const token = jwt.sign(
+        const admin:boolean = await isAdmin(user);
+        let token: any = jwt.sign(
             {
                 id: user.id,
-                mail: user.mail
+                mail: user.mail,
+                isAdmin: admin,
             },
             config.token.secret,
             {expiresIn: '24h'}
@@ -62,11 +64,28 @@ router.post(`/login`, async (req, res) => {
 });
 
 /**
- * to know if the cookie is still valid
+ * to know if the token is still valid
  */
 router.get(`/me`, (req, res) => {
     LOGGER.INFO("UsersRoutes", "/me entered");
     return res.json((req as any).user);
 });
+
+/**
+ * to know according the token if the user is an admin
+ */
+
+ router.get('/admin', (req, res)=> {
+         LOGGER.INFO("UsersRoutes", "/admin entered");
+try{
+//stocke token in cookie
+const user = (req as any).user;
+
+isAdmin(user.role_id);
+
+} catch(error) {
+       res.status(404).json(error);
+}});
+
 
 export {router, USERS_ROUTES_BASE_PATH};
