@@ -17,10 +17,6 @@ export default class SimulationInitializer {
     }
 
     public static async initSimulationFactory() {
-        try {
-            SimulationInitializer.simulationFactory = await import(argv[0]);
-        } catch (error) {
-            throw error;
-        }
+        SimulationInitializer.simulationFactory = await import(argv[0]);
     }
 }

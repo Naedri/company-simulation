@@ -51,7 +51,7 @@ router.patch(`/:userId/setState`, (req, res) => {
         ControlSimulations.setStates(userId, states);
         res.sendStatus(200);
     } catch (error) {
-        res.status(error.status).json({error});
+        res.status(401).json(error);
     }
 });
 
