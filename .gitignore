@@ -61,3 +61,5 @@ sketch
 # logdetails
 /server/services/users/.env
 /server/.env.local
+/company-simulation.iml
+/web-simulation.iml

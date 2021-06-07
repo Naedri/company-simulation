@@ -14,7 +14,7 @@ export class ControlPermissions {
     static statesAreProtected(states: IComponentSimplified[]) {
         states.forEach(state => {
             if (state.type in ControlPermissions.schema) {
-                if (ControlPermissions.schema[state.type]?.locked) {
+                if (ControlPermissions.schema[state.type] && ControlPermissions.schema[state.type].locked) {
                     throw new Error(`${state.id} is locked`);
                 }
 
@@ -31,5 +31,9 @@ export class ControlPermissions {
                 }
             }
         })
+    }
+
+    static getPermissions(): IPermissionSchema {
+        return ControlPermissions.schema;
     }
 }
