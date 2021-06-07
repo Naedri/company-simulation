@@ -6,10 +6,11 @@
     "dev": "next dev -p 8080",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint pages",
-    "format": "prettier --write pages"
+    "lint": "eslint pages lib modules",
+    "format": "prettier --write pages modules"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "next": "10.2.0",
     "react": "17.0.2",
     "react-dom": "17.0.2"
