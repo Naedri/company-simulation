@@ -29,8 +29,8 @@ class TimeImpl implements ISimulation {
         this.time.update();
     }
 
-    getState() {
-        return this.time;
+    getStates() {
+        return [this.time];
     };
 
     setState(states: IComponentSimplified[]) {
@@ -75,9 +75,8 @@ class TimeSimulSchema implements IPermissionSchema {
 
 let permOne = new TimeSimulSchema();
 const s = new TimeSimulation().createSimulation();
-permOne[s.getState().id] = {locked: false}
-console.log(s.getState());
+console.log(s.getStates());
 s.step();
-console.log(s.getState());
+console.log(s.getStates());
 
 export {s, permOne};

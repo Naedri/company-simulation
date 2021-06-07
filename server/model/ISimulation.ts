@@ -6,7 +6,7 @@ export interface ISimulation {
 
     step(): void;
 
-    getState(): AbstractComponent;
+    getStates(): IComponentSimplified[];
 
     setState(state: IComponentSimplified[]): void;
 }

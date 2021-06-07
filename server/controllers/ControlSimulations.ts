@@ -33,9 +33,9 @@ export class ControlSimulations {
         throw new SimulationNotInitializedException(id);
     }
 
-    static getState(id: string): AbstractComponent | null {
+    static getStates(id: string): IComponentSimplified[] {
         if (ControlSimulations.simulations[id]) {
-            return ControlSimulations.simulations[id].getState();
+            return ControlSimulations.simulations[id].getStates();
         }
         throw new SimulationNotInitializedException(id);
     }

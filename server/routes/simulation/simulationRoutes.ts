@@ -14,7 +14,7 @@ router.get(`/create`, (req: any, res) => {
     const userId = req.user.id;
     try {
         ControlSimulations.create(userId);
-        res.json({id: userId});
+        res.status(200).json({id: userId});
     } catch (error) {
         res.status(500).json({error});
     }
@@ -25,6 +25,7 @@ router.post(`/:userId/step`, (req, res) => {
     LOGGER.INFO("UsersRoutes", `${SIMULATION_ROUTES_BASE_PATH}/${userId}/step entered`);
     try {
         ControlSimulations.step(userId);
+        res.sendStatus(200);
     } catch (error) {
         res.status(500).json({error});
     }
@@ -35,6 +36,7 @@ router.post(`/:userId/stop`, (req, res) => {
     LOGGER.INFO("UsersRoutes", `${SIMULATION_ROUTES_BASE_PATH}/${userId}/stop entered`);
     try {
         ControlSimulations.stop(userId);
+        res.sendStatus(200);
     } catch (error) {
         res.status(500).json({error});
     }
@@ -45,12 +47,20 @@ router.patch(`/:userId/setState`, (req, res) => {
     const states = req.body as IComponentSimplified[];
     LOGGER.INFO("UsersRoutes", `${SIMULATION_ROUTES_BASE_PATH}/${userId}/setState entered`);
     try {
-        ControlPermissions.stateIsProtected(states);
+        ControlPermissions.statesAreProtected(states);
         ControlSimulations.setStates(userId, states);
-
+        res.sendStatus(200);
     } catch (error) {
         res.status(error.status).json({error});
     }
 });
+
+router.patch("/:userId/getState", (req, res) => {
+    const userId = req.params.id;
+    LOGGER.INFO("UsersRoutes", `${SIMULATION_ROUTES_BASE_PATH}/${userId}/getState entered`);
+
+    const result = ControlSimulations.getStates(userId);
+    res.status(200).json(result);
+})
 
 export {router, SIMULATION_ROUTES_BASE_PATH};
