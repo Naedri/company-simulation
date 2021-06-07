@@ -8,6 +8,7 @@
     "body-parser": "^1.19.0",
     "chance": "^1.1.7",
     "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-jwt": "^6.0.0",
     "fp-ts": "^2.10.5",
@@ -36,9 +37,8 @@
   "scripts": {
     "build": "tsc --project ./",
     "start": "tsc --project ./ && node ./build/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsc --project ./ && node ./build/server.js NODE_ENV=dev"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "MIT"
 }
