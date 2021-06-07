@@ -5,5 +5,6 @@ export interface IComponent {
 }
 
 export function instanceOfIComponent(object: any): object is IComponent {
+    if (typeof object !== "object") return false;
     return "id" in object && "type" in object;
 }
