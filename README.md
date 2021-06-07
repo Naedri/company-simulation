@@ -124,7 +124,7 @@ npm install
 npm run start
 ```
 
-Open [http://localhost:3000/docs](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 #### Launching the client
 
