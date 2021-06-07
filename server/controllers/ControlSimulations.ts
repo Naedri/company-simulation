@@ -1,6 +1,5 @@
 import {ISimulation} from "../model/ISimulation";
 import {IComponentSimplified} from "../model/IComponentSimplified";
-import {AbstractComponent} from "../model/AbstractComponent";
 import {SimulationNotInitializedException} from "./SimulationNotInitializedException";
 import SimulationInitializer from "../utils/SimulationInitializer";
 
@@ -11,8 +10,8 @@ export class ControlSimulations {
     private constructor() {
     }
 
-    static create(id: string) {
-        ControlSimulations.simulations[id] = SimulationInitializer.getSimulation();
+    static create(id: string, identifier: string) {
+        ControlSimulations.simulations[id] = SimulationInitializer.getSimulation(identifier);
     }
 
     static step(id: string) {
