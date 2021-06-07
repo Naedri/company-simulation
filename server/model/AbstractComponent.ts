@@ -6,7 +6,7 @@ export abstract class AbstractComponent implements IComponent {
     abstract id: string;
     abstract type: string;
 
-    [key: string]: IComponent | string | number | boolean | null | Object;
+    fields: { [key: string]: IComponent | string | number | boolean | null | Object } = {};
 
     toComponentSimplified(): IComponentSimplified {
         let copy = {
@@ -14,7 +14,7 @@ export abstract class AbstractComponent implements IComponent {
             type: this.type
         } as IComponentSimplified;
 
-        Object.entries(this).forEach(([key, value]) => {
+        Object.entries(this.fields).forEach(([key, value]) => {
             if (instanceOfIComponent(value)) {
                 copy = {...copy, [key]: value.id};
             } else {
