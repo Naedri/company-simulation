@@ -18,6 +18,7 @@ export async function getServerSideProps(context) {
 }
 
 const View = ({ user }) => {
+
     return (
         <div className="h-screen w-full">
             <div className="simulation">

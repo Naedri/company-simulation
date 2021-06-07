@@ -140,10 +140,7 @@ body {
   cursor: pointer;
 }
 
-.button:hover,
-.button:focus,
-.avatar__label:hover,
-.avatar__label:focus {
+.button:hover {
   background-color: rgba(41, 128, 185, 1);
 }
 
@@ -211,15 +208,19 @@ body {
 
   .simulation__left-panel {
     width: 25%;
-    height: 100vh;
+    height: calc(100vh - 32px);
   }
 
   .simulation__right-panel {
-    height: 100vh;
+    height: calc(100vh - 32px);
     flex-grow: 1;
   }
 }
 
-.danger {
-  background-color: #e74c3c!important;
+.simulation .danger {
+  background-color: #e74c3c;
+}
+
+.simulation .danger:hover {
+  background-color: #c0392b;
 }
