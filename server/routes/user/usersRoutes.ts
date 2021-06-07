@@ -11,23 +11,25 @@ const USERS_ROUTES_BASE_PATH = "/users";
 
 router.post(`/register`, async (req, res) => {
     LOGGER.INFO("UsersRoutes", "/register entered");
-    const emailTaken:boolean = await isPresent(req.body);
+    const emailTaken = await isPresent(req.body);
     if (emailTaken)
         return res.status(409).json({message: "email already taken."});
     const {user, error} = await register(req.body);
     if (user){
-        const token = jwt.sign(
+        let token: any = jwt.sign(
             {
                 id: user.id,
-                mail: user.mail
+                mail: user.mail,
+                isAdmin: false,
             },
             config.token.secret,
             {expiresIn: '24h'}
         );
         res.cookie('token', token, {httpOnly: true});
-        return res.json({id: user.id, mail: user.mail, message: "User created"});
+        res.json({id: user.id, mail: user.mail, message: "User created"});
     }
-    return res.json(error);
+    else if (error)
+        res.json(error);
 });
 
 router.post(`/logout`, (req, res) => {
@@ -41,7 +43,7 @@ router.post(`/login`, async (req, res) => {
     try {
         const user: any = await login(req.body);
         LOGGER.INFO("user.login", "creation of the token");
-        const admin:boolean = await isAdmin(user);
+        const admin = await isAdmin(user);
         let token: any = jwt.sign(
             {
                 id: user.id,

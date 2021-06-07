@@ -21,6 +21,7 @@ app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
+//Todo catch the err
 app.use(
     jwt({
         secret: config.token.secret,
