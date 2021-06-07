@@ -2,7 +2,7 @@ import Link from "next/link";
 import { logout } from "../utils/rest/auth";
 
 export default function Home() {
-  return ({/*
+  return (<>{/*
   <NavBar />
   <ul>
     <li>
@@ -19,7 +19,7 @@ export default function Home() {
       <button onClick={() => logout()}>Logout</button>
     </li>
   </ul> */
-  }
+  }</>
 
   );
 }
