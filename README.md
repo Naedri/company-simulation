@@ -87,17 +87,30 @@ entités dans la simulation et de les rendre accessibles via l’API REST.
 
 ## How to use the app ?
 
-### Connect to webservice
+### Downloading the repository
 
-Add login details in the following file :
+In a terminal, download the repository.
 
-1. `company-simulation\server\database\.env.local`
-   - which includes the following ElephantSQL data :
-   - `DB_USER=xxx`
-   - `DB_HOST=yyyyyyy.db.elephantsql.com`
-   - `DB_DATABASE=xxx`
-   - `DB_PASSWORD=dddddd`
-   - `DB_PORT=5432`
+```bash
+git clone https://github.com/Naedri/company-simulation.git
+cd company-simulation/
+```
+
+#### Local variables
+
+Add the following *.env.local* files in your projet :
+
+1. `company-simulation/server/database/.env.local`
+    - which includes the following ElephantSQL data :
+        - `DB_USER=xxx`
+        - `DB_HOST=yyyyyyy.db.elephantsql.com`
+        - `DB_DATABASE=xxx`
+        - `DB_PASSWORD=dddddd`
+        - `DB_PORT=5432`
+        - `SECRET=your-secret-for-token`
+2. `company-simulation/client/.env.local`
+    - which includes the following NextJS data :
+        - `NEXT_PUBLIC_API_URL=http://localhost:3000`
 
 ### Launching the app
 
@@ -106,17 +119,24 @@ Add login details in the following file :
 In a terminal, install dependencies, initialize the database and then launch the server.
 
 ```bash
-cd company-simulation/server/
+cd ./server/
 npm install
 npm run start
 ```
+
+Open [http://localhost:3000/docs](http://localhost:3000) with your browser to see the result.
 
 #### Launching the client
 
 In another terminal, install dependencies then launch the client.
 
 ```bash
-cd company-simulation/client/
+cd ./client/
 npm install
 npm run dev
 ```
+
+#### Seeing the result
+
+Open [http://localhost:8080](http://localhost:8080) with your browser to see the result.
+After to have been logging, you can read the swagger documentation to the following page : [http://localhost:3000/docs/](http://localhost:3000/docs/). 

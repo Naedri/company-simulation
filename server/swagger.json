@@ -9,17 +9,23 @@
     }
   },
   "host": "localhost:3000",
-  "schemes": ["http"],
+  "schemes": [
+    "https"
+  ],
   "swagger": "2.0",
-  "tags": [{
-    "name": "/users",
-    "description": "Authentication commands"
-  }],
+  "tags": [
+    {
+      "name": "/users",
+      "description": "Authentication and roles commands"
+    }
+  ],
   "paths": {
     "/users/register": {
       "post": {
         "summary": "Create an account with mail & password",
-        "tags": ["/users"],
+        "tags": [
+          "/users"
+        ],
         "parameters": [
           {
             "name": "Register with values",
@@ -68,37 +74,171 @@
           "200": {
             "description": "OK",
             "schema": {
-              "type": "string",
-              "example": "OK"
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "mail": {
+                  "type": "string",
+                  "example": "test@test.com"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Auth successful"
+                }
+              }
             }
           },
-          "401": {
-            "description": "Unauthorized",
+          "404": {
+            "description": "Not found",
             "schema": {
-              "type": "string",
-              "example": "KO"
+              "type": "object",
+              "example": "{}"
             }
           }
         }
       }
     },
-    "/users/authenticate": {
+    "/users/logout": {
+      "post": {
+        "summary": "Logout from a session",
+        "tags": [
+          "/users"
+        ],
+        "parameters": [
+          {
+            "name": "Logout",
+            "in": "cookie",
+            "description": "token inside a cookie",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Logout"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "logged out"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+
+
+
+    "/users/me": {
+      "get": {
+        "summary": "To know if the token is still valid",
+        "tags": [
+          "/users"
+        ],
+        "parameters": [
+          {
+            "name": "Connection values",
+            "in": "cookie",
+            "description": "token inside a cookie",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Me"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "mail": {
+                  "type": "string",
+                  "example": "test@test.com"
+                },
+                "isAdmin": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "iat": {
+                  "type": "string",
+                  "example": "1623069894"
+                },
+                "exp": {
+                  "type": "string",
+                  "example": "1623156294"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/admin" : {
+      "get": {
+        "summary": "To know if the user is admin",
+        "tags": [
+          "/users"
+        ],
+        "parameters": [
+          {
+            "name": "Admin",
+            "in": "cookie",
+            "description": "token inside a cookie",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Admin"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "mail": {
+                  "type": "string",
+                  "example": "test@test.com"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "You are not admin"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
+
   "definitions": {
-    "Login": {
-      "properties": {
-        "mail": {
-          "type": "string",
-          "example": "test@test.com"
-        },
-        "password": {
-          "type": "string",
-          "example": "password1"
-        }
-      },
-      "required": ["mail", "password"]
-    },
     "Register": {
       "properties": {
         "mail": {
@@ -115,7 +255,38 @@
         }
       },
       "required": ["mail", "password", "confirm_password"]
+    },
+    "Login": {
+      "properties": {
+        "mail": {
+          "example": "test@test.com",
+          "type": "string"
+        },
+        "password": {
+          "type": "string",
+          "example": "password1"
+        }
+      },
+      "required": ["mail", "password"]
+    },
+    "Logout" : {
+      "properties": {
+      }
+    },
+    "Admin" : {
+      "properties": {
+      }
+    },
+    "Me" : {
+      "properties": {
+        "cookie": {
+          "type": "object",
+          "example":
+            "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibWFpbCI6Im9kdEB5b3BtYWlsLmNvbSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2MjMwNjk4OTQsImV4cCI6MTYyMzE1NjI5NH0.7mXeRdW9XKKTVWggYuAN4NW9QUJgFWSHM-Ho9aQ82qM; Path=/; Domain=localhost; HttpOnly;"
+        }
+      }
     }
+
   },
   "consumes": [
     "application/json"
