@@ -61,7 +61,7 @@
         "tags": ["/users"],
         "parameters": [
           {
-            "name": "Connection values",
+            "name": "Login with values",
             "in": "body",
             "description": "user's mail & password",
             "required": true,
@@ -113,7 +113,7 @@
         ],
         "parameters": [
           {
-            "name": "Logout",
+            "name": "Token",
             "in": "cookie",
             "description": "token inside a cookie",
             "required": true,
@@ -150,7 +150,7 @@
         ],
         "parameters": [
           {
-            "name": "Connection values",
+            "name": "Token",
             "in": "cookie",
             "description": "token inside a cookie",
             "required": true,
@@ -199,7 +199,7 @@
         ],
         "parameters": [
           {
-            "name": "Admin",
+            "name": "Token",
             "in": "cookie",
             "description": "token inside a cookie",
             "required": true,
@@ -271,20 +271,72 @@
     },
     "Logout" : {
       "properties": {
-      }
+        "cookie": {
+          "token" : {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibWFpbCI6Im9kdEB5b3BtYWlsLmNvbSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2MjMwNjk4OTQsImV4cCI6MTYyMzE1NjI5NH0.7mXeRdW9XKKTVWggYuAN4NW9QUJgFWSHM-Ho9aQ82qM"
+          },
+          "Path": {
+            "type": "string",
+            "example": "/"
+          },
+          "Domain": {
+            "type": "string",
+            "example": "localhost"
+          },
+          "Scheme": {
+            "type": "string",
+            "example": "HttpOnly"
+          }
+        }
+      },
+      "required": ["cookie"]
     },
     "Admin" : {
       "properties": {
-      }
+        "cookie": {
+          "token" : {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibWFpbCI6Im9kdEB5b3BtYWlsLmNvbSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2MjMwNjk4OTQsImV4cCI6MTYyMzE1NjI5NH0.7mXeRdW9XKKTVWggYuAN4NW9QUJgFWSHM-Ho9aQ82qM"
+          },
+          "Path": {
+            "type": "string",
+            "example": "/"
+          },
+          "Domain": {
+            "type": "string",
+            "example": "localhost"
+          },
+          "Scheme": {
+            "type": "string",
+            "example": "HttpOnly"
+          }
+        }
+      },
+      "required": ["cookie"]
     },
     "Me" : {
       "properties": {
         "cookie": {
-          "type": "object",
-          "example":
-            "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibWFpbCI6Im9kdEB5b3BtYWlsLmNvbSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2MjMwNjk4OTQsImV4cCI6MTYyMzE1NjI5NH0.7mXeRdW9XKKTVWggYuAN4NW9QUJgFWSHM-Ho9aQ82qM; Path=/; Domain=localhost; HttpOnly;"
+          "token" : {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibWFpbCI6Im9kdEB5b3BtYWlsLmNvbSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2MjMwNjk4OTQsImV4cCI6MTYyMzE1NjI5NH0.7mXeRdW9XKKTVWggYuAN4NW9QUJgFWSHM-Ho9aQ82qM"
+          },
+          "Path": {
+            "type": "string",
+            "example": "/"
+          },
+          "Domain": {
+            "type": "string",
+            "example": "localhost"
+          },
+          "Scheme": {
+            "type": "string",
+            "example": "HttpOnly"
+          }
         }
-      }
+      },
+      "required": ["cookie"]
     }
 
   },
