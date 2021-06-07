@@ -3,10 +3,12 @@ import { useState } from "react";
 import Link from "next/link";
 import { getUserInfo, register } from "../utils/rest/auth";
 
+import { ErrorClient } from "../utils/interface";
+
 export default function Form() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [logError, setError] = useState<Error | null>(null);
+  const [logError, setError] = useState<ErrorClient | null>(null);
   const [logSuccess, setLogSuccess] = useState(false);
   // Drop context and just use ssr...
 
@@ -23,8 +25,9 @@ export default function Form() {
       setLogSuccess(true);
       await router.replace("/");
     } else {
+      if (error?.response?.status === 409) error.message = "Cette adresse mail est déjà utilisée.";
       setError(error);
-    }
+      }
   };
 
   return (

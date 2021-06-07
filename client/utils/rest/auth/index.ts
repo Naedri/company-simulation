@@ -1,8 +1,6 @@
 import axios from "axios";
 import { apiUrl } from "../../constant";
-import { User } from "../../interface";
-
-type UserResponse = { user: User | null; error: Error | null };
+import { UserResponse } from "../../interface";
 
 async function login({
   mail,

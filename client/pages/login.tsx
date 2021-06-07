@@ -2,11 +2,12 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import Link from "next/link";
 import { getUserInfo, login } from "../utils/rest/auth";
+import { ErrorClient } from "../utils/interface";
 
 export default function Form() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [logError, setError] = useState<Error | null>(null);
+  const [logError, setError] = useState<ErrorClient | null>(null);
   const [logSuccess, setLogSuccess] = useState(false);
 
   const signInUser = async (event) => {
@@ -22,6 +23,7 @@ export default function Form() {
       setLogSuccess(true);
       await router.replace("/");
     } else {
+      if (error?.response?.status === 404) error.message = "Informations d'identification non valides. Veuillez réessayer";
       setError(error);
     }
   };
