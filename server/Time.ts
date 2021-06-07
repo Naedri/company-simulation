@@ -36,8 +36,8 @@ class TimeImpl implements ISimulation {
     setState(states: IComponentSimplified[]) {
         states.forEach((simplified) => {
             if (simplified.id === this.time.id) {
-                if (simplified.value && typeof simplified.value === "number")
-                    this.time.value = simplified.value
+                if (simplified.fields.value && typeof simplified.fields.value === "number")
+                    this.time.fields.value = simplified.fields.value
             }
         })
     }
@@ -47,17 +47,19 @@ class TimeImpl implements ISimulation {
 class TimeComponent extends AbstractComponent {
     id: string;
     type: string;
-    value: number;
+    fields: {
+        value: number
+    } = {value: 0};
 
     constructor(id: string, type: string, value: number) {
         super();
         this.type = type;
         this.id = id;
-        this.value = value;
+        this.fields.value = value;
     }
 
     update() {
-        this.value++;
+        this.fields.value++;
     }
 
 }
