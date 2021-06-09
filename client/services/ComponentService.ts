@@ -1,4 +1,4 @@
-import {ComponentLink, IComponent, IComponentLink} from "../model/Component";
+import { IComponent } from "../model/Component";
 import componentsTemplate from "../utils/componentsTemplate.json";
 
 export class ComponentService {
