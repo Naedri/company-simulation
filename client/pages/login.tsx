@@ -3,8 +3,11 @@ import { useState } from "react";
 import Link from "next/link";
 import { getUserInfo, login } from "../utils/rest/auth";
 import { ErrorClient } from "../utils/interface";
+import Form from "../components/Form";
+import UncontrolledInput from "../components/UncontrolledInput";
+import Button from "../components/Button";
 
-export default function Form() {
+export default function Login() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [logError, setError] = useState<ErrorClient | null>(null);
@@ -36,44 +39,34 @@ export default function Form() {
         <h1 className="title">Login</h1>
       </header>
       <div className="wrapper">
-        <form className="add-form" onSubmit={signInUser}>
-          <div className="field stack">
-            <label htmlFor="email" className="field__label">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              required
-              className="field__input"
-              placeholder="johndoe@provider.com"
-            />
-          </div>
-          <div className="field stack">
-            <label htmlFor="password" className="field__label">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              name="password"
-              required
-              className="field__input"
-            />
-          </div>
+        <Form onSubmit={signInUser}>
+          <UncontrolledInput
+            id="email"
+            type="email"
+            name="email"
+            placeholder="johndoe@provider.com"
+            label={"Email"}
+            required
+          />
+          <UncontrolledInput
+            id="password"
+            type="password"
+            name="password"
+            label={"Password"}
+            required
+          />
           <small>
             Don&apos;t have an account?{" "}
             <Link href="/signup">
               <a>Sign up</a>
             </Link>
           </small>
-          <button type="submit" className="button" disabled={loading}>
+          <Button type="submit" disabled={loading}>
             {loading ? "loading..." : "Login"}
-          </button>
+          </Button>
           {logError && <p className="error">{logError.message}</p>}
           {logSuccess && <p>Redirecting to profile...</p>}
-        </form>
+        </Form>
       </div>
     </>
   );
