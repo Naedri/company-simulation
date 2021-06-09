@@ -19,16 +19,17 @@
 
 .menu__title{
     display: flex;
-    color: darkblue;
+    color: royalblue;
     align-items: baseline;
 }
 
 .menu__logo{
-    width : 40px;
-    height : 32px;
     font-size: large;
-    display: flex;
-    justify-content: center;
+    margin-right: 1rem;
+}
+
+.menu__item__mail{
+    color: dodgerblue;
 }
 
 .menu__navigation{
@@ -48,13 +49,13 @@
     padding: .5rem 1rem;
     color: royalblue;
     text-decoration: none;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
 }
 
-.menu__link__active{
-    background-color: dodgerblue;
+.menu__link:hover{
+    background-color: royalblue;
+    color : white;
 }
 
 .menu__border__bottom {
-    border-bottom: 1px solid dimgrey;
+    border-bottom: 1px solid royalblue;
 }

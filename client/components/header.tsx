@@ -1,21 +1,20 @@
 import Link from "next/link";
 import styles from '../styles/Header.module.css';
-import {GiFactory} from 'react-icons/gi';
-import {forwardRef} from "react";
-import {logout} from "../utils/rest/auth";
+import { GiFactory } from 'react-icons/gi';
+import { forwardRef } from "react";
+import { logout } from "../utils/rest/auth";
 
-
-export default function Header({user}) {
-
-    const LogoutButton = forwardRef<any, any>(({onClick, href}, ref) => {
+export default function Header({ user }) {
+    // eslint-disable-next-line react/display-name
+    const LogoutButton = forwardRef <any, any> (({ onClick, href }, ref) => {
         return (
             <a className={styles.menu__link} href={href} onClick={async () => {
                 await logout();
             }} ref={ref}>
                 Logout
             </a>
-        )
-    })
+        );
+    });
     return (
         <div className={styles.container}>
             <header className={`${styles.menu} ${styles.menu__border__bottom}`}>
@@ -27,7 +26,7 @@ export default function Header({user}) {
 
                 </div>
                 {user && <div>
-                    <p>{user?.mail}</p>
+                    <p className={styles.menu__item__mail}>{user?.mail}</p>
                 </div>}
                 <ul className={styles.menu__navigation}>
                     <Link href="/dashboard">
