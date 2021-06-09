@@ -200,6 +200,7 @@ body {
 
 .simulation__info-panel {
   display: flex;
+  flex-direction: column;
   flex-basis: 20%;
   border: indigo 2px solid;
   padding: 1rem;
@@ -218,10 +219,18 @@ body {
 
   .simulation__right-panel {
     height: calc(100vh - 32px);
-    flex-grow: 1;
+    flex: 1;
   }
 }
 
+.simulation__info-panel ul {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid;
+}
+.simulation__info-panel li {
+  display: flex;
+  align-items: center;
+}
 .simulation .danger {
   background-color: #e74c3c;
 }
@@ -239,4 +248,12 @@ body {
 
 .bi.bi-diagram .bi-link-canvas-layer .bi-diagram-link.link:hover .bi-link-path{
   stroke: red;
+}
+
+.color-square {
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+  border: 1px solid rgba(0, 0, 0, .2);
+  flex-shrink: 0;
 }

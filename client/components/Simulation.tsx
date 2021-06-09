@@ -1,6 +1,5 @@
 import React from "react";
-import Diagram, {useSchema} from "beautiful-react-diagrams";
-import {GraphContextProvider} from "../contexts/GraphContext";
+import Diagram, {useSchema} from "../librairies/src/index.js";
 import NodeCard from "../components/NodeCard";
 
 
@@ -13,10 +12,7 @@ export default function Simulation({initialSchema}) {
 
     return (
         <div style={{height: "100%"}}>
-            <GraphContextProvider>
-                <Diagram schema={schema} onChange={test}/>
-                <NodeCard/>
-            </GraphContextProvider>
+            <Diagram schema={schema} onChange={test}/>
         </div>
     );
 }
