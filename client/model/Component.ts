@@ -1,3 +1,5 @@
+import { Link } from "beautiful-react-diagrams/@types/DiagramSchema";
+
 export interface IComponent {
     id: string;
     type: string;
@@ -12,11 +14,6 @@ export class Component implements IComponent {
     constructor(public id: string, public type: string) {}
 }
 
-export interface IComponentLink{
-    input:string,
-    output:string
-}
-
-export class ComponentLink implements IComponentLink{
-    constructor(public input:string, public output:string) {}
+export class ComponentLink implements Link {
+    constructor(public input:string, public output:string, public className:string) {}
 }
