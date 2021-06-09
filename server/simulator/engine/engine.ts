@@ -107,7 +107,7 @@ const print = (x: string) => LOGGER.INFO("UsersRoutes", x);
 export class Simulation {
     protected rng: Chance.Chance;
 
-    protected current_state: SimulationState;
+    public current_state: SimulationState;
 
     protected next_state: SimulationState;
 
