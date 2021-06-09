@@ -4,7 +4,6 @@ import express from "express";
 import LOGGER from "../../utils/logger";
 import {ControlPermissions} from "../../controllers/ControlPermissions";
 import {IPermissionSchema} from "../../model/IPermissionSchema";
-import {isAdmin} from "../../services/user/user";
 
 const router = express.Router();
 const PERMISSION_ROUTES_BASE_PATH = "/permission";
@@ -22,8 +21,7 @@ router.post(`/`, (req, res) => {
         LOGGER.INFO("PermissionRoutes", `${PERMISSION_ROUTES_BASE_PATH}/ entered`);
         ControlPermissions.addPermissions(permission);
         res.sendStatus(200);
-    }
-    else {
+    } else {
         res.sendStatus(401);
     }
 })

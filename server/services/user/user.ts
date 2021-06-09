@@ -4,7 +4,7 @@ import LOGGER from "../../utils/logger";
 import executeQuery from '../../database/utils';
 
 const SALT_ROUNDS = 5;
-const ADMIN_LABEL= "admin";
+const ADMIN_LABEL = "admin";
 
 export type User = {
     id: string;
@@ -81,17 +81,17 @@ export async function isPresent({mail}: { mail: string }): Promise<boolean> {
     }
 }
 
-export async function getRoleId({mail}: {mail: string}): Promise <string>{
+export async function getRoleId({mail}: { mail: string }): Promise<string> {
     const query =
         `SELECT role_id from STAFF
         WHERE mail = $1`;
     try {
         const result = await executeQuery(query, [mail]);
-        const roleId : string = result.rows[0].role_id;
-        const message : string = "role id is " + roleId;
+        const roleId: string = result.rows[0].role_id;
+        const message: string = "role id is " + roleId;
         LOGGER.INFO("user.roleId", message);
         return roleId;
-    } catch (error){
+    } catch (error) {
         LOGGER.ERROR("user.roleId", error);
         return "-1";
     }
@@ -102,17 +102,17 @@ export async function getRoleId({mail}: {mail: string}): Promise <string>{
  *
  * @param role_id of the user to evaluate
  */
-export async function isAdmin({role_id}: {role_id: string}): Promise <boolean>{
+export async function isAdmin({role_id}: { role_id: string }): Promise<boolean> {
     const query =
         `SELECT label from ROLE
         WHERE id = $1`;
     try {
         const result = await executeQuery(query, [role_id]);
-        const isAdmin : boolean = result.rows[0].label === ADMIN_LABEL;
-        const message: string = "role is" + (isAdmin ? " " : " not " ) + "admin";
+        const isAdmin: boolean = result.rows[0].label === ADMIN_LABEL;
+        const message: string = "role is" + (isAdmin ? " " : " not ") + "admin";
         LOGGER.INFO("user.admin", message);
         return isAdmin;
-    } catch (error){
+    } catch (error) {
         LOGGER.ERROR("user.admin", error);
         return false;
     }
@@ -126,9 +126,9 @@ export async function register({mail, password}: { mail: string, password: strin
              VALUES ($1, $2) RETURNING id`;
         const result = await executeQuery(query, [mail, encrypted]);
         const created = result.rowCount > 0;
-        if (created){
+        if (created) {
             LOGGER.INFO("user.register", "user created: " + mail);
-            return {user: {mail, id: result.rows[0].id} , error: null}
+            return {user: {mail, id: result.rows[0].id}, error: null}
         }
         LOGGER.INFO("user.register", "user creation failed");
         return {user: null, error: new Error("Creation failed")}
