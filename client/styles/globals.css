@@ -226,10 +226,12 @@ body {
 .simulation__info-panel ul {
   padding-bottom: 1rem;
   border-bottom: 1px solid;
+  font-size: 0.7rem;
 }
 .simulation__info-panel li {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 .simulation .danger {
   background-color: #e74c3c;
