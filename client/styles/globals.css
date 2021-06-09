@@ -224,3 +224,14 @@ body {
 .simulation .danger:hover {
   background-color: #c0392b;
 }
+
+.bi.bi-diagram{
+  overflow: scroll !important;
+}
+
+.bi.bi-diagram .bi-link-canvas-layer .bi-diagram-link.link .bi-link-path{
+}
+
+.bi.bi-diagram .bi-link-canvas-layer .bi-diagram-link.link:hover .bi-link-path{
+  stroke: red;
+}

@@ -1,29 +1,23 @@
 import React from "react";
 import Diagram, { createSchema, useSchema } from "beautiful-react-diagrams";
-import GraphNode from "../components/GraphNode";
-import { ComponentService } from "../services/ComponentService";
+import { SimulationService } from "../services/SimulationService";
 
 const initialSchema = createSchema({
-    nodes: ComponentService.getComponents().map((component, index) => {
-        return {
-            id: component.id,
-            content: component.type.split(/(?=[A-Z])/).join(" "),
-            coordinates: [
-                150 * (index % 5) + 50 * (index % 5),
-                Math.floor(index / 5) * 100,
-            ],
-            render: GraphNode,
-        };
-    }),
-    links: ComponentService.getComponentsLink(),
+    nodes: SimulationService.getNodes(150, 120, 50),
+    links: SimulationService.getLinks(),
 });
 
 export default function Simulation() {
     const [schema, { onChange }] = useSchema(initialSchema);
 
+    const test = (schemaChanges):void => {
+        console.log(schemaChanges);
+        onChange(schemaChanges);
+    };
+
     return (
         <div style={{ height: "100vh" }}>
-            <Diagram schema={schema} onChange={onChange} />
+            <Diagram schema={schema} onChange={test} />
         </div>
     );
 }
