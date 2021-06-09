@@ -1,5 +1,5 @@
 import React from "react";
-import Diagram, { createSchema, useSchema } from "beautiful-react-diagrams";
+import Diagram, { createSchema, useSchema } from "../librairies/src/index";
 import { SimulationService } from "../services/SimulationService";
 
 const initialSchema = createSchema({
@@ -17,7 +17,7 @@ export default function Simulation() {
 
     return (
         <div style={{ height: "100vh" }}>
-            <Diagram schema={schema} onChange={test} />
+            <Diagram schema={schema} onChange={test}/>
         </div>
     );
 }
