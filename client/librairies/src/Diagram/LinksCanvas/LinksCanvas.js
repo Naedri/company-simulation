@@ -10,7 +10,7 @@ import removeLinkFromArray from './removeLinkFromArray';
  * Handles the links' events and business logic, wraps the links within a svg
  */
 const LinksCanvas = (props) => {
-  const { nodes, segment, onChange, links } = props;
+  const { nodes, segment, onChange, links, selectedNodeId } = props;
 
   const removeFromLinksArray = useCallback((link) => {
     if (links.length > 0 && onChange) {
@@ -27,6 +27,7 @@ const LinksCanvas = (props) => {
           input={findInvolvedEntity(nodes, link.input)}
           output={findInvolvedEntity(nodes, link.output)}
           onDelete={removeFromLinksArray}
+          selectedNodeId={selectedNodeId}
           key={`${link.input}-${link.output}`}
         />
       ))}

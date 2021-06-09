@@ -23,13 +23,14 @@ const useContextRefs = () => {
  * A Diagram link component displays the link between two diagram nodes or two node ports.
  */
 const Link = (props) => {
-  const { input, output, link, onDelete } = props;
+  const { input, output, link, onDelete, selectedNodeId } = props;
   const pathRef = useRef();
   const [labelPosition, setLabelPosition] = useState();
   const { canvas, portRefs, nodeRefs } = useContextRefs();
   const inputPoint = useMemo(() => getCoords(input, portRefs, nodeRefs, canvas), [input, portRefs, nodeRefs, canvas]);
   /* eslint-disable max-len */
-  const classList = useMemo(() => classNames('bi-diagram-link', { 'readonly-link': link.readonly }, link.className), [link.readonly, link.className]);
+  console.log(link.input, link.output, selectedNodeId, link.input === selectedNodeId || link.output === selectedNodeId);
+  const classList = useMemo(() => classNames('bi-diagram-link', { 'readonly-link': link.readonly }, { 'selected': (selectedNodeId === link.input || selectedNodeId === link.output) }, link.className), [link.readonly, link.className, selectedNodeId]);
   const outputPoint = useMemo(() => getCoords(output, portRefs, nodeRefs, canvas), [output, portRefs, nodeRefs, canvas]);
   /* eslint-enable max-len */
   const pathOptions = {

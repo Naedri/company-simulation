@@ -79,6 +79,11 @@
   pointer-events: stroke;
   /* stylelint-disable-next-line */
 }
+
+.bi.bi-diagram .bi-link-canvas-layer .bi-diagram-link.readonly-link.selected .bi-link-path {
+ stroke: red;
+}
+
 .bi.bi-diagram .bi-link-canvas-layer .bi-diagram-link .bi-link-path {
   stroke: #dae1e7;
   stroke-width: 0.25rem;
