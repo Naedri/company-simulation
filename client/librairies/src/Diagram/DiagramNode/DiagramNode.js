@@ -16,7 +16,7 @@ import useNodeUnregistration from '../../shared/internal_hooks/useNodeUnregistra
 const DiagramNode = (props) => {
   const {
     id, content, coordinates, type, inputs, outputs, data, onPositionChange, onPortRegister, onNodeRemove,
-    onDragNewSegment, onMount, onSegmentFail, onSegmentConnect, render, className, disableDrag,
+    onDragNewSegment, onMount, onSegmentFail, onSegmentConnect, render, className, disableDrag, onClick
   } = props;
   const registerPort = usePortRegistration(inputs, outputs, onPortRegister); // get the port registration method
   const { ref, onDragStart, onDrag } = useDrag({ throttleBy: 14 }); // get the drag n drop methods
@@ -59,7 +59,7 @@ const DiagramNode = (props) => {
   const customRenderProps = { id, render, content, type, inputs: InputPorts, outputs: OutputPorts, data, className };
 
   return (
-    <div className={classList} ref={ref} style={getDiagramNodeStyle(coordinates, disableDrag)}>
+    <div className={classList} ref={ref} style={getDiagramNodeStyle(coordinates, disableDrag)} onMouseDown={() => onClick(id)}>
       {render && typeof render === 'function' && render(customRenderProps)}
       {!render && (
         <>

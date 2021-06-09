@@ -17,6 +17,7 @@ const Diagram = (props) => {
   const [segment, setSegment] = useState();
   const { current: portRefs } = useRef({}); // keeps the port elements references
   const { current: nodeRefs } = useRef({}); // keeps the node elements references
+  const [selectedNodeId, setSelectedNodeId] = useState(undefined);
 
   // when nodes change, performs the onChange callback with the new incoming data
   const onNodesChange = (nextNodes) => {
@@ -80,8 +81,11 @@ const Diagram = (props) => {
         onDragNewSegment={onDragNewSegment}
         onSegmentFail={onSegmentFail}
         onSegmentConnect={onSegmentConnect}
+        onClick={(id) => {
+          setSelectedNodeId(id);
+        }}
       />
-      <LinksCanvas nodes={schema.nodes} links={schema.links} segment={segment} onChange={onLinkDelete} />
+      <LinksCanvas nodes={schema.nodes} links={schema.links} segment={segment} onChange={onLinkDelete} selectedNodeId={selectedNodeId} />
     </DiagramCanvas>
   );
 };
