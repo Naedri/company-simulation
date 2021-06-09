@@ -46,9 +46,8 @@ const View = ({ user }) => {
             <Simulation initialSchema={initialSchema} />
           </div>
           <div className="simulation__info-panel">
-            <p>Legend</p>
-            <LegendType colorMap={colorMap} />
             <NodeCard />
+            <LegendType colorMap={colorMap} />
           </div>
         </div>
       </div>

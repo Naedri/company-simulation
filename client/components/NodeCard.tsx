@@ -1,11 +1,20 @@
 import {useGraphContext} from "../contexts/GraphContext";
+import dynamic from "next/dynamic";
+const ReactJson = dynamic(
+    () => import("react-json-view"),
+    { ssr: false }
+)
 
 export default function NodeCard() {
     const {selectedNode} = useGraphContext();
     return (
-        <div style={{width:"200px", height: "300px", overflow: "auto"}}>
-            {/*<button onClick={() => setSelectedNode((Math.random() as unknown as IComponent))}/>*/}
-            <pre>{JSON.stringify(selectedNode, null, 2)}</pre>
-        </div>
+        <ReactJson src={selectedNode} name={false}
+                   indentWidth={2}
+                   displayDataTypes={false}
+                   enableClipboard={false}
+                   displayObjectSize={false}
+                   quotesOnKeys={false}
+                   onEdit={() => {}}
+                   theme={"threezerotwofour"}/>
     );
 }
