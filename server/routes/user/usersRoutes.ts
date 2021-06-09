@@ -1,9 +1,9 @@
-// server/routes/usersRoutes.ts
+// server/routes/user/usersRoutes.ts
 
 import express from "express";
-import config from '../services/user/config';
-import LOGGER from "../utils/logger";
-import {getRoleId, isAdmin, isPresent, login, register, User} from '../services/user/user';
+import config from '../../services/user/config';
+import LOGGER from "../../utils/logger";
+import {getRoleId, isAdmin, isPresent, login, register, User} from '../../services/user/user';
 
 const jwt = require('jsonwebtoken');
 const router = express.Router();
