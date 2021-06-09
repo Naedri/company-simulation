@@ -1,40 +1,41 @@
-import { useState, ReactComponentElement } from "react";
 import Link from "next/link";
-import Error from "next/error";
-import { useRouter } from "next/router";
-import { getUserInfo, register } from "../utils/rest/auth";
 import styles from '../styles/Header.module.css';
-import { GiFactory } from 'react-icons/gi';
-
-// import { ReactComponentElement as logoIMT } from '../utils/icons/IMT_LOGO.svg';
-
-export default function Form() {
-    const router = useRouter();
-    const [loading, setLoading] = useState(false);
-    const [logError, setError] = useState<Error | null>(null);
-    const [logSuccess, setLogSuccess] = useState(false);
+import {GiFactory} from 'react-icons/gi';
+import {forwardRef} from "react";
+import {logout} from "../utils/rest/auth";
 
 
+export default function Header({user}) {
 
-/*
-    <Link href="/dashboard"><li className={`${styles.menu__item} ${this.props.dashboardOpen ? styles.menu__link__active : ''}`}>Dashboard</a></li></Link>
-    <Link href="/login"><li className={`${styles.menu__item} ${this.props.loginOpen ? styles.menu__link__active : ''}`}>Login</a></li></Link>
-    <Link href="/signin"><li className={`${styles.menu__item} ${this.props.signinOpen ? styles.menu__link__active : ''}`}>Signin</a></li></Link>
-*/
-
+    const LogoutButton = forwardRef<any, any>(({onClick, href}, ref) => {
+        return (
+            <a className={styles.menu__link} href={href} onClick={async () => {
+                await logout();
+            }} ref={ref}>
+                Logout
+            </a>
+        )
+    })
     return (
         <div className={styles.container}>
             <header className={`${styles.menu} ${styles.menu__border__bottom}`}>
                 <div className={styles.menu__title}>
                     <div className={styles.menu__logo}>
-                        <GiFactory />
+                        <GiFactory/>
                     </div>
                     <span>Web Simulation</span>
 
                 </div>
+                {user && <div>
+                    <p>{user?.mail}</p>
+                </div>}
                 <ul className={styles.menu__navigation}>
-                    <Link href="/dashboard"><li className={styles.menu__item}><a className={styles.menu__link}>Dashboard</a></li></Link>
-                    <Link href="/login"><li className={styles.menu__item}><a className={styles.menu__link}>Logout</a></li></Link>
+                    <Link href="/dashboard">
+                        <li className={styles.menu__item}><a className={styles.menu__link}>Dashboard</a></li>
+                    </Link>
+                    <Link href="/login" passHref>
+                        <li className={styles.menu__item}><LogoutButton/></li>
+                    </Link>
                 </ul>
             </header>
         </div>

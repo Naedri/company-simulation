@@ -10,7 +10,7 @@
 
 .menu {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     padding-top: 1rem;
     padding-bottom: 1rem;
@@ -21,21 +21,18 @@
     display: flex;
     color: darkblue;
     align-items: baseline;
-    flex-direction: row;
 }
 
 .menu__logo{
-    margin-right: .5rem;
     width : 40px;
     height : 32px;
     font-size: large;
+    display: flex;
+    justify-content: center;
 }
 
 .menu__navigation{
     display: flex;
-    flex-wrap: wrap;
-    list-style: none;
-    align-self: flex-end;
 }
 
 .menu__item{
@@ -46,7 +43,7 @@
     background: 0 0;
     border: 0;
     border-radius: .25rem;
-
+    cursor: pointer;
     display: block;
     padding: .5rem 1rem;
     color: royalblue;

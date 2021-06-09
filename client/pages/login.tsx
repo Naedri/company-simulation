@@ -23,7 +23,8 @@ export default function Form() {
       setLogSuccess(true);
       await router.replace("/");
     } else {
-      if (error?.response?.status === 404) error.message =
+      if (error?.response?.status === 404)
+        error.message =
           "Informations d'identification non valides. Veuillez réessayer";
       setError(error);
     }

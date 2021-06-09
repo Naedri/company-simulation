@@ -2,7 +2,7 @@ import Header from "../components/header";
 import Footer from "../components/footer";
 import { CSSProperties } from "react";
 
-export default function Form(props) {
+export default function Layout({user, children}) {
     const layoutStyle : CSSProperties = {
         display: "flex",
         flexDirection: "column",
@@ -17,9 +17,9 @@ export default function Form(props) {
 
     return (
         <div className={"Layout"} style={layoutStyle}>
-            <Header />
+            <Header user={user} />
             <div className="Content" style={contentStyle}>
-                {props.children}
+                {children}
             </div>
             <Footer />
         </div>
