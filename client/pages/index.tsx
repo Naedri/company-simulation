@@ -5,7 +5,7 @@ import {useState} from "react";
 const OPTIONS = ["EXAMPLE 1", "EXAMPLE 2", "EXAMPLE 3"];
 
 export default function Home() {
-  const [value, setValue] = useState("comedy");
+  const [value, setValue] = useState("EXAMPLE 1");
 
   return (
     <>

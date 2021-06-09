@@ -1,0 +1,19 @@
+.component {
+    width: 150px;
+    background: #717EC3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.header {
+    padding: 10px;
+    color: white;
+}
+
+.body{
+    text-align: center;
+    font-weight: bold;
+}

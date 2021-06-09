@@ -1,0 +1,337 @@
+[
+  {
+    "id": "E01",
+    "type": "Enterprise",
+    "supervisor_admin_department": {
+      "id": "SAD01"
+    },
+    "purchasing_department": {
+      "id": "PUD01"
+    },
+    "sales_department": {
+      "id": "SLD01"
+    },
+    "production_department": {
+      "id": "PD01"
+    },
+    "support_department": {
+      "id": "SD01"
+    },
+    "employees": [
+      {
+        "id": "SLE01"
+      },
+      {
+        "id": "PUE01"
+      },
+      {
+        "id": "SAE01"
+      },
+      {
+        "id": "PE01"
+      },
+      {
+        "id": "PE02"
+      },
+      {
+        "id": "SUE02"
+      }
+    ],
+    "items": [
+      {
+        "id": "I01"
+      },
+      {
+        "id": "I02"
+      },
+      {
+        "id": "I03"
+      }
+    ],
+    "machine_types": [
+      {
+        "id": "MT01"
+      },
+      {
+        "id": "MT02"
+      }
+    ],
+    "machines": [
+      {
+        "id": "M01_01"
+      },
+      {
+        "id": "M02_01"
+      }
+    ],
+    "inventory": {},
+    "market_prices": [
+      {
+        "type": "ItemPrice",
+        "item": {
+          "id": "I01"
+        },
+        "unit_price": 2
+      },
+      {
+        "type": "ItemPrice",
+        "item": {
+          "id": "I02"
+        },
+        "unit_price": 4
+      },
+      {
+        "type": "ItemPrice",
+        "item": {
+          "id": "I03"
+        },
+        "unit_price": 40
+      }
+    ],
+    "auto_sell_items": [
+      {
+        "id": "I03"
+      }
+    ],
+    "item_orders": [
+      {
+        "type": "ItemOrder",
+        "item": {
+          "id": "I01"
+        },
+        "quantity": 1
+      },
+      {
+        "type": "ItemOrder",
+        "item": {
+          "id": "I02"
+        },
+        "quantity": 1
+      }
+    ]
+  },
+  {
+    "id": "SAD01",
+    "type": "SupervisorAdminDepartment",
+    "supervisors_needed_per_supervised_employee": 0.1
+  },
+  {
+    "id": "PUD01",
+    "type": "PurchasingDepartment",
+    "minimum_employee_count_for_enterprise_operation": 1
+  },
+  {
+    "id": "SLD01",
+    "type": "SalesDepartment",
+    "minimum_employee_count_for_enterprise_operation": 1
+  },
+  {
+    "id": "PD01",
+    "type": "ProductionDepartment"
+  },
+  {
+    "id": "SD01",
+    "type": "SupportDepartment"
+  },
+  {
+    "id": "SLE01",
+    "type": "SalesEmployee",
+    "standard_hourly_wage": 10,
+    "overtime_hourly_wage": 15,
+    "max_standard_hours_per_day": 8,
+    "max_overtime_hours_per_day": 2,
+    "working_hours_per_day": 8,
+    "sickness_probability_per_hour_worked": 0,
+    "sickness_duration_in_hours_worked": 16,
+    "remaining_sickness_in_hours_worked": 0,
+    "department": {
+      "id": "SLD01"
+    }
+  },
+  {
+    "id": "PUE01",
+    "type": "PurchasingEmployee",
+    "standard_hourly_wage": 10,
+    "overtime_hourly_wage": 15,
+    "max_standard_hours_per_day": 8,
+    "max_overtime_hours_per_day": 2,
+    "working_hours_per_day": 8,
+    "sickness_probability_per_hour_worked": 0,
+    "sickness_duration_in_hours_worked": 16,
+    "remaining_sickness_in_hours_worked": 0,
+    "department": {
+      "id": "PUD01"
+    }
+  },
+  {
+    "id": "SAE01",
+    "type": "SupervisorAdminEmployee",
+    "standard_hourly_wage": 10,
+    "overtime_hourly_wage": 15,
+    "max_standard_hours_per_day": 8,
+    "max_overtime_hours_per_day": 2,
+    "working_hours_per_day": 8,
+    "sickness_probability_per_hour_worked": 0,
+    "sickness_duration_in_hours_worked": 16,
+    "remaining_sickness_in_hours_worked": 0,
+    "department": {
+      "id": "SAD01"
+    },
+    "department_supervision": {
+      "id": "PD01"
+    }
+  },
+  {
+    "id": "PE01",
+    "type": "ProductionEmployee",
+    "standard_hourly_wage": 10,
+    "overtime_hourly_wage": 15,
+    "max_standard_hours_per_day": 8,
+    "max_overtime_hours_per_day": 2,
+    "working_hours_per_day": 8,
+    "sickness_probability_per_hour_worked": 0,
+    "sickness_duration_in_hours_worked": 16,
+    "remaining_sickness_in_hours_worked": 0,
+    "department": {
+      "id": "PD01"
+    },
+    "machine_types_operatable": [
+      {
+        "id": "MT01"
+      }
+    ],
+    "operating_machine": {
+      "id": "M01_01"
+    }
+  },
+  {
+    "id": "MT01",
+    "type": "MachineType",
+    "inputs_per_item_output": [
+      {
+        "type": "ItemQuantity",
+        "item": {
+          "id": "I01"
+        },
+        "quantity": 10
+      }
+    ],
+    "output_item": {
+      "id": "I02"
+    },
+    "required_operators_count": 1,
+    "nominal_output_rate_items_per_hour": 1,
+    "operation_cost_per_hour_in_eur": 5,
+    "buy_cost_in_eur": 1000,
+    "new_delivery_in_hours": 0,
+    "error_probability_per_hour_of_operation": 0,
+    "error_amount_in_percentage": 0
+  },
+  {
+    "id": "I01",
+    "type": "Item",
+    "unit": "kg"
+  },
+  {
+    "id": "I02",
+    "type": "Item",
+    "unit": "kg"
+  },
+  {
+    "id": "M01_01",
+    "type": "Machine",
+    "machine_type": {
+      "id": "MT01"
+    },
+    "operating_efficiency_percentage": 100,
+    "production_department": {
+      "id": "PD01"
+    }
+  },
+  {
+    "id": "PE02",
+    "type": "ProductionEmployee",
+    "standard_hourly_wage": 10,
+    "overtime_hourly_wage": 15,
+    "max_standard_hours_per_day": 8,
+    "max_overtime_hours_per_day": 2,
+    "working_hours_per_day": 8,
+    "sickness_probability_per_hour_worked": 0,
+    "sickness_duration_in_hours_worked": 16,
+    "remaining_sickness_in_hours_worked": 0,
+    "department": {
+      "id": "PD01"
+    },
+    "machine_types_operatable": [
+      {
+        "id": "MT02"
+      }
+    ],
+    "operating_machine": {
+      "id": "M02_01"
+    }
+  },
+  {
+    "id": "MT02",
+    "type": "MachineType",
+    "inputs_per_item_output": [
+      {
+        "type": "ItemQuantity",
+        "item": {
+          "id": "I02"
+        },
+        "quantity": 2
+      }
+    ],
+    "output_item": {
+      "id": "I03"
+    },
+    "required_operators_count": 1,
+    "nominal_output_rate_items_per_hour": 1,
+    "operation_cost_per_hour_in_eur": 10,
+    "buy_cost_in_eur": 2000,
+    "new_delivery_in_hours": 0,
+    "error_probability_per_hour_of_operation": 0,
+    "error_amount_in_percentage": 0
+  },
+  {
+    "id": "I03",
+    "type": "Item",
+    "unit": "kg"
+  },
+  {
+    "id": "M02_01",
+    "type": "Machine",
+    "machine_type": {
+      "id": "MT02"
+    },
+    "operating_efficiency_percentage": 100,
+    "production_department": {
+      "id": "PD01"
+    }
+  },
+  {
+    "id": "SUE02",
+    "type": "SupportEmployee",
+    "standard_hourly_wage": 10,
+    "overtime_hourly_wage": 15,
+    "max_standard_hours_per_day": 8,
+    "max_overtime_hours_per_day": 2,
+    "working_hours_per_day": 8,
+    "sickness_probability_per_hour_worked": 0,
+    "sickness_duration_in_hours_worked": 16,
+    "remaining_sickness_in_hours_worked": 0,
+    "department": {
+      "id": "SD01"
+    },
+    "repair_percentages_per_hour_per_machine": 5,
+    "machine_types_repairable": [
+      {
+        "id": "MT01"
+      },
+      {
+        "id": "MT02"
+      }
+    ]
+  }
+]
