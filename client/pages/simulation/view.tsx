@@ -1,5 +1,7 @@
 import { getUserInfo } from "../../utils/rest/auth";
-
+import Simulation from "../../components/Simulation";
+import { SimulationService } from "../../services/SimulationService";
+import { createSchema } from "beautiful-react-diagrams";
 import {
   create,
   step,
@@ -29,6 +31,13 @@ export async function getServerSideProps(context) {
 }
 
 const View = ({ user }) => {
+  const { nodes, colorMap } = SimulationService.getNodes(80, 60, 50);
+
+  const initialSchema = createSchema({
+    nodes: nodes,
+    links: SimulationService.getLinks(),
+  });
+
   const { addToast } = useToasts();
 
   const [stopLoading, setStopLoading] = useState(false);
@@ -89,7 +98,12 @@ const View = ({ user }) => {
             )}
           </button>
         </div>
-        <div className="simulation__right-panel">Right</div>
+        <div className="simulation__right-panel">
+          <Simulation initialSchema={initialSchema} />
+        </div>
+        <div className="simulation__info-panel">
+          <p>Legend</p>
+        </div>
       </div>
     </div>
   );

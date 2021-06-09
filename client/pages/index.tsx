@@ -1,6 +1,5 @@
-import {Listbox, ListboxOption} from "@reach/listbox";
-import {useState} from "react";
-
+import { Listbox, ListboxOption } from "@reach/listbox";
+import { useState } from "react";
 
 const OPTIONS = ["EXAMPLE 1", "EXAMPLE 2", "EXAMPLE 3"];
 
@@ -12,7 +11,11 @@ export default function Home() {
       <div>
         <span id="sim-choice">Choose a simulation from example</span>
         <Listbox aria-labelledby="sim-choice" value={value} onChange={setValue}>
-          {OPTIONS.map(opt =><ListboxOption key={opt} value={opt}>{opt}</ListboxOption>)}
+          {OPTIONS.map((opt) => (
+            <ListboxOption key={opt} value={opt}>
+              {opt}
+            </ListboxOption>
+          ))}
         </Listbox>
       </div>
       {/*
