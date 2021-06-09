@@ -1,4 +1,4 @@
-import { Link } from "beautiful-react-diagrams/@types/DiagramSchema";
+import { Link } from "../librairies/@types/DiagramSchema";
 
 export interface IComponent {
     id: string;

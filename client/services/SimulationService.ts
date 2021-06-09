@@ -1,6 +1,6 @@
 import { ComponentService } from "./ComponentService";
 import GraphNode from "../components/GraphNode";
-import { Link, Node } from "beautiful-react-diagrams/@types/DiagramSchema";
+import { Link, Node } from "../librairies/@types/DiagramSchema";
 import { ComponentLink, IComponent } from "../model/Component";
 import componentsTemplate from "../utils/componentsTemplate.json";
 
