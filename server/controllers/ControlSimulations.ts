@@ -1,6 +1,5 @@
 import {ISimulation} from "../model/ISimulation";
 import {IComponentSimplified} from "../model/IComponentSimplified";
-import {AbstractComponent} from "../model/AbstractComponent";
 import {SimulationNotInitializedException} from "./SimulationNotInitializedException";
 import SimulationInitializer from "../utils/SimulationInitializer";
 
@@ -11,11 +10,13 @@ export class ControlSimulations {
     private constructor() {
     }
 
-    static create(id: string) {
+
+    static create(id: string, identifier: string) {
         if (ControlSimulations.simulations[id]) {
             throw new Error("Simulation already initialize");
         }
-        ControlSimulations.simulations[id] = SimulationInitializer.getSimulation();
+        ControlSimulations.simulations[id] = SimulationInitializer.getSimulation(identifier);
+
     }
 
     static step(id: string) {

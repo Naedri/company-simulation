@@ -9,12 +9,12 @@ export default class SimulationInitializer {
 
     private static simulationFactory: ISimulationFactory;
 
-    public static getSimulation(): ISimulation {
+    public static getSimulation(identifier: string): ISimulation {
         if (!SimulationInitializer.simulationFactory) {
             LOGGER.ERROR("SimulationInitializer", "Simulation not initialized");
             throw new Error("Simulation Factory not implemented, contact the administrator");
         }
-        return SimulationInitializer.simulationFactory.createSimulation();
+        return SimulationInitializer.simulationFactory.createSimulation(identifier);
     }
 
     public static async initSimulationFactory() {

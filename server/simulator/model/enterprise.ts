@@ -305,10 +305,11 @@ export class Machine implements Typed, Named {
 /**
  * The inventory comprising the available stock of items and the available funds
  */
-export class Inventory implements Typed {
+export class Inventory implements Typed, Named {
     constructor(
         public item_quantities: ItemQuantity[],
         public funds_in_eur: number,
+        public readonly name: string = "inventory",
         public readonly type_name: string = "Inventory"
     ) {
     }
@@ -317,50 +318,58 @@ export class Inventory implements Typed {
 /**
  * The price of selling or buying an item on the market
  */
-export class ItemPrice implements Typed {
+export class ItemPrice implements Typed, Named {
     constructor(
         public readonly item: Item | MachineType,
         public unit_price: number,
+        public readonly name: string = "",
         public readonly type_name: string = "ItemPrice"
     ) {
+        this.name = type_name + "__" + item.name + "@" + unit_price;
     }
 }
 
 /**
  * The order of a specific quantity of an item (the price will be taken from the market)
  */
-export class ItemOrder implements Typed {
+export class ItemOrder implements Typed, Named {
     constructor(
         public readonly item: Item | MachineType,
         public quantity: number,
+        public readonly name: string = "",
         public readonly type_name: string = "ItemOrder"
     ) {
+        this.name = type_name + "__" + item.name + "*" + quantity;
     }
 }
 
 /**
  * The purchase of a specific quantity of an item at a total given price
  */
-export class ItemPurchase implements Typed {
+export class ItemPurchase implements Typed, Named {
     constructor(
         public readonly item: Item | MachineType,
         public readonly quantity: number,
         public readonly total_price: number,
+        public readonly name: string = "",
         public readonly type_name: string = "ItemPurchase"
     ) {
+        this.name = type_name + "__" + item.name + "*" + quantity + "@" + total_price;
     }
 }
 
 /**
  * The sale of a specific quantity of an item at a total given price
  */
-export class ItemSale implements Typed {
+export class ItemSale implements Typed, Named {
     constructor(
         public readonly item: Item,
         public readonly quantity: number,
         public readonly total_price: number,
+        public readonly name: string = "",
         public readonly type_name: string = "ItemSale"
     ) {
+        this.name = type_name + "__" + item.name + "*" + quantity + "@" + total_price;
     }
 }
 
@@ -376,16 +385,18 @@ export class SimulationState implements Typed {
     }
 }
 
-export class Time implements Typed {
+export class Time implements Typed, Named {
     constructor(
         public readonly day: number,
         public readonly hour: number,
+        public readonly name: string = "current_time",
         public readonly type_name: string = "Time"
     ) {
     }
 }
 
 export type EmployeeTypes = (SupportEmployee | ProductionEmployee | SalesEmployee | PurchasingEmployee | SupervisorAdminEmployee);
+export type DepartmentTypes = (SupportDepartment | ProductionDepartment | SalesDepartment | PurchasingDepartment | SupervisorAdminDepartment);
 
 /**
  * The enterprise in its entirety

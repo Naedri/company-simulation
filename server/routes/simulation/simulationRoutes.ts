@@ -9,11 +9,13 @@ import {ControlPermissions} from "../../controllers/ControlPermissions";
 const router = express.Router();
 const SIMULATION_ROUTES_BASE_PATH = "/simulation";
 
-router.get(`/create`, (req: any, res) => {
+
+router.get(`/create/:identifier`, (req: any, res) => {
+    const identifier = req.params.identifier;
     const userId = req.user.id;
     LOGGER.INFO("SimulationRoutes", `${SIMULATION_ROUTES_BASE_PATH}/create ${userId} entered`);
     try {
-        ControlSimulations.create(userId);
+        ControlSimulations.create(userId, identifier);
         res.status(200).json({id: userId});
     } catch (error) {
         console.log(error);
