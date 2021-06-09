@@ -12,6 +12,9 @@ export class ControlSimulations {
     }
 
     static create(id: string) {
+        if (ControlSimulations.simulations[id]) {
+            throw new Error("Simulation already initialize");
+        }
         ControlSimulations.simulations[id] = SimulationInitializer.getSimulation();
     }
 
@@ -19,7 +22,7 @@ export class ControlSimulations {
         if (ControlSimulations.simulations[id]) {
             ControlSimulations.simulations[id].step();
         }
-        throw new SimulationNotInitializedException(id);
+        throw new Error("Simulation not created yet");
     }
 
     static stop(id: string) {
