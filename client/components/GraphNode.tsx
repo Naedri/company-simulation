@@ -1,5 +1,5 @@
-import {FC} from "react";
-import { Node } from "beautiful-react-diagrams/@types/DiagramSchema";
+import { FC } from "react";
+import { Node } from "../librairies/@types/DiagramSchema";
 import { Component } from "../model/Component";
 import styles from "../styles/GraphNode.module.css";
 
