@@ -23,7 +23,7 @@ import { identity, pipe } from 'fp-ts/lib/function';
 import * as NEA from 'fp-ts/lib/NonEmptyArray';
 import LOGGER from "../../utils/logger";
 import { match, __, not, select, when } from 'ts-pattern';
-import { stringify } from "fp-ts/Json";
+import { stringify } from "fp-ts/lib/Json";
 
 function deepcopy<T>(obj: T): T {
     return v8.deserialize(v8.serialize(obj));
