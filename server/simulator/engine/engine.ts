@@ -19,6 +19,7 @@ import Chance from 'chance';
 import v8 from 'v8';
 import * as A from 'fp-ts/lib/Array';
 import * as O from 'fp-ts/lib/Option';
+import * as E from 'fp-ts/lib/Either';
 import { identity, pipe } from 'fp-ts/lib/function';
 import * as NEA from 'fp-ts/lib/NonEmptyArray';
 import LOGGER from "../../utils/logger";
@@ -33,6 +34,8 @@ const sumR = [0.0, (acc: number, x: number) => acc + x] as const;
 const minR = [Number.MAX_VALUE, Math.min] as const;
 const maxR = [Number.MIN_VALUE, Math.max] as const;
 const lenR = [0, (acc: number, x: any) => acc + 1] as const;
+const concatIntersperseR = (j: string) => ["", (acc: string, x: string) => acc === "" ? x : acc + j + x] as const;
+const concatR = concatIntersperseR("");
 
 
 function exists<T>(value: T | undefined | null): value is T {
@@ -182,7 +185,7 @@ export class Simulation {
     assign_machine_to_production_employee(emp: ProductionEmployee): void {
         // assign employee to machines, non-optimally (FCFS)
         if (this.is_employee_healthy(emp) && this.is_employee_in_any_working_hours(emp)) {
-            if (exists(emp.operating_machine)) {
+            if (!exists(emp.operating_machine)) {
                 // find machine types of the type operated by this employee, and assign the employee to them
                 for (const m of this.next_state.enterprise.machines) {
                     if (m.operating_efficiency_percentage > 0.0 && pipe(emp.machine_types_operatable, A.some(mto => mto.name === m.machine_type.name))) {
@@ -203,7 +206,7 @@ export class Simulation {
     assign_machine_to_support_employee(emp: SupportEmployee): void {
         // assign employee to machines, non-optimally (FCFS)
         if (this.is_employee_healthy(emp) && this.is_employee_in_any_working_hours(emp)) {
-            if (exists(emp.repairing_machine)) {
+            if (!exists(emp.repairing_machine)) {
                 // find machine types of the type operated by this employee, and assign the employee to them
                 for (const m of this.next_state.enterprise.machines) {
                     if (m.operating_efficiency_percentage < 100.0 && pipe(emp.machine_types_repairable, A.some(mto => mto.name === m.machine_type.name))) {
@@ -376,8 +379,8 @@ export class Simulation {
     }
 
     perform_repairs(): void {
-        for (const emp of this.next_state.enterprise.employees) {
-            if ((((emp instanceof SupportEmployee) && (emp.remaining_sickness_in_hours_worked <= 0.0)) && (exists(emp.repairing_machine)))) {
+        for (const emp of this.get_support_department_employees()) {
+            if ((emp.remaining_sickness_in_hours_worked <= 0.0) && exists(emp.repairing_machine)) {
                 emp.repairing_machine.operating_efficiency_percentage = Math.min(100.0, (emp.repairing_machine.operating_efficiency_percentage + emp.repair_percentages_per_hour_per_machine));
                 print(`Repairing: employee ${emp.name} repaired machine: ${emp.repairing_machine.name} to operating efficiency ${emp.repairing_machine.operating_efficiency_percentage}%`);
             }
@@ -396,7 +399,7 @@ export class Simulation {
                 sales_made.push(sale_made);
                 this.next_state.enterprise.inventory.funds_in_eur += sales_income;
                 total_sales_income += sales_income;
-                print(`Income from sale of ${optional_inventory_item_quantity}: ${sales_income}`);
+                print(`Income from sale of ${E.match(() => "Error!", (x: string) => x)(stringify(optional_inventory_item_quantity.value))}: ${sales_income}`);
                 optional_inventory_item_quantity.value.quantity = 0;
             }
         }
@@ -414,19 +417,19 @@ export class Simulation {
             total_purchases_cost += item_total_cost;
             const purchase_made = new ItemPurchase(item_order.item, item_order.quantity, total_purchases_cost);
             purchases_made.push(purchase_made);
-            if ((item_order.item instanceof Item)) {
-                const optional_inventory_item_quantity = this.get_item_quantity_in_inventory_by_item(item_order.item);
+            if ((item_order.item.type_name === "Item")) {
+                const optional_inventory_item_quantity = this.get_item_quantity_in_inventory_by_item(item_order.item as Item);
                 if (O.isSome(optional_inventory_item_quantity)) {
                     optional_inventory_item_quantity.value.quantity += item_order.quantity;
                 } else {
-                    this.next_state.enterprise.inventory.item_quantities.push(new ItemQuantity(item_order.item, item_order.quantity));
+                    this.next_state.enterprise.inventory.item_quantities.push(new ItemQuantity(item_order.item as Item, item_order.quantity));
                 }
             } else {
                 const int_quantity = Math.floor(item_order.quantity);
                 for (let _ = 0; _ < int_quantity; _++) {
                     const existing_machine_count = this.next_state.enterprise.machines.length;
                     const pd = this.get_production_department();
-                    const new_machine = new Machine(`${item_order.item.name}_${existing_machine_count + 1}`, item_order.item, 100, pd, 0, false);
+                    const new_machine = new Machine(`${item_order.item.name}_${existing_machine_count + 1}`, item_order.item as MachineType, 100, pd, 0, false);
                     this.next_state.enterprise.machines.push(new_machine);
                 }
             }
@@ -459,23 +462,23 @@ export class Simulation {
     }
 
     private get_sales_department_employees(): SalesEmployee[] {
-        return pipe(this.next_state.enterprise.employees, A.filterMap(emp => emp instanceof SalesEmployee && emp.department.name === this.get_sales_department().name ? O.some(emp) : O.none));
+        return pipe(this.next_state.enterprise.employees, A.filterMap(emp => emp.type_name === "SalesEmployee" && emp.department.name === this.get_sales_department().name ? O.some(emp) : O.none)) as SalesEmployee[];
     }
 
     private get_purchasing_department_employees(): PurchasingEmployee[] {
-        return pipe(this.next_state.enterprise.employees, A.filterMap(emp => emp instanceof PurchasingEmployee && emp.department.name === this.get_purchasing_department().name ? O.some(emp) : O.none));
+        return pipe(this.next_state.enterprise.employees, A.filterMap(emp => emp.type_name === "PurchasingEmployee" && emp.department.name === this.get_purchasing_department().name ? O.some(emp) : O.none)) as PurchasingEmployee[];
     }
 
     private get_supervision_admin_department_employees(): SupervisorAdminEmployee[] {
-        return pipe(this.next_state.enterprise.employees, A.filterMap(emp => emp instanceof SupervisorAdminEmployee && emp.department.name === this.get_supervisor_admin_department().name ? O.some(emp) : O.none));
+        return pipe(this.next_state.enterprise.employees, A.filterMap(emp => emp.type_name === "SupervisorAdminEmployee" && emp.department.name === this.get_supervisor_admin_department().name ? O.some(emp) : O.none)) as SupervisorAdminEmployee[];
     }
 
     private get_support_department_employees(): SupportEmployee[] {
-        return pipe(this.next_state.enterprise.employees, A.filterMap(emp => emp instanceof SupportEmployee && emp.department.name === this.get_support_department().name ? O.some(emp) : O.none));
+        return pipe(this.next_state.enterprise.employees, A.filterMap(emp => emp.type_name === "SupportEmployee" && emp.department.name === this.get_support_department().name ? O.some(emp) : O.none)) as SupportEmployee[];
     }
 
     private get_production_department_employees(): ProductionEmployee[] {
-        return pipe(this.next_state.enterprise.employees, A.filterMap(emp => emp instanceof ProductionEmployee && emp.department.name === this.get_production_department().name ? O.some(emp) : O.none));
+        return pipe(this.next_state.enterprise.employees, A.filterMap(emp => emp.type_name === "ProductionEmployee" && emp.department.name === this.get_production_department().name ? O.some(emp) : O.none)) as ProductionEmployee[];
     }
 
 
@@ -520,7 +523,7 @@ export class Simulation {
             print(`Sales halted! Sales employees required: ${this.get_sales_department().minimum_employee_count_for_enterprise_operation}, available: ${working_sld_employees} in the SalesDepartment to sell produced items.`);
         }
         this.pay_wages();
-        const inventoryStr = map(this.next_state.enterprise.inventory.item_quantities, iq => stringify([iq.item.name, iq.quantity]));
+        const inventoryStr = mapReduce(this.next_state.enterprise.inventory.item_quantities, iq => E.match(() => "Error!", (x: string) => x)(stringify([iq.item.name, iq.quantity])))(...concatIntersperseR(", "));
         print(`Inventory: F=${this.next_state.enterprise.inventory.funds_in_eur} ${inventoryStr}`);
         this.update_sickness();
         this.make_employees_sick_randomly();
@@ -534,11 +537,11 @@ export class Simulation {
         if (O.isSome(correct_hirable_employee)) {
             const new_employee = deepcopy(correct_hirable_employee.value);
             const name_prefix = match(new_employee)
-                .with(__, when(emp => emp instanceof SalesEmployee), () => "SELLER")
-                .with(__, when(emp => emp instanceof PurchasingEmployee), () => "PURCHASER")
-                .with(__, when(emp => emp instanceof ProductionEmployee), () => "PRODUCER")
-                .with(__, when(emp => emp instanceof SupportEmployee), () => "SUPPORTER")
-                .with(__, when(emp => emp instanceof SupervisorAdminEmployee), () => "SUPERVISOR")
+                .with(__, when((emp: EmployeeTypes) => emp.type_name === "SalesEmployee"), () => "SELLER")
+                .with(__, when((emp: EmployeeTypes) => emp.type_name === "PurchasingEmployee"), () => "PURCHASER")
+                .with(__, when((emp: EmployeeTypes) => emp.type_name === "ProductionEmployee"), () => "PRODUCER")
+                .with(__, when((emp: EmployeeTypes) => emp.type_name === "SupportEmployee"), () => "SUPPORTER")
+                .with(__, when((emp: EmployeeTypes) => emp.type_name === "SupervisorAdminEmployee"), () => "SUPERVISOR")
                 .exhaustive();
             const new_employee_id = filterReduce(ent.employees, emp => typeof emp === typeof new_employee)(...lenR) + 1;
             new_employee.name = `${name_prefix}_${new_employee_id}`;
