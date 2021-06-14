@@ -22,8 +22,9 @@ export default function Header({ user }) {
                     <div className={styles.menu__logo}>
                         <GiFactory/>
                     </div>
-                    <span>Web Simulation</span>
-
+                    <Link href="/">
+                       <a className={styles.menu__link}>Home</a>
+                    </Link>
                 </div>
                 {user && <div>
                     <p className={styles.menu__item__mail}>{user?.mail}</p>
