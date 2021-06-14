@@ -1,6 +1,6 @@
 import {ComponentService} from "./ComponentService";
 import GraphNode from "../components/GraphNode";
-import {IComponent} from "../model/Component";
+import IComponent from "../utils/model/Component";
 import {Link, Node, NodeCoordinates} from "../librairies/@types/DiagramSchema";
 import {COLORS, getRandomColor} from "../utils/constant";
 
@@ -9,24 +9,27 @@ export class SimulationService {
         const colorMap: Record<string, string> = {};
         let currIndex = 0;
         const nodes = components.map((component, index) => {
-            if (!colorMap[component.type]) {
-                if (currIndex >= COLORS.length) {
-                    colorMap[component.type] = getRandomColor();
-                } else {
-                    colorMap[component.type] = COLORS[currIndex++];
+                if (!colorMap[component.type]) {
+                    if (currIndex >= COLORS.length) {
+                        colorMap[component.type] = getRandomColor();
+                    } else {
+                        colorMap[component.type] = COLORS[currIndex++];
+                    }
                 }
+                return {
+                    data: {
+                        ...component, fields: {...component.fields, color: colorMap[component.type]}
+                    },
+                    id: component.id,
+                    content: component.type.split(/(?=[A-Z])/).join(" "),
+                    coordinates: ([
+                        width * (index % 4) + margin * (index % 4) + margin,
+                        Math.floor(index / 4) * height + margin * Math.floor(index / 4) + 20,
+                    ] as NodeCoordinates),
+                    render: GraphNode,
+                };
             }
-            return {
-                data: {...component, color: colorMap[component.type]},
-                id: component.id,
-                content: component.type.split(/(?=[A-Z])/).join(" "),
-                coordinates: ([
-                    width * (index % 4) + margin * (index % 4) + margin,
-                    Math.floor(index / 4) * height + margin * Math.floor(index / 4) + 20,
-                ] as NodeCoordinates),
-                render: GraphNode,
-            };
-        });
+        );
 
         return {nodes, colorMap}
     }
@@ -46,7 +49,7 @@ export class SimulationService {
                 } else if (value instanceof Array) {
                     for (const v of value) {
                         if (ComponentService.isLinkedComponent(v)) {
-                            result[input+ "-" + v.id] = {
+                            result[input + "-" + v.id] = {
                                 input,
                                 output: v.id,
                                 className: "link",

@@ -78,6 +78,7 @@ export default function Home({ user }) {
           </Listbox>
           <Button onClick={() => createSim()}>Create sim</Button>
         </div>
+          {renderAdminButton()}
       </Layout>
     </>
   );
