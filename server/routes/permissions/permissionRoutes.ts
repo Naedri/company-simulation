@@ -6,7 +6,7 @@ import {ControlPermissions} from "../../controllers/ControlPermissions";
 import {IPermissionSchema} from "../../model/IPermissionSchema";
 
 const router = express.Router();
-const PERMISSION_ROUTES_BASE_PATH = "/permission";
+const PERMISSION_ROUTES_BASE_PATH = "/permissions";
 
 router.get(`/`, (req, res) => {
     LOGGER.INFO("PermissionRoutes", "/ entered");
@@ -14,12 +14,12 @@ router.get(`/`, (req, res) => {
     res.status(200).json(result);
 });
 
-router.post(`/`, (req, res) => {
+router.put(`/`, (req, res) => {
     const user = (req as any).user;
     if (user.isAdmin) {
         const permission = req.body as IPermissionSchema;
         LOGGER.INFO("PermissionRoutes", `${PERMISSION_ROUTES_BASE_PATH}/ entered`);
-        ControlPermissions.addPermissions(permission);
+        ControlPermissions.updatePermissions(permission);
         res.sendStatus(200);
     } else {
         res.sendStatus(401);

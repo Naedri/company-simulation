@@ -1,4 +1,9 @@
+import { Listbox, ListboxOption } from "@reach/listbox";
+import { useState } from "react";
 import Link from "next/link";
+import Button from "../components/Button";
+
+const OPTIONS = ["EXAMPLE 1", "EXAMPLE 2", "EXAMPLE 3"];
 import { getUserInfo, logout } from "../utils/rest/auth";
 import Layout from "../components/layout";
 
@@ -19,26 +24,27 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default function Form({ user }) {
+export default function Home() {
+  const [value, setValue] = useState("EXAMPLE 1");
+
   return (
     <>
       <Layout user={user}>
-        <h1>Welcome to web simulation!</h1>
-        <ul>
-          <li>
-            <Link href="/dashboard">
-              <a>dashboard</a>
-            </Link>
-          </li>
-          <li>
-            <Link href="/login">
-              <a>Login</a>
-            </Link>
-          </li>
-          <li>
-            <button onClick={() => logout()}>Logout</button>
-          </li>
-        </ul>
+
+        <div>
+          <span id="sim-choice">Choose a simulation from example</span>
+          <Listbox aria-labelledby="sim-choice" value={value} onChange={setValue}>
+            {OPTIONS.map((opt) => (
+                <ListboxOption key={opt} value={opt}>
+                  {opt}
+                </ListboxOption>
+            ))}
+          </Listbox>
+          <Link href="/simulation/view">
+            <a>Simulation</a>
+          </Link>
+        </div>
+
       </Layout>
     </>
   );

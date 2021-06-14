@@ -9,15 +9,20 @@ export class ControlSimulations {
     private constructor() {
     }
 
+
     static create(id: string, identifier: string) {
+        if (ControlSimulations.simulations[id]) {
+            throw new Error("Simulation already initialize");
+        }
         ControlSimulations.simulations[id] = SimulationInitializer.getSimulation(identifier);
+
     }
 
     static step(id: string) {
-        if (ControlSimulations.simulations[id]) {
-            ControlSimulations.simulations[id].step();
+        if (!ControlSimulations.simulations[id]) {
+            throw new Error("Simulation not created yet");
         }
-        throw new SimulationNotInitializedException(id);
+        ControlSimulations.simulations[id].step();
     }
 
     static stop(id: string) {
