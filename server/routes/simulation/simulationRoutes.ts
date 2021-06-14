@@ -10,7 +10,7 @@ const router = express.Router();
 const SIMULATION_ROUTES_BASE_PATH = "/simulation";
 
 
-router.get(`/create/:identifier`, (req: any, res) => {
+router.get(`/create/:identifier?`, (req: any, res) => {
     const identifier = req.params.identifier;
     const userId = req.user.id;
     LOGGER.INFO("SimulationRoutes", `${SIMULATION_ROUTES_BASE_PATH}/create ${userId} entered`);
@@ -18,7 +18,6 @@ router.get(`/create/:identifier`, (req: any, res) => {
         ControlSimulations.create(userId, identifier);
         res.status(200).json({id: userId});
     } catch (error) {
-        console.log(error);
         res.status(400).send(error.message);
     }
 });
