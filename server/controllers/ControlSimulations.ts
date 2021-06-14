@@ -20,10 +20,10 @@ export class ControlSimulations {
     }
 
     static step(id: string) {
-        if (ControlSimulations.simulations[id]) {
-            ControlSimulations.simulations[id].step();
+        if (!ControlSimulations.simulations[id]) {
+            throw new Error("Simulation not created yet");
         }
-        throw new Error("Simulation not created yet");
+        ControlSimulations.simulations[id].step();
     }
 
     static stop(id: string) {

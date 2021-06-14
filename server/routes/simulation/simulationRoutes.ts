@@ -58,7 +58,7 @@ router.patch(`/setState`, (req: any, res) => {
     }
 });
 
-router.patch("/getState", (req: any, res) => {
+router.get("/getState", (req: any, res) => {
     const userId = req.user.id;
     LOGGER.INFO("UsersRoutes", `${SIMULATION_ROUTES_BASE_PATH}/getState ${userId} entered`);
 
