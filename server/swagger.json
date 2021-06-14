@@ -1,0 +1,349 @@
+{
+  "info": {
+    "version": "1.0.0",
+    "title": "Company-simulation",
+    "description": "",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:3000",
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "tags": [
+    {
+      "name": "/users",
+      "description": "Authentication and roles commands"
+    }
+  ],
+  "paths": {
+    "/users/register": {
+      "post": {
+        "summary": "Create an account with mail & password",
+        "tags": [
+          "/users"
+        ],
+        "parameters": [
+          {
+            "name": "Register with values",
+            "in": "body",
+            "description": "user's mail & password",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Register"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string",
+              "example": "OK"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "string",
+              "example": "KO"
+            }
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "summary": "Connect with mail & password",
+        "tags": ["/users"],
+        "parameters": [
+          {
+            "name": "Login with values",
+            "in": "body",
+            "description": "user's mail & password",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "mail": {
+                  "type": "string",
+                  "example": "test@test.com"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Auth successful"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "schema": {
+              "type": "object",
+              "example": "{}"
+            }
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "post": {
+        "summary": "Logout from a session",
+        "tags": [
+          "/users"
+        ],
+        "parameters": [
+          {
+            "name": "Token",
+            "in": "cookie",
+            "description": "token inside a cookie",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Logout"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "logged out"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+
+
+
+    "/users/me": {
+      "get": {
+        "summary": "To know if the token is still valid",
+        "tags": [
+          "/users"
+        ],
+        "parameters": [
+          {
+            "name": "Token",
+            "in": "cookie",
+            "description": "token inside a cookie",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Me"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "mail": {
+                  "type": "string",
+                  "example": "test@test.com"
+                },
+                "isAdmin": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "iat": {
+                  "type": "string",
+                  "example": "1623069894"
+                },
+                "exp": {
+                  "type": "string",
+                  "example": "1623156294"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/admin" : {
+      "get": {
+        "summary": "To know if the user is admin",
+        "tags": [
+          "/users"
+        ],
+        "parameters": [
+          {
+            "name": "Token",
+            "in": "cookie",
+            "description": "token inside a cookie",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Admin"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+                "mail": {
+                  "type": "string",
+                  "example": "test@test.com"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "You are not admin"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "definitions": {
+    "Register": {
+      "properties": {
+        "mail": {
+          "type": "string",
+          "example": "test@test.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "password1"
+        },
+        "confirm_password": {
+          "type": "string",
+          "example": "password1"
+        }
+      },
+      "required": ["mail", "password", "confirm_password"]
+    },
+    "Login": {
+      "properties": {
+        "mail": {
+          "example": "test@test.com",
+          "type": "string"
+        },
+        "password": {
+          "type": "string",
+          "example": "password1"
+        }
+      },
+      "required": ["mail", "password"]
+    },
+    "Logout" : {
+      "properties": {
+        "cookie": {
+          "token" : {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibWFpbCI6Im9kdEB5b3BtYWlsLmNvbSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2MjMwNjk4OTQsImV4cCI6MTYyMzE1NjI5NH0.7mXeRdW9XKKTVWggYuAN4NW9QUJgFWSHM-Ho9aQ82qM"
+          },
+          "Path": {
+            "type": "string",
+            "example": "/"
+          },
+          "Domain": {
+            "type": "string",
+            "example": "localhost"
+          },
+          "Scheme": {
+            "type": "string",
+            "example": "HttpOnly"
+          }
+        }
+      },
+      "required": ["cookie"]
+    },
+    "Admin" : {
+      "properties": {
+        "cookie": {
+          "token" : {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibWFpbCI6Im9kdEB5b3BtYWlsLmNvbSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2MjMwNjk4OTQsImV4cCI6MTYyMzE1NjI5NH0.7mXeRdW9XKKTVWggYuAN4NW9QUJgFWSHM-Ho9aQ82qM"
+          },
+          "Path": {
+            "type": "string",
+            "example": "/"
+          },
+          "Domain": {
+            "type": "string",
+            "example": "localhost"
+          },
+          "Scheme": {
+            "type": "string",
+            "example": "HttpOnly"
+          }
+        }
+      },
+      "required": ["cookie"]
+    },
+    "Me" : {
+      "properties": {
+        "cookie": {
+          "token" : {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibWFpbCI6Im9kdEB5b3BtYWlsLmNvbSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2MjMwNjk4OTQsImV4cCI6MTYyMzE1NjI5NH0.7mXeRdW9XKKTVWggYuAN4NW9QUJgFWSHM-Ho9aQ82qM"
+          },
+          "Path": {
+            "type": "string",
+            "example": "/"
+          },
+          "Domain": {
+            "type": "string",
+            "example": "localhost"
+          },
+          "Scheme": {
+            "type": "string",
+            "example": "HttpOnly"
+          }
+        }
+      },
+      "required": ["cookie"]
+    }
+
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ]
+}

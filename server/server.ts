@@ -1,5 +1,5 @@
 if (process.env.NODE_ENV === "dev") {
-    require('dotenv').config({path: process.cwd() + '/.env.local'});
+    require('dotenv').config({ path: process.cwd() + '/.env.local' });
 }
 
 import express from "express";
@@ -7,9 +7,9 @@ import bodyParser from "body-parser";
 import router from "./router";
 import config from './services/user/config';
 
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
 const jwt = require('express-jwt');
-const cors = require('cors')
+const cors = require('cors');
 
 const app = express();
 const PORT = "3000";
@@ -18,20 +18,20 @@ const corsOptions = {
     credentials: true
 };
 app.use(cors(corsOptions));
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-//Todo catch the err
+// Todo catch the err
 app.use(
     jwt({
         secret: config.token.secret,
         algorithms: ['HS256'],
         getToken: (req: any) => req.cookies.token
-    }).unless({path: ['/users/login', '/users/register']})
+    }).unless({ path: ['/users/login', '/users/register'] })
 );
 app.use("/", router);
 
-app.use(function (req, res) {
+app.use((req, res) => {
     res.json({
         error: {
             status: 404,
@@ -41,5 +41,5 @@ app.use(function (req, res) {
 });
 
 app.listen(PORT, () => {
-    console.log(`⚡️[server]: Server is running at https://localhost:${PORT}`);
+    console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
 });
