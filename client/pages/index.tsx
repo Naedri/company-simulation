@@ -1,51 +1,67 @@
-import { useState } from "react";
-import { Listbox, ListboxOption } from "@reach/listbox";
-import { getUserInfo, logout } from "../utils/rest/auth";
-
+import {useState} from "react";
+import {Listbox, ListboxOption} from "@reach/listbox";
 import Link from "next/link";
 import Layout from "../components/layout";
+import Button from "../components/Button";
+import {create} from "../utils/rest/simulation"
+import {getUserInfo} from "../utils/rest/auth";
 
-const OPTIONS = ["EXAMPLE 1", "EXAMPLE 2", "EXAMPLE 3"];
+const OPTIONS = ["SIM 1", "SIM 2", "SIM 3"];
 
 export async function getServerSideProps(context) {
-  const { user } = await getUserInfo(context.req.cookies?.token);
+    const {user} = await getUserInfo(context.req.cookies?.token);
 
-  if (user) {
+    if (user) {
+        return {
+            props: {user},
+        };
+    }
     return {
-      props: { user },
+        props: {},
+        redirect: {
+            destination: "login",
+            permanent: false,
+        },
     };
-  }
-  return {
-    props: {},
-    redirect: {
-      destination: "login",
-      permanent: false,
-    },
-  };
 }
 
-export default function Home(user) {
-  const [value, setValue] = useState("EXAMPLE 1");
+export default function Home({user}) {
+    const [value, setValue] = useState("SIM 1");
 
-  return (
-    <>
-      <Layout user={user}>
+    const createSim = async () => {
+        await create();
+    }
 
-        <div>
-          <span id="sim-choice">Choose a simulation from example</span>
-          <Listbox aria-labelledby="sim-choice" value={value} onChange={setValue}>
-            {OPTIONS.map((opt) => (
-                <ListboxOption key={opt} value={opt}>
-                  {opt}
-                </ListboxOption>
-            ))}
-          </Listbox>
-          <Link href="/simulation/view">
-            <a>Simulation</a>
-          </Link>
-        </div>
+    const renderAdminButton = () => {
+        if (user.isAdmin) {
+            return (
+                <Link href="/admin">
+                    <a>Admin</a>
+                </Link>
+            )
+        }
+    }
 
-      </Layout>
-    </>
-  );
+
+    return (
+        <>
+            <Layout user={user}>
+                <div>
+                    <span id="sim-choice">Choose a simulation from example</span>
+                    <Listbox aria-labelledby="sim-choice" value={value} onChange={setValue}>
+                        {OPTIONS.map((opt) => (
+                            <ListboxOption key={opt} value={opt}>
+                                {opt}
+                            </ListboxOption>
+                        ))}
+                    </Listbox>
+                    <Button onClick={() => createSim()}>Create sim</Button>
+                    <Link href="/simulation/view">
+                        <a>Simulation</a>
+                    </Link>
+                    {renderAdminButton()}
+                </div>
+            </Layout>
+        </>
+    );
 }
