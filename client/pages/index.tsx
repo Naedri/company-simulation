@@ -26,7 +26,7 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default function Home(user) {
+export default function Home({user}) {
   const [value, setValue] = useState(OPTIONS[0]);
   const { addToast } = useToasts();
   const router = useRouter();
@@ -65,9 +65,6 @@ export default function Home(user) {
           ))}
         </Listbox>
         <Button onClick={() => createSim()}>Create sim</Button>
-        <Link href="/simulation/view">
-          <a>Simulation</a>
-        </Link>
       </div>
 
       </Layout>

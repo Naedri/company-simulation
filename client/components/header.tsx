@@ -32,6 +32,11 @@ export default function Header({ user }) {
                     <Link href="/dashboard">
                         <li className={styles.menu__item}><a className={styles.menu__link}>Dashboard</a></li>
                     </Link>
+                    <Link href="/simulation/view">
+                        <li className={styles.menu__item}>
+                        <a className={styles.menu__link}>Simulation</a>
+                        </li>
+                    </Link>
                     <Link href="/login" passHref>
                         <li className={styles.menu__item}><LogoutButton/></li>
                     </Link>
