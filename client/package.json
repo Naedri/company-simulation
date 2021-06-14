@@ -6,7 +6,7 @@
     "dev": "next dev -p 8080",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint pages lib modules",
+    "lint": "eslint pages components modules utils --fix",
     "format": "prettier --write pages modules"
   },
   "dependencies": {
@@ -20,7 +20,7 @@
     "lodash.findindex": "^4.6.0",
     "lodash.isequal": "^4.5.0",
     "lodash.throttle": "^4.1.1",
-    "next": "10.2.0",
+    "next": "^10.2.3",
     "prop-types": "^15.7.2",
     "react": "17.0.2",
     "react-json-view": "^1.21.3"
@@ -63,7 +63,6 @@
     "jsdom-global": "^3.0.2",
     "mini-css-extract-plugin": "^1.1.1",
     "mocha": "^8.2.0",
-    "node-sass": "^4.14.1",
     "nyc": "^15.1.0",
     "postcss": "^8.1.2",
     "postcss-fixes": "^2.0.1",
