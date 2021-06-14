@@ -1,6 +1,6 @@
 import {ComponentService} from "./ComponentService";
 import GraphNode from "../components/GraphNode";
-import IComponent from "../utils/model/Component";
+import {IComponent} from "../utils/model/IComponent";
 import {Link, Node, NodeCoordinates} from "../librairies/@types/DiagramSchema";
 import {COLORS, getRandomColor} from "../utils/constant";
 
@@ -38,7 +38,7 @@ export class SimulationService {
         const result: { [key: string]: Link } = {};
         components.forEach((component) => {
             const input = component.id;
-            for (const value of Object.values(component)) {
+            for (const value of Object.values(component.fields)) {
                 if (ComponentService.isLinkedComponent(value)) {
                     result[input + "-" + value.id] = {
                         input,
