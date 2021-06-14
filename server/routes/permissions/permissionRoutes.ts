@@ -20,7 +20,7 @@ router.put(`/`, (req, res) => {
         const permission = req.body as IPermissionSchema;
         LOGGER.INFO("PermissionRoutes", `${PERMISSION_ROUTES_BASE_PATH}/ entered`);
         ControlPermissions.updatePermissions(permission);
-        res.sendStatus(200);
+        res.status(200).json(JSON.stringify(ControlPermissions.getPermissions()));
     } else {
         res.sendStatus(401);
     }
