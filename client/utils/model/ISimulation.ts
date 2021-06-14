@@ -1,5 +1,5 @@
-import {AbstractComponent} from "./AbstractComponent";
-import {IComponentSimplified} from "./IComponentSimplified";
+import { AbstractComponent } from "./AbstractComponent";
+import { IComponentSimplified } from "./IComponentSimplified";
 
 export interface ISimulation {
     seed: number;

@@ -1,31 +1,31 @@
-import React, {useCallback, useMemo, useRef, useState, useEffect} from "react";
-import {SliderHandle, SliderInput, SliderMarker, SliderRange, SliderTrack,} from "@reach/slider";
-import {useToasts} from "react-toast-notifications";
-import {setGraphData, useGraphContext} from "../contexts/GraphContext";
-import {getState, step, stop} from "../utils/rest/simulation"
-import {useRouter} from "next/router";
+import React, { useCallback, useMemo, useRef, useState, useEffect } from "react";
+import { SliderHandle, SliderInput, SliderMarker, SliderRange, SliderTrack, } from "@reach/slider";
+import { useToasts } from "react-toast-notifications";
+import { setGraphData, useGraphContext } from "../contexts/GraphContext";
+import { getState, step, stop } from "../utils/rest/simulation";
+import { useRouter } from "next/router";
 import ClipLoader from "react-spinners/ClipLoader";
 import socketIOClient from "socket.io-client";
 
-const SOCKET_URL = "http://localhost:3000"
+const SOCKET_URL = "http://localhost:3000";
 
 
 export default function Configuration() {
     const intervalId = useRef(null);
-    const {addToast} = useToasts();
-    const {setGraphState} = useGraphContext();
+    const { addToast } = useToasts();
+    const { setGraphState } = useGraphContext();
     const router = useRouter();
     const [intervalTime, setIntervalTime] = useState(1);
     const [isRunning, setRun] = useState(false);
 
     useEffect(() => {
-        //socket = socketIOClient(SOCKET_URL);
-    }, [])
+        // socket = socketIOClient(SOCKET_URL);
+    }, []);
 
 
     const startTimer = useCallback(() => {
         if (intervalId.current !== null) return;
-        const ms = intervalTime * 1000; //ms
+        const ms = intervalTime * 1000; // ms
         setRun(true);
         intervalId.current = setInterval(async () => {
             await step();
@@ -49,20 +49,20 @@ export default function Configuration() {
     };
 
 
-    const handleIntervalChange = useCallback(async () => {
-        //delete previous interval before call another
+    const handleIntervalChange = useCallback(() => {
+        // delete previous interval before call another
         if (intervalId.current !== null) {
             stopTimer();
             console.log("Supposed request");
             startTimer();
         }
-    }, [startTimer, stopTimer])
+    }, [startTimer, stopTimer]);
 
 
     const deleteTimer = async () => {
         await stop();
         await router.replace("/");
-    }
+    };
 
     const Slider = useMemo(() => <SliderInput onChange={setIntervalTime} onTouchEnd={handleIntervalChange}
                                               value={intervalTime} min={1} max={5} step={1}>
@@ -80,16 +80,16 @@ export default function Configuration() {
             <p>Configure</p>
             <button className="button" onClick={incrementOnce}>Run one step</button>
 
-            <button className="button" onClick={startTimer} disabled={isRunning} style={{display: "flex",alignItems: "center", justifyContent : "center"}}>
-                <div style={{marginRight: "6px"}}>{isRunning ? "Running": "Run"}</div>
+            <button className="button" onClick={startTimer} disabled={isRunning} style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <div style={{ marginRight: "6px" }}>{isRunning ? "Running" : "Run"}</div>
                 <ClipLoader color={"#00000"} loading={isRunning} size={30}/>
             </button>
             <button className="button danger" onClick={stopTimer} disabled={!isRunning}>Stop</button>
             <button className="button danger" onClick={deleteTimer}>Delete simulation</button>
             <p>Period</p>
-            <div style={{width: "100%"}}>
+            <div style={{ width: "100%" }}>
                 {Slider}
             </div>
         </div>
-    )
+    );
 }

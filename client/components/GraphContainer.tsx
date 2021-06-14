@@ -3,7 +3,7 @@ import { SimulationService } from "../services/SimulationService";
 import { createSchema } from "../librairies/src";
 import Simulation from "./Simulation";
 import { setColorLegend, useGraphContext } from "../contexts/GraphContext";
-import {Tabs, TabList, Tab, TabPanels, TabPanel} from "@reach/tabs";
+import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
 
 export default function GraphContainer() {
     const [schema, setSchema] = useState(null);
@@ -20,7 +20,6 @@ export default function GraphContainer() {
             nodes,
             links: SimulationService.getLinks(graphData),
         }));
-
     }, [graphData, setGraphState]);
 
     return (

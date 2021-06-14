@@ -8,13 +8,13 @@ import "../librairies/src/Diagram/diagram.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-      <ToastProvider
-        autoDismiss
-        autoDismissTimeout={6000}
-        placement="bottom-center"
-      >
-        <Component {...pageProps} />
-      </ToastProvider>
+    <ToastProvider
+      autoDismiss
+      autoDismissTimeout={6000}
+      placement="bottom-center"
+    >
+      <Component {...pageProps} />
+    </ToastProvider>
   );
 }
 
