@@ -1,5 +1,7 @@
 import { Listbox, ListboxOption } from "@reach/listbox";
 import { useState } from "react";
+import Link from "next/link";
+import Button from "../components/Button";
 
 const OPTIONS = ["EXAMPLE 1", "EXAMPLE 2", "EXAMPLE 3"];
 
@@ -17,6 +19,9 @@ export default function Home() {
             </ListboxOption>
           ))}
         </Listbox>
+        <Link href="/simulation/view">
+          <a>Simulation</a>
+        </Link>
       </div>
       {/*
   <NavBar />

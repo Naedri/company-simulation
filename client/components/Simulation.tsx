@@ -1,18 +1,13 @@
 import React from "react";
-import Diagram, {useSchema} from "../librairies/src/index.js";
-import NodeCard from "../components/NodeCard";
+import Diagram, { useSchema } from "../librairies/src/index.js";
 
 
-export default function Simulation({initialSchema}) {
-    const [schema, {onChange}] = useSchema(initialSchema);
-
-    const test = (schemaChanges): void => {
-        onChange(schemaChanges);
-    };
+export default function Simulation({ initialSchema }) {
+    const [schema, { onChange }] = useSchema(initialSchema);
 
     return (
-        <div style={{height: "100%"}}>
-            <Diagram schema={schema} onChange={test}/>
+        <div style={{ height: "100%" }}>
+            <Diagram schema={schema} onChange={onChange}/>
         </div>
     );
 }

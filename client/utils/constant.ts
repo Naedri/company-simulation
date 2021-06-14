@@ -22,7 +22,7 @@ export const COLORS = [
     "#0c2461",
     "#0a3d62",
     "#079992"
-]
+];
 
 export function getRandomColor() {
     const letters = '0123456789ABCDEF';

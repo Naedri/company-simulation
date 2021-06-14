@@ -29,7 +29,6 @@ const Link = (props) => {
   const { canvas, portRefs, nodeRefs } = useContextRefs();
   const inputPoint = useMemo(() => getCoords(input, portRefs, nodeRefs, canvas), [input, portRefs, nodeRefs, canvas]);
   /* eslint-disable max-len */
-  console.log(link.input, link.output, selectedNodeId, link.input === selectedNodeId || link.output === selectedNodeId);
   const classList = useMemo(() => classNames('bi-diagram-link', { 'readonly-link': link.readonly }, { 'selected': (selectedNodeId === link.input || selectedNodeId === link.output) }, link.className), [link.readonly, link.className, selectedNodeId]);
   const outputPoint = useMemo(() => getCoords(output, portRefs, nodeRefs, canvas), [output, portRefs, nodeRefs, canvas]);
   /* eslint-enable max-len */

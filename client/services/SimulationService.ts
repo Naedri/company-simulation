@@ -1,29 +1,28 @@
 import {ComponentService} from "./ComponentService";
 import GraphNode from "../components/GraphNode";
 import {IComponent} from "../model/Component";
-import { Link, Node, NodeCoordinates } from "../librairies/@types/DiagramSchema";
-import componentsTemplate from "../utils/componentsTemplate.json";
+import {Link, Node, NodeCoordinates} from "../librairies/@types/DiagramSchema";
 import {COLORS, getRandomColor} from "../utils/constant";
 
 export class SimulationService {
-    public static getNodes(width: number, height: number, margin: number): {nodes: Node<IComponent>[], colorMap: Record<string, string>} {
+    public static getNodes(width: number, height: number, margin: number, components: Array<IComponent>): { nodes: Node<IComponent>[], colorMap: Record<string, string> } {
         const colorMap: Record<string, string> = {};
         let currIndex = 0;
-        const nodes = ComponentService.getComponents().map((component, index) => {
+        const nodes = components.map((component, index) => {
             if (!colorMap[component.type]) {
-                if (currIndex > COLORS.length) {
+                if (currIndex >= COLORS.length) {
                     colorMap[component.type] = getRandomColor();
-                }
-                else {
+                } else {
                     colorMap[component.type] = COLORS[currIndex++];
                 }
-            }return {
+            }
+            return {
                 data: {...component, color: colorMap[component.type]},
                 id: component.id,
                 content: component.type.split(/(?=[A-Z])/).join(" "),
                 coordinates: ([
-                    width * (index % 5) + margin * (index % 5) + margin,
-                    Math.floor(index / 5) * height + margin * Math.floor(index / 5),
+                    width * (index % 4) + margin * (index % 4) + margin,
+                    Math.floor(index / 4) * height + margin * Math.floor(index / 4) + 20,
                 ] as NodeCoordinates),
                 render: GraphNode,
             };
@@ -32,9 +31,9 @@ export class SimulationService {
         return {nodes, colorMap}
     }
 
-    public static getLinks(): Link[] {
+    public static getLinks(components: Array<IComponent>): Link[] {
         const result: { [key: string]: Link } = {};
-        (componentsTemplate as IComponent[]).forEach((component) => {
+        components.forEach((component) => {
             const input = component.id;
             for (const value of Object.values(component)) {
                 if (ComponentService.isLinkedComponent(value)) {
