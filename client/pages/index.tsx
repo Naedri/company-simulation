@@ -1,11 +1,11 @@
-import { Listbox, ListboxOption } from "@reach/listbox";
 import { useState } from "react";
+import { Listbox, ListboxOption } from "@reach/listbox";
+import { getUserInfo, logout } from "../utils/rest/auth";
+
 import Link from "next/link";
-import Button from "../components/Button";
+import Layout from "../components/layout";
 
 const OPTIONS = ["EXAMPLE 1", "EXAMPLE 2", "EXAMPLE 3"];
-import { getUserInfo, logout } from "../utils/rest/auth";
-import Layout from "../components/layout";
 
 export async function getServerSideProps(context) {
   const { user } = await getUserInfo(context.req.cookies?.token);
@@ -24,7 +24,7 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default function Home() {
+export default function Home(user) {
   const [value, setValue] = useState("EXAMPLE 1");
 
   return (
