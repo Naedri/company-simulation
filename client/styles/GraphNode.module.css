@@ -13,8 +13,10 @@
 }
 
 .header {
-    padding: 10px;
     color: #fff;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .body {

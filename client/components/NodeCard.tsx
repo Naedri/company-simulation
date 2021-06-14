@@ -1,7 +1,7 @@
 import { setGraphData, useGraphContext } from "../contexts/GraphContext";
 import dynamic from "next/dynamic";
 import { InteractionProps } from "react-json-view";
-import { IComponent } from "../model/Component";
+import { IComponent } from "../utils/model/IComponent";
 
 const ReactJson = dynamic(
     () => import("react-json-view"),
@@ -29,6 +29,7 @@ export default function NodeCard() {
                        displayObjectSize={false}
                        quotesOnKeys={false}
                        onEdit={handleEdit}
+                       collapsed={3}
                        style={{
                            overflowX: "scroll",
                            padding: "30px",

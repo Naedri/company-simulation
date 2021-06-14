@@ -6,7 +6,7 @@ export default function Simulation({ initialSchema }) {
     const [schema, { onChange }] = useSchema(initialSchema);
 
     return (
-        <div style={{ height: "100%" }}>
+        <div className="content">
             <Diagram schema={schema} onChange={onChange}/>
         </div>
     );

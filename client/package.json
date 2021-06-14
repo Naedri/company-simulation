@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@reach/listbox": "^0.15.0",
+    "@reach/slider": "^0.15.0",
+    "@reach/tabs": "^0.15.0",
     "axios": "^0.21.1",
     "beautiful-react-hooks": "^0.35.0",
     "classnames": "^2.2.6",
@@ -23,7 +25,8 @@
     "react-dom": "17.0.2",
     "react-json-view": "^1.21.3",
     "react-spinners": "^0.11.0",
-    "react-toast-notifications": "^2.4.4"
+    "react-toast-notifications": "^2.4.4",
+    "socket.io-client": "^4.1.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.1",

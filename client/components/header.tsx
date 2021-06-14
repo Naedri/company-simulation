@@ -22,8 +22,9 @@ export default function Header({ user }) {
                     <div className={styles.menu__logo}>
                         <GiFactory/>
                     </div>
-                    <span>Web Simulation</span>
-
+                    <Link href="/">
+                       <a className={styles.menu__link}>Home</a>
+                    </Link>
                 </div>
                 {user && <div>
                     <p className={styles.menu__item__mail}>{user?.mail}</p>
@@ -31,6 +32,11 @@ export default function Header({ user }) {
                 <ul className={styles.menu__navigation}>
                     <Link href="/dashboard">
                         <li className={styles.menu__item}><a className={styles.menu__link}>Dashboard</a></li>
+                    </Link>
+                    <Link href="/simulation/view">
+                        <li className={styles.menu__item}>
+                        <a className={styles.menu__link}>Simulation</a>
+                        </li>
                     </Link>
                     <Link href="/login" passHref>
                         <li className={styles.menu__item}><LogoutButton/></li>

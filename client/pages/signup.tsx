@@ -27,7 +27,8 @@ export default function SignUp() {
       setLogSuccess(true);
       await router.replace("/");
     } else {
-      if (error?.response?.status === 409) error.message = "Cette adresse mail est déjà utilisée.";
+      if (error?.response?.status === 409)
+        error.message = "Cette adresse mail est déjà utilisée.";
       setError(error);
     }
   };
@@ -37,7 +38,7 @@ export default function SignUp() {
       <header>
         <h1 className="title">Sign up</h1>
       </header>
-      <div className="wrapper">
+      <div className="wrapper signup">
         <Form onSubmit={signUpUser}>
           <UncontrolledInput
             label={"email"}
