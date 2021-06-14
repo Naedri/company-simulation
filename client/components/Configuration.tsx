@@ -1,10 +1,14 @@
-import React, {useCallback, useMemo, useRef, useState} from "react";
+import React, {useCallback, useMemo, useRef, useState, useEffect} from "react";
 import {SliderHandle, SliderInput, SliderMarker, SliderRange, SliderTrack,} from "@reach/slider";
 import {useToasts} from "react-toast-notifications";
 import {setGraphData, useGraphContext} from "../contexts/GraphContext";
 import {getState, step, stop} from "../utils/rest/simulation"
 import {useRouter} from "next/router";
 import ClipLoader from "react-spinners/ClipLoader";
+import socketIOClient from "socket.io-client";
+
+const SOCKET_URL = "http://localhost:3000"
+
 
 export default function Configuration() {
     const intervalId = useRef(null);
@@ -13,6 +17,11 @@ export default function Configuration() {
     const router = useRouter();
     const [intervalTime, setIntervalTime] = useState(1);
     const [isRunning, setRun] = useState(false);
+
+    useEffect(() => {
+        //socket = socketIOClient(SOCKET_URL);
+    }, [])
+
 
     const startTimer = useCallback(() => {
         if (intervalId.current !== null) return;

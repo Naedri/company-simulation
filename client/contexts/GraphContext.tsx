@@ -8,6 +8,7 @@ type State = {
     selectedNode?: IComponent;
     colorLegend?: Record<string, string>;
     graphData?: Array<IComponent>;
+    socket?: Socket;
 };
 type StateSetter = React.Dispatch<React.SetStateAction<State>>;
 
@@ -69,4 +70,7 @@ function setSelectedNode(node: IComponent, setState: StateSetter) {
     setState((prevState => ({...prevState, selectedNode: node})));
 }
 
+function setSocket(socket: Socket, setState: StateSetter){
+    setState((prevState => ({...prevState, socket: socket})));
+}
 export {GraphContextProvider, useGraphContext, setGraphData, setColorLegend, setSelectedNode};
