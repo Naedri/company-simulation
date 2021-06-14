@@ -5,7 +5,7 @@ import {IComponentSimplified} from "../../model/IComponentSimplified";
 let withCredConfig = {withCredentials: true};
 
 async function create(): Promise<void> {
-    await axios.get(`${apiUrl}/simulation/create/`, withCredConfig);
+    await axios.get(`${apiUrl}/simulation/create`, withCredConfig);
 }
 
 async function step(): Promise<void> {

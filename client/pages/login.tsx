@@ -1,8 +1,8 @@
-import {useRouter} from "next/router";
-import {useState} from "react";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import Link from "next/link";
-import {getUserInfo, login} from "../utils/rest/auth";
-import {ErrorClient} from "../utils/interface";
+import { getUserInfo, login } from "../utils/rest/auth";
+import { ErrorClient } from "../utils/interface";
 import Form from "../components/Form";
 import UncontrolledInput from "../components/UncontrolledInput";
 import Button from "../components/Button";
@@ -17,7 +17,7 @@ export default function Login() {
         event.preventDefault();
         setLoading(true);
         setError(null);
-        const {user, error} = await login({
+        const { user, error } = await login({
             mail: event.target.email.value,
             password: event.target.password.value,
         });
@@ -33,8 +33,7 @@ export default function Login() {
                 await router.replace("/");
             }
         } else {
-            if (error?.response?.status === 404)
-                error.message =
+            if (error?.response?.status === 404) error.message =
                     "Informations d'identification non valides. Veuillez réessayer";
             setError(error);
         }
@@ -70,7 +69,7 @@ export default function Login() {
                             <a>Sign up</a>
                         </Link>
                     </small>
-                    <Button type="submit"  disabled={loading}>
+                    <Button type="submit" disabled={loading}>
                         {loading ? "loading..." : "Login"}
                     </Button>
                     {logError && <p className="error">{logError.message}</p>}
@@ -82,7 +81,7 @@ export default function Login() {
 }
 
 export async function getServerSideProps(context) {
-    const {user} = await getUserInfo(context.req.cookies?.token);
+    const { user } = await getUserInfo(context.req.cookies?.token);
 
     if (user) {
         return {

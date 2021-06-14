@@ -227,8 +227,7 @@ body {
   }
 
   .simulation__left-panel {
-    max-width: 15%;
-    flex-basis: 15%;
+    width: 15%;
     height: calc(100vh - 32px);
   }
 
@@ -239,8 +238,7 @@ body {
 
   .simulation__info-panel {
     height: calc(100vh - 32px);
-    max-width: 30%;
-    flex-basis: 30%;
+    flex: 1;
     display: flex;
   }
 }

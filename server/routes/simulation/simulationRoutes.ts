@@ -2,9 +2,9 @@
 
 import express from "express";
 import LOGGER from "../../utils/logger";
-import {ControlSimulations} from "../../controllers/ControlSimulations";
-import {IComponentSimplified} from "../../model/IComponentSimplified";
-import {ControlPermissions} from "../../controllers/ControlPermissions";
+import { ControlSimulations } from "../../controllers/ControlSimulations";
+import { IComponentSimplified } from "../../model/IComponentSimplified";
+import { ControlPermissions } from "../../controllers/ControlPermissions";
 
 const router = express.Router();
 const SIMULATION_ROUTES_BASE_PATH = "/simulation";
@@ -16,7 +16,7 @@ router.get(`/create/:identifier?`, (req: any, res) => {
     LOGGER.INFO("SimulationRoutes", `${SIMULATION_ROUTES_BASE_PATH}/create ${userId} entered`);
     try {
         ControlSimulations.create(userId, identifier);
-        res.status(200).json({id: userId});
+        res.status(200).json({ id: userId });
     } catch (error) {
         res.status(400).send(error.message);
     }
@@ -63,6 +63,6 @@ router.get("/getState", (req: any, res) => {
 
     const result = ControlSimulations.getStates(userId);
     res.status(200).send(result);
-})
+});
 
-export {router, SIMULATION_ROUTES_BASE_PATH};
+export { router, SIMULATION_ROUTES_BASE_PATH };
