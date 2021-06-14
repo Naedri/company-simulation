@@ -41,7 +41,7 @@ export class ControlSimulations {
         if (ControlSimulations.simulations[id]) {
             return ControlSimulations.simulations[id].getStates();
         }
-        throw new SimulationNotInitializedException(id);
+        throw new SimulationNotInitializedException("simulation for user" + id + "does not exists." );
     }
 
 }

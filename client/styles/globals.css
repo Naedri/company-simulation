@@ -158,13 +158,17 @@ body {
   background-color: rgba(41, 128, 185, 1);
 }
 
-.button.disabled,
-.button:disabled {
+.signup .button.disabled,
+.signup .button:disabled {
   cursor: not-allowed;
   background-color: #f2f2f2 !important;
   color: rgba(148, 152, 155, 0.5) !important;
   border: solid 2px transparent !important;
   box-shadow: none !important;
+}
+
+.simulation__left-panel .button:disabled{
+  opacity: 0.7;
 }
 
 .field__input:disabled {
