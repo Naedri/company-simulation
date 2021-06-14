@@ -38,7 +38,7 @@ export class SimulationService {
         const result: { [key: string]: Link } = {};
         components.forEach((component) => {
             const input = component.id;
-            for (const value of Object.values(component.fields)) {
+            for (const value of Object.values(component)) {
                 if (ComponentService.isLinkedComponent(value)) {
                     result[input + "-" + value.id] = {
                         input,
