@@ -1,6 +1,4 @@
-import { Listbox, ListboxOption } from "@reach/listbox";
 import { useEffect, useState } from "react";
-import { useState } from "react";
 import { Listbox, ListboxOption } from "@reach/listbox";
 import { getUserInfo, logout } from "../utils/rest/auth";
 import Link from "next/link";
@@ -8,7 +6,7 @@ import Layout from "../components/layout";
 import { create } from "../utils/rest/simulation";
 import { useRouter } from "next/router";
 import { useToasts } from "react-toast-notifications";
-
+import Button from "../components/Button"
 const OPTIONS = ["sim1", "sim2", "sim3"];
 
 export async function getServerSideProps(context) {
