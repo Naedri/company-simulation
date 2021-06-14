@@ -1,7 +1,7 @@
 import { setGraphData, useGraphContext } from "../contexts/GraphContext";
 import dynamic from "next/dynamic";
 import { InteractionProps } from "react-json-view";
-import { IComponent } from "../model/Component";
+import {IComponent} from "../utils/model/IComponent";
 
 const ReactJson = dynamic(
     () => import("react-json-view"),

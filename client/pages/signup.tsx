@@ -37,7 +37,7 @@ export default function SignUp() {
       <header>
         <h1 className="title">Sign up</h1>
       </header>
-      <div className="wrapper">
+      <div className="wrapper signup">
         <Form onSubmit={signUpUser}>
           <UncontrolledInput
             label={"email"}
