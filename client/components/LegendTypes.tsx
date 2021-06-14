@@ -1,7 +1,12 @@
 import { useGraphContext } from "../contexts/GraphContext";
+import {useEffect} from "react";
 
 export default function LegendType({ colorMap }: {colorMap: Record<string, string>}) {
     const { selectedNode } = useGraphContext();
+    useEffect(() => {
+        if(selectedNode)
+            document.getElementById(selectedNode.type)?.scrollIntoView({behavior: "smooth"});
+    }, [selectedNode])
     return (
         <ul>
             {
@@ -11,7 +16,7 @@ export default function LegendType({ colorMap }: {colorMap: Record<string, strin
                     const typeIsSelected = selectedNode?.type === k;
                     const val = typeIsSelected ? <strong style={{ color: "red", fontSize: "0.95rem" }}>{toSentenceCase}</strong> : toSentenceCase;
                     return <li key={k}>
-                        {val}:<div className={"color-square"} style={{ background: v }}/>
+                        {val}:<div id={k} className={"color-square"} style={{ background: v }}/>
                     </li>;
             })
             }
