@@ -7,6 +7,8 @@ import { PortType } from '../../shared/Types';
 import portGenerator from './portGenerator';
 import useDrag from '../../shared/internal_hooks/useDrag';
 import useNodeUnregistration from '../../shared/internal_hooks/useNodeUnregistration';
+import { setSelectedNode, useGraphContext } from "../../../../contexts/GraphContext";
+
 
 /**
  * A Diagram Node component displays a single diagram node, handles the drag n drop business logic and fires the
@@ -21,6 +23,12 @@ const DiagramNode = (props) => {
   const registerPort = usePortRegistration(inputs, outputs, onPortRegister); // get the port registration method
   const { ref, onDragStart, onDrag } = useDrag({ throttleBy: 14 }); // get the drag n drop methods
   const dragStartPoint = useRef(coordinates); // keeps the drag start point in a persistent reference
+  const { selectedNode, setGraphState } = useGraphContext();
+
+  const handleClick = () => {
+    setSelectedNode(props.data, setGraphState);
+    onClick(id);
+  };
 
   if (!disableDrag) {
     // when drag starts, save the starting coordinates into the `dragStartPoint` ref
@@ -48,9 +56,16 @@ const DiagramNode = (props) => {
   // perform the onMount callback when the node is allowed to register
   useNodeRegistration(ref, onMount, id);
 
-  const classList = useMemo(() => classNames('bi bi-diagram-node', {
-    [`bi-diagram-node-${type}`]: !!type && !render,
-  }, className), [type, className]);
+  const classList = useMemo(() => classNames('bi bi-diagram-node',
+      { [`bi-diagram-node-${type}`]: !!type && !render },
+      className), [type, className]);
+
+  const isSelected = selectedNode?.id === props.data.id;
+  const styleNode = isSelected ? {
+    zIndex: 1000
+  } : {
+    zIndex: 1
+  };
 
   // generate ports
   const options = { registerPort, onDragNewSegment, onSegmentFail, onSegmentConnect };
@@ -59,7 +74,7 @@ const DiagramNode = (props) => {
   const customRenderProps = { id, render, content, type, inputs: InputPorts, outputs: OutputPorts, data, className };
 
   return (
-    <div className={classList} ref={ref} style={getDiagramNodeStyle(coordinates, disableDrag)} onMouseDown={() => onClick(id)}>
+    <div className={classList} ref={ref} style={{ ...getDiagramNodeStyle(coordinates, disableDrag), ...styleNode }} onMouseDown={handleClick}>
       {render && typeof render === 'function' && render(customRenderProps)}
       {!render && (
         <>

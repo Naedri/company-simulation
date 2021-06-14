@@ -105,10 +105,10 @@
   animation: BiDashSegmentAnimation 1s linear infinite;
 }
 .bi.bi-diagram .bi-link-canvas-layer .bi-diagram-link.readonly-link .bi-link-ghost {
-  cursor: not-allowed;
+  /*cursor: not-allowed;*/
 }
 .bi.bi-diagram .bi-link-canvas-layer .bi-diagram-link.readonly-link .bi-link-path {
-  cursor: not-allowed;
+  /*cursor: not-allowed;*/
   stroke: #b8c2cc;
   stroke-dasharray: none;
 }
