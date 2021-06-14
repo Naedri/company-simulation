@@ -37,7 +37,7 @@ export class SimulationService {
             const input = component.id;
             for (const value of Object.values(component)) {
                 if (ComponentService.isLinkedComponent(value)) {
-                    result[input + value.id] = {
+                    result[input + "-" + value.id] = {
                         input,
                         output: value.id,
                         className: "link",
@@ -46,7 +46,7 @@ export class SimulationService {
                 } else if (value instanceof Array) {
                     for (const v of value) {
                         if (ComponentService.isLinkedComponent(v)) {
-                            result[input + v.id] = {
+                            result[input+ "-" + v.id] = {
                                 input,
                                 output: v.id,
                                 className: "link",
