@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { Listbox, ListboxOption } from "@reach/listbox";
-import { getUserInfo, logout } from "../utils/rest/auth";
-import Link from "next/link";
+import { getUserInfo } from "../utils/rest/auth";
 import Layout from "../components/layout";
 import { create } from "../utils/rest/simulation";
 import { useRouter } from "next/router";
 import { useToasts } from "react-toast-notifications";
-import Button from "../components/Button"
+import Button from "../components/Button";
+
+import styles from '../styles/Index.module.css';
+
 const OPTIONS = ["sim1", "sim2", "sim3"];
 
 export async function getServerSideProps(context) {
@@ -26,8 +28,8 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default function Home({user}) {
-  const [value, setValue] = useState(OPTIONS[0]);
+export default function Home({ user }) {
+  const [value, setValue] = useState("");
   const { addToast } = useToasts();
   const router = useRouter();
 
@@ -54,19 +56,27 @@ export default function Home({user}) {
   return (
     <>
       <Layout user={user}>
+        <div className={styles.container} id="index">
+          <div className={styles.index}>
 
-        <div>
-        <span id="sim-choice">Choose a simulation from example</span>
-        <Listbox aria-labelledby="sim-choice" value={value} onChange={setValue}>
-          {OPTIONS.map((opt) => (
-            <ListboxOption key={opt} value={opt}>
-              {opt}
-            </ListboxOption>
-          ))}
-        </Listbox>
-        <Button onClick={() => createSim()}>Create sim</Button>
-      </div>
+            <div id="index-choice" className = {styles.index__step}>
+              <span className={styles.index__title}>1. Choose a template</span>
+              <Listbox aria-labelledby="sim-choice" value={value} onChange={setValue}>
+                {OPTIONS.map((opt) => (
+                      <ListboxOption key={opt} value={opt}>
+                        {opt}
+                      </ListboxOption>
+                  ))}
+              </Listbox>
+            </div>
 
+            <div id="index-start" className = {styles.index__step}>
+              <span className={styles.index__title}>2. Confirm your choice</span>
+              <Button onClick={() => createSim()} disabled={value === ""}>Start</Button>
+              </div>
+
+          </div>
+        </div>
       </Layout>
     </>
   );
