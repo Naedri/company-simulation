@@ -3,9 +3,11 @@ if (process.env.NODE_ENV === "dev") {
 }
 
 import express from "express";
+
 import bodyParser from "body-parser";
 import router from "./router";
 import config from './services/user/config';
+import SimulationInitializer from "./utils/SimulationInitializer";
 
 const cookieParser = require('cookie-parser')
 const jwt = require('express-jwt');
@@ -21,6 +23,8 @@ app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
+//Todo catch the err
+
 app.use(
     jwt({
         secret: config.token.secret,
@@ -39,6 +43,7 @@ app.use(function (req, res) {
     });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT,() => {
+    SimulationInitializer.initSimulationFactory();
     console.log(`⚡️[server]: Server is running at https://localhost:${PORT}`);
 });

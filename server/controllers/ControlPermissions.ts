@@ -7,7 +7,7 @@ export class ControlPermissions {
     private constructor() {
     }
 
-    static addPermissions(permisssions: IPermissionSchema) {
+    static updatePermissions(permisssions: IPermissionSchema) {
         ControlPermissions.schema = {...ControlPermissions.schema, ...permisssions};
     }
 

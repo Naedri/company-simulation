@@ -1,8 +1,7 @@
 import {ISimulation} from "../model/ISimulation";
 import ISimulationFactory from "../model/ISimulationFactory";
 import LOGGER from "../utils/logger";
-
-const argv = process.argv.slice(2);
+import PreconfiguredSimulationFactory from "../simulator/bind/PreconfiguredSimulationFactory";
 
 export default class SimulationInitializer {
 
@@ -11,12 +10,12 @@ export default class SimulationInitializer {
     public static getSimulation(identifier: string): ISimulation {
         if (!SimulationInitializer.simulationFactory) {
             LOGGER.ERROR("SimulationInitializer", "Simulation not initialized");
-            throw new Error("Simulation Factory ")
+            throw new Error("Simulation Factory not implemented, contact the administrator");
         }
         return SimulationInitializer.simulationFactory.createSimulation(identifier);
     }
 
-    public static async initSimulationFactory() {
-        SimulationInitializer.simulationFactory = await import(argv[0]);
+    public static initSimulationFactory() {
+        SimulationInitializer.simulationFactory = new PreconfiguredSimulationFactory();
     }
 }

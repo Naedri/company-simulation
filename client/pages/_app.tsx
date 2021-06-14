@@ -1,8 +1,19 @@
 import "../styles/globals.css";
 import { AppProps } from "next/app";
+import { ToastProvider } from "react-toast-notifications";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <ToastProvider
+        autoDismiss
+        autoDismissTimeout={6000}
+        placement="bottom-center"
+      >
+        <Component {...pageProps} />
+      </ToastProvider>
+    </>
+  );
 }
 
 export default MyApp;

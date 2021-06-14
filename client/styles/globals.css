@@ -140,10 +140,7 @@ body {
   cursor: pointer;
 }
 
-.button:hover,
-.button:focus,
-.avatar__label:hover,
-.avatar__label:focus {
+.button:hover {
   background-color: rgba(41, 128, 185, 1);
 }
 
@@ -169,4 +166,61 @@ body {
 
 .stack--large > * + * {
   margin-top: 1rem;
+}
+
+.h-screen {
+  height: 100vh;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.simulation {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+
+.simulation__left-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: indigo 2px solid;
+  padding: 1rem;
+}
+
+.simulation__right-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: indigo 2px solid;
+  padding: 1rem;
+}
+@media (min-width: 768px) {
+  .simulation {
+    flex-direction: row;
+  }
+
+  .simulation__left-panel {
+    width: 25%;
+    height: calc(100vh - 32px);
+  }
+
+  .simulation__right-panel {
+    height: calc(100vh - 32px);
+    flex-grow: 1;
+  }
+}
+
+.simulation .danger {
+  background-color: #e74c3c;
+}
+
+.simulation .danger:hover {
+  background-color: #c0392b;
 }

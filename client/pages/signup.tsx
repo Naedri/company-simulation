@@ -4,8 +4,10 @@ import Link from "next/link";
 import { getUserInfo, register } from "../utils/rest/auth";
 
 import { ErrorClient } from "../utils/interface";
+import Form from "../components/Form";
+import UncontrolledInput from "../components/UncontrolledInput";
 
-export default function Form() {
+export default function SignUp() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [logError, setError] = useState<ErrorClient | null>(null);
@@ -25,9 +27,10 @@ export default function Form() {
       setLogSuccess(true);
       await router.replace("/");
     } else {
-      if (error?.response?.status === 409) error.message = "Cette adresse mail est déjà utilisée.";
+      if (error?.response?.status === 409)
+        error.message = "Cette adresse mail est déjà utilisée.";
       setError(error);
-      }
+    }
   };
 
   return (
@@ -36,32 +39,22 @@ export default function Form() {
         <h1 className="title">Sign up</h1>
       </header>
       <div className="wrapper">
-        <form className="add-form" onSubmit={signUpUser}>
-          <div className="field stack">
-            <label htmlFor="email" className="field__label">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              required
-              className="field__input"
-              placeholder="johndoe@provider.com"
-            />
-          </div>
-          <div className="field stack">
-            <label htmlFor="password" className="field__label">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              name="password"
-              required
-              className="field__input"
-            />
-          </div>
+        <Form onSubmit={signUpUser}>
+          <UncontrolledInput
+            label={"email"}
+            id="email"
+            type="email"
+            name="email"
+            required
+            placeholder="johndoe@provider.com"
+          />
+          <UncontrolledInput
+            label={"Password"}
+            id="password"
+            type="password"
+            name="password"
+            required
+          />
           <small>
             Already have an account?{" "}
             <Link href="/login">
@@ -73,7 +66,7 @@ export default function Form() {
           </button>
           {logError && <p className="error">{logError.message}</p>}
           {logSuccess && <p>Redirecting to profile...</p>}
-        </form>
+        </Form>
       </div>
     </>
   );
