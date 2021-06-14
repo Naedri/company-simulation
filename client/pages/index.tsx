@@ -2,11 +2,15 @@ import { Listbox, ListboxOption } from "@reach/listbox";
 import { useState } from "react";
 import Link from "next/link";
 import Button from "../components/Button";
-
-const OPTIONS = ["EXAMPLE 1", "EXAMPLE 2", "EXAMPLE 3"];
+import {create} from "../utils/rest/simulation"
+const OPTIONS = ["SIM 1", "SIM 2", "SIM 3"];
 
 export default function Home() {
-  const [value, setValue] = useState("EXAMPLE 1");
+  const [value, setValue] = useState("SIM 1");
+
+  const createSim = async () => {
+    await create();
+  }
 
   return (
     <>
@@ -19,6 +23,7 @@ export default function Home() {
             </ListboxOption>
           ))}
         </Listbox>
+        <Button onClick={() => createSim()}>Create sim</Button>
         <Link href="/simulation/view">
           <a>Simulation</a>
         </Link>

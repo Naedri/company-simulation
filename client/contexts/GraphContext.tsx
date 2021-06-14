@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { IComponent } from "../model/Component";
-import componentsTemplate from "../utils/componentsTemplate.json";
+import {getState} from "../utils/rest/simulation"
 
 type ProviderProps = { children: React.ReactNode };
 
@@ -21,18 +21,14 @@ function GraphContextProvider({ children }: ProviderProps) {
 
     useEffect(() => {
         ( async function() {
-            await new Promise(_ => {
-                // Simulate delay from fetching server
-                const dataFromServer = componentsTemplate;
-                setTimeout(() => {
-                    setGraphState(
-                        {
-                            colorLegend: undefined,
-                            graphData: dataFromServer,
-                            selectedNode: undefined
-                        });
-                }, 1000);
-            });
+            const dataFromServer = await getState();
+            console.log(dataFromServer);
+            setGraphState(
+                {
+                    colorLegend: undefined,
+                    graphData: dataFromServer,
+                    selectedNode: undefined
+                });
         })();
         const handleClick = (e) => {
             if (e.target.className === "bi bi-diagram") setGraphState((prevState => ({ ...prevState, selectedNode: undefined })));
