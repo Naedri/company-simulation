@@ -1,19 +1,18 @@
-import {ISimulation} from "../model/ISimulation";
+import { ISimulation } from "../model/ISimulation";
 import ISimulationFactory from "../model/ISimulationFactory";
 import LOGGER from "../utils/logger";
 
 const argv = process.argv.slice(2);
 
 export default class SimulationInitializer {
-
     private static simulationFactory: ISimulationFactory;
 
-    public static getSimulation(): ISimulation {
+    public static getSimulation(identifier: string): ISimulation {
         if (!SimulationInitializer.simulationFactory) {
             LOGGER.ERROR("SimulationInitializer", "Simulation not initialized");
-            throw new Error("Simulation Factory ")
+            throw new Error("Simulation Factory ");
         }
-        return SimulationInitializer.simulationFactory.createSimulation();
+        return SimulationInitializer.simulationFactory.createSimulation(identifier);
     }
 
     public static async initSimulationFactory() {

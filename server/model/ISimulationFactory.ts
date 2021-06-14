@@ -1,7 +1,5 @@
-import {ISimulation} from "./ISimulation";
+import { ISimulation } from "./ISimulation";
 
 export default interface ISimulationFactory{
-    createSimulation(): ISimulation;
-    
-    
+    createSimulation(identifier: string): ISimulation | never;
 }

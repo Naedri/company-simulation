@@ -1,0 +1,61 @@
+.container{
+    width: 100%;
+    padding-right:.75rem;
+    padding-left: .75rem;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+    box-sizing: border-box;
+}
+
+.menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.menu__title{
+    display: flex;
+    color: royalblue;
+    align-items: baseline;
+}
+
+.menu__logo{
+    font-size: large;
+    margin-right: 1rem;
+}
+
+.menu__item__mail{
+    color: dodgerblue;
+}
+
+.menu__navigation{
+    display: flex;
+}
+
+.menu__item{
+    text-align: -webkit-match-parent;
+}
+
+.menu__link{
+    background: 0 0;
+    border: 0;
+    border-radius: .25rem;
+    cursor: pointer;
+    display: block;
+    padding: .5rem 1rem;
+    color: royalblue;
+    text-decoration: none;
+}
+
+.menu__link:hover{
+    background-color: royalblue;
+    color : white;
+}
+
+.menu__border__bottom {
+    border-bottom: 1px solid royalblue;
+}
