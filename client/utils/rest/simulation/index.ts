@@ -1,11 +1,12 @@
 import axios from "axios";
 import {apiUrl} from "../../constant";
 import {IComponentSimplified} from "../../model/IComponentSimplified";
+import {IComponent} from "../../model/IComponent";
 
 let withCredConfig = {withCredentials: true};
 
 async function create(): Promise<void> {
-    await axios.get(`${apiUrl}/simulation/create`, withCredConfig);
+    await axios.get(`${apiUrl}/simulation/create/`, withCredConfig);
 }
 
 async function step(): Promise<void> {
@@ -20,7 +21,7 @@ async function setState(states: IComponentSimplified[]): Promise<void> {
     await axios.post(`${apiUrl}/simulation/setState`, states, withCredConfig);
 }
 
-async function getState(): Promise<IComponentSimplified[]> {
+async function getState(): Promise<IComponent[]> {
     const {data: result} = await axios.get<IComponentSimplified[]>(`${apiUrl}/simulation/getState`, withCredConfig);
     return result;
 }

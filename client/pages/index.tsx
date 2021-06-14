@@ -4,8 +4,8 @@ import { getUserInfo, logout } from "../utils/rest/auth";
 
 import Link from "next/link";
 import Layout from "../components/layout";
-
-const OPTIONS = ["EXAMPLE 1", "EXAMPLE 2", "EXAMPLE 3"];
+import {create} from "../utils/rest/simulation"
+const OPTIONS = ["SIM 1", "SIM 2", "SIM 3"];
 
 export async function getServerSideProps(context) {
   const { user } = await getUserInfo(context.req.cookies?.token);
@@ -25,7 +25,11 @@ export async function getServerSideProps(context) {
 }
 
 export default function Home(user) {
-  const [value, setValue] = useState("EXAMPLE 1");
+  const [value, setValue] = useState("SIM 1");
+
+  const createSim = async () => {
+    await create();
+  }
 
   return (
     <>
@@ -40,7 +44,8 @@ export default function Home(user) {
                 </ListboxOption>
             ))}
           </Listbox>
-          <Link href="/simulation/view">
+          <Button onClick={() => createSim()}>Create sim</Button>
+        <Link href="/simulation/view">
             <a>Simulation</a>
           </Link>
         </div>

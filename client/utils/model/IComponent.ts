@@ -1,7 +1,7 @@
 export interface IComponent {
     id: string;
     type: string;
-    fields: { [key: string]: IComponent | string | number | boolean | null | Object };
+    fields: { [key: string]: string | number | boolean | null | Object };
 }
 
 export function instanceOfIComponent(object: any): object is IComponent {
