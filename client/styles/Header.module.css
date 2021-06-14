@@ -20,11 +20,12 @@
 .menu__title{
     display: flex;
     color: royalblue;
-    align-items: baseline;
+    align-items: center;
+    font-size: x-large;
 }
 
 .menu__logo{
-    font-size: large;
+    font-size: xxx-large;
     margin-right: 1rem;
 }
 
