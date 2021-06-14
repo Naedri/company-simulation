@@ -210,10 +210,11 @@ body {
   padding: 1rem;
 }
 
-.simulation__right-panel {
+.simulation__right-panel{
   border: indigo 2px solid;
   padding: 1rem;
   font-size: 1rem;
+  flex: 1;
 }
 
 .simulation__info-panel {
@@ -235,8 +236,8 @@ body {
     height: calc(100vh - 32px);
   }
 
-  .simulation__right-panel {
-    height: calc(100vh - 32px);
+  .simulation__right-panel .content {
+    height: calc(100vh - 103px);
     flex: 1;
   }
 

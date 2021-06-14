@@ -3,6 +3,7 @@ import { SimulationService } from "../services/SimulationService";
 import { createSchema } from "../librairies/src";
 import Simulation from "./Simulation";
 import { setColorLegend, useGraphContext } from "../contexts/GraphContext";
+import {Tabs, TabList, Tab, TabPanels, TabPanel} from "@reach/tabs";
 
 export default function GraphContainer() {
     const [schema, setSchema] = useState(null);
@@ -19,11 +20,29 @@ export default function GraphContainer() {
             nodes,
             links: SimulationService.getLinks(graphData),
         }));
+
     }, [graphData, setGraphState]);
 
     return (
         <div className="simulation__right-panel">
-            {schema ? <Simulation initialSchema={schema}/> : <div className="loader"/>}
+            <Tabs>
+                <TabList>
+                    <Tab>
+                        Simulation View
+                    </Tab>
+                    <Tab>
+                        Simulation Graph
+                    </Tab>
+                </TabList>
+                <TabPanels>
+                    <TabPanel>
+                        {schema ? <Simulation initialSchema={schema}/> : <div className="loader"/>}
+                    </TabPanel>
+                    <TabPanel>
+                        Todo
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
         </div>
     );
 }
