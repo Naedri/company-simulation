@@ -1,3 +1,5 @@
+import LOGGER from "./utils/logger";
+
 if (process.env.NODE_ENV === "dev") {
     require('dotenv').config({path: process.cwd() + '/.env.local'});
 }
@@ -23,8 +25,6 @@ app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
-//Todo catch the err
-
 app.use(
     jwt({
         secret: config.token.secret,
@@ -32,6 +32,15 @@ app.use(
         getToken: (req: any) => req.cookies.token
     }).unless({path: ['/users/login', '/users/register']})
 );
+
+app.use((err: { name: string; status: any; message: any; }, req: any, res: any, next: () => void) => {
+    if(err.name === 'UnauthorizedError') {
+        res.status(err.status).send({message:err.message});
+        LOGGER.INFO("Auth middleware", "Auth error");
+        return;
+    }
+    next();
+});
 app.use("/", router);
 
 app.use(function (req, res) {
