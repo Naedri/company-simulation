@@ -1,6 +1,6 @@
 import Link from "next/link";
 import styles from '../styles/Header.module.css';
-import { GiFactory } from 'react-icons/gi';
+import { HiHome } from 'react-icons/hi';
 import { forwardRef } from "react";
 import { logout } from "../utils/rest/auth";
 
@@ -19,11 +19,13 @@ export default function Header({ user }) {
         <div className={styles.container}>
             <header className={`${styles.menu} ${styles.menu__border__bottom}`}>
                 <div className={styles.menu__title}>
-                    <div className={styles.menu__logo}>
-                        <GiFactory/>
-                    </div>
                     <Link href="/">
-                       <a className={styles.menu__link}>Home</a>
+                        <div className={styles.menu__link__home}>
+                            <div className={styles.menu__logo}>
+                                <HiHome/>
+                            </div>
+                            <a>Home</a>
+                        </div>
                     </Link>
                 </div>
                 {user && <div>

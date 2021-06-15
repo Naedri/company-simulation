@@ -25,9 +25,10 @@
 }
 
 .menu__logo{
-    font-size: xxx-large;
+    font-size: xx-large;
     margin-right: 1rem;
 }
+
 
 .menu__item__mail{
     color: dodgerblue;
@@ -42,16 +43,31 @@
 }
 
 .menu__link{
+    display: block;
+
     background: 0 0;
     border: 0;
     border-radius: .25rem;
     cursor: pointer;
-    display: block;
     padding: .5rem 1rem;
     color: royalblue;
     text-decoration: none;
 }
 
+.menu__link__home{
+    display: flex;
+    align-items: center;
+
+    background: 0 0;
+    border: 0;
+    border-radius: .25rem;
+    cursor: pointer;
+    padding: .1rem 1rem;
+    color: royalblue;
+    text-decoration: none;
+}
+
+.menu__link__home:hover,
 .menu__link:hover{
     background-color: royalblue;
     color : white;
