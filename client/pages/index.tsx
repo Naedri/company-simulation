@@ -1,12 +1,13 @@
-import {useEffect, useState } from "react";
-import { Listbox, ListboxOption } from "@reach/listbox";
+import {useEffect, useState} from "react";
+import {Listbox, ListboxOption} from "@reach/listbox";
 import Link from "next/link";
 import Layout from "../components/layout";
-import { create } from "../utils/rest/simulation";
-import { useRouter } from "next/router";
-import { useToasts } from "react-toast-notifications";
+import {create} from "../utils/rest/simulation";
+import {useRouter} from "next/router";
+import {useToasts} from "react-toast-notifications";
 import {getUserInfo} from "../utils/rest/auth";
 import Button from "../components/Button";
+
 const OPTIONS = ["sim1", "sim2", "sim3"];
 
 export async function getServerSideProps(context) {
@@ -26,60 +27,57 @@ export async function getServerSideProps(context) {
     };
 }
 
-export default function Home({ user }) {
-  const [value, setValue] = useState(OPTIONS[0]);
-  const { addToast } = useToasts();
-  const router = useRouter();
+export default function Home({user}) {
+    const [value, setValue] = useState(OPTIONS[0]);
+    const {addToast} = useToasts();
+    const router = useRouter();
 
-  useEffect(() => {
-    if (router.asPath.includes("error")) {
-      addToast("Create a simulation first.", {
-        appearance: "error",
-        autoDismiss: true,
-      });
-      router.replace("/");
-    }
-  }, [router, addToast]);
+    useEffect(() => {
+        if (router.asPath.includes("error")) {
+            addToast("Create a simulation first.", {
+                appearance: "error",
+                autoDismiss: true,
+            });
+            router.replace("/");
+        }
+    }, [router, addToast]);
 
-  const createSim = async () => {
-    await create(value).catch((e) =>
-      addToast("Simulation already exists", {
-        appearance: "error",
-        autoDismiss: true,
-      })
+    const createSim = async () => {
+        await create(value).then(() => {
+            addToast("Simulation Created", {
+                appearance: "success",
+                autoDismiss: true,
+                autoDismissTimeout: 2000
+            });
+        }).catch(() =>
+            addToast("Simulation already exists", {
+                appearance: "error",
+                autoDismiss: true,
+            })
+        ).finally(() => {
+            router.push("/simulation/view")
+        })
+    };
+
+    return (
+        <>
+            <Layout user={user}>
+                <div>
+                    <span id="sim-choice">Choose a simulation from example</span>
+                    <Listbox
+                        aria-labelledby="sim-choice"
+                        value={value}
+                        onChange={setValue}
+                    >
+                        {OPTIONS.map((opt) => (
+                            <ListboxOption key={opt} value={opt}>
+                                {opt}
+                            </ListboxOption>
+                        ))}
+                    </Listbox>
+                    <Button onClick={() => createSim()}>Create sim</Button>
+                </div>
+            </Layout>
+        </>
     );
-    await router.push("/simulation/view");
-  };
-  const renderAdminButton = () => {
-    if (user.isAdmin) {
-      return (
-          <Link href="/admin">
-            <a>Admin</a>
-          </Link>
-      )
-    }
-  }
-
-  return (
-    <>
-      <Layout user={user}>
-        <div>
-          <span id="sim-choice">Choose a simulation from example</span>
-          <Listbox
-            aria-labelledby="sim-choice"
-            value={value}
-            onChange={setValue}
-          >
-            {OPTIONS.map((opt) => (
-              <ListboxOption key={opt} value={opt}>
-                {opt}
-              </ListboxOption>
-            ))}
-          </Listbox>
-          <Button onClick={() => createSim()}>Create sim</Button>
-        </div>
-          {renderAdminButton()}
-      </Layout>
-    </>
-  );
 }

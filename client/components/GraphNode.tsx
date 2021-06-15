@@ -23,7 +23,7 @@ const GraphNode: FC<Node<IComponent>> = (props) => {
         backgroundColor: "" + props.data.fields.color,
     };
     return (
-        <div className={styles.component} style={styleNode} onMouseDown={handleClick} onMouseUp={handleMouseUp}>
+        <div className={styles.component} style={styleNode} onMouseDown={handleClick}>
             <div className={styles.header}>
                 {props.id}
             </div>

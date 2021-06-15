@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {getState} from "../utils/rest/simulation"
 import {IComponent} from "../utils/model/IComponent";
+import {Socket} from "socket.io-client";
 
 type ProviderProps = { children: React.ReactNode };
 
