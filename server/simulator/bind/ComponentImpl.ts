@@ -64,22 +64,3 @@ export class ComponentWrapper<T extends WrappedTypes> implements IComponentSimpl
     }
 }
 
-// export class ComponentArrayWrapper<T extends WrappedTypes> implements IComponentSimplified {
-//     id: string;
-//
-//     type: string;
-//
-//     fields: { [key: string]: string | number | boolean | null | Object };
-//
-//     constructor(
-//         sim: Simulation,
-//         id: string,
-//         array_type_name: string,
-//         wrapped: T[]
-//     ) {
-//         this.id = id;
-//         this.type = array_type_name;
-//
-//         this.fields = { 'array': wrapped.map(elem => makeFields(elem as unknown as Record<string, FieldValuesType>)) };
-//     }
-// }
