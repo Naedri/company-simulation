@@ -7,9 +7,6 @@ import { setSelectedNode, useGraphContext } from "../contexts/GraphContext";
 const GraphNode: FC<Node<IComponent>> = (props) => {
     const { selectedNode, setGraphState } = useGraphContext();
 
-    const handleMouseUp = (e) => {
-        console.log(e);
-    }
     const handleClick = () => {
         setSelectedNode(props.data, setGraphState);
     };

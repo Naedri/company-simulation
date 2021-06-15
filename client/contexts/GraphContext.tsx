@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
-import {getState} from "../utils/rest/simulation"
-import {IComponent} from "../utils/model/IComponent";
-import {Socket} from "socket.io-client";
+import React, { useEffect } from 'react';
+import { getState } from "../utils/rest/simulation";
+import { IComponent } from "../utils/model/IComponent";
+import { Socket } from "socket.io-client";
 
 type ProviderProps = { children: React.ReactNode };
 
@@ -18,11 +18,11 @@ type Context = State & { setGraphState: StateSetter };
 const GraphContext = React.createContext<Context>(null);
 GraphContext.displayName = "GraphContext";
 
-function GraphContextProvider({children}: ProviderProps) {
+function GraphContextProvider({ children }: ProviderProps) {
     const [graphState, setGraphState] = React.useState<State>(undefined);
 
     useEffect(() => {
-        (async function () {
+        (async function() {
             const [data, error] = await getState();
             console.log(data);
             setGraphState(
@@ -31,7 +31,7 @@ function GraphContextProvider({children}: ProviderProps) {
                     graphData: data,
                     selectedNode: undefined
                 });
-        })();
+        }());
 
         const handleClick = (e) => {
             if (e.target.className === "bi bi-diagram") setGraphState((prevState => ({
@@ -45,7 +45,7 @@ function GraphContextProvider({children}: ProviderProps) {
     }, []);
 
     return (
-        <GraphContext.Provider value={{...graphState, setGraphState}}>
+        <GraphContext.Provider value={{ ...graphState, setGraphState }}>
             {children}
         </GraphContext.Provider>
     );
@@ -60,18 +60,18 @@ function useGraphContext() {
 }
 
 function setGraphData(data: Array<IComponent>, setState: StateSetter) {
-    setState((prevState => ({...prevState, graphData: data})));
+    setState((prevState => ({ ...prevState, graphData: data })));
 }
 
 function setColorLegend(legend: Record<string, string>, setState: StateSetter) {
-    setState((prevState => ({...prevState, colorLegend: legend})));
+    setState((prevState => ({ ...prevState, colorLegend: legend })));
 }
 
 function setSelectedNode(node: IComponent, setState: StateSetter) {
-    setState((prevState => ({...prevState, selectedNode: node})));
+    setState((prevState => ({ ...prevState, selectedNode: node })));
 }
 
-function setSocket(socket: Socket, setState: StateSetter){
-    setState((prevState => ({...prevState, socket: socket})));
+function setSocket(socket: Socket, setState: StateSetter) {
+    setState((prevState => ({ ...prevState, socket })));
 }
-export {GraphContextProvider, useGraphContext, setGraphData, setColorLegend, setSelectedNode};
+export { GraphContextProvider, useGraphContext, setGraphData, setColorLegend, setSelectedNode };

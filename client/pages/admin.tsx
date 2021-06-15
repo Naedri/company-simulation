@@ -1,19 +1,19 @@
-import {getUserInfo} from "../utils/rest/auth";
-import {getPermissions, updatePermissions} from "../utils/rest/permissions";
-import {useEffect, useState} from "react";
-import {IPermissionSchema, isIPermissionSchema} from "../utils/model/IPermissionSchema";
-import {InteractionProps} from "react-json-view";
+import { getUserInfo } from "../utils/rest/auth";
+import { getPermissions, updatePermissions } from "../utils/rest/permissions";
+import { useEffect, useState } from "react";
+import { IPermissionSchema, isIPermissionSchema } from "../utils/model/IPermissionSchema";
+import { InteractionProps } from "react-json-view";
 import PermissionsNode from "../components/PermissionsNode";
-import {useToasts} from "react-toast-notifications";
+import { useToasts } from "react-toast-notifications";
 import Layout from "../components/layout";
 
 export async function getServerSideProps(context) {
-    const {user} = await getUserInfo(context.req.cookies?.token);
+    const { user } = await getUserInfo(context.req.cookies?.token);
 
     if (user) {
         if (user.isAdmin) {
             return {
-                props: {user},
+                props: { user },
             };
         } else {
             return {
@@ -22,7 +22,7 @@ export async function getServerSideProps(context) {
                     destination: "/",
                     permanent: false
                 }
-            }
+            };
         }
     }
     return {
@@ -34,9 +34,8 @@ export async function getServerSideProps(context) {
     };
 }
 
-const Admin = ({user}) => {
-
-    const {addToast} = useToasts();
+const Admin = ({ user }) => {
+    const { addToast } = useToasts();
 
     const [loading, setLoading] = useState<boolean>(false);
     const [permissions, setPermissions] = useState<IPermissionSchema>({});
@@ -47,7 +46,7 @@ const Admin = ({user}) => {
             setPermissions(result);
             setLoading(false);
         });
-    }
+    };
 
     const updatePermissionsToServer = (data: IPermissionSchema) => {
         updatePermissions(data).then(() => {
@@ -61,11 +60,11 @@ const Admin = ({user}) => {
                 appearance: "error",
                 autoDismiss: true,
             });
-            updatePermissionsFromServer()
+            updatePermissionsFromServer();
         });
-    }
+    };
 
-    useEffect(updatePermissionsFromServer, [])
+    useEffect(updatePermissionsFromServer, []);
 
     const handleEdit = (edit: InteractionProps) => {
         if (isIPermissionSchema(edit.updated_src)) {
@@ -85,14 +84,13 @@ const Admin = ({user}) => {
             setPermissions(edit.updated_src);
             updatePermissionsToServer(edit.updated_src);
         } else {
-            let copy = {} as IPermissionSchema;
+            const copy = {} as IPermissionSchema;
             for (const [componentType, permissions] of Object.entries(edit.updated_src)) {
-                if (typeof componentType === "string")
-                    copy[componentType] = {...{locked: false}, ...permissions};
+                if (typeof componentType === "string") copy[componentType] = { ...{ locked: false }, ...permissions };
 
                 if (permissions) {
                     for (const [attributeName, attributePermission] of Object.entries(permissions)) {
-                        copy[componentType] = {...copy[componentType], ...{[attributeName]: !!attributePermission}}
+                        copy[componentType] = { ...copy[componentType], ...{ [attributeName]: !!attributePermission } };
                     }
                 }
             }
@@ -107,7 +105,7 @@ const Admin = ({user}) => {
                 return false;
             }
         }
-    }
+    };
 
     return (
         <Layout user={user}>
@@ -115,10 +113,9 @@ const Admin = ({user}) => {
                 <header>
                     <h1 className="title">Admin permissions</h1>
                 </header>
-                {loading ?
-                    <div className="loader"/> :
-                    <PermissionsNode permissions={permissions} onEdit={handleEdit} onAdd={handleAdd}
-                                     onDelete={handleEdit}/>}
+                {loading
+                    ? <div className="loader"/>
+                    : <PermissionsNode permissions={permissions} onEdit={handleEdit} onAdd={handleAdd} onDelete={handleEdit}/>}
             </div>
         </Layout>
     );

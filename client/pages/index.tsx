@@ -1,21 +1,22 @@
-import {useEffect, useState} from "react";
-import {Listbox, ListboxOption} from "@reach/listbox";
-import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Listbox, ListboxOption } from "@reach/listbox";
+import { create } from "../utils/rest/simulation";
+import { useRouter } from "next/router";
+import { useToasts } from "react-toast-notifications";
+import { getUserInfo } from "../utils/rest/auth";
 import Layout from "../components/layout";
-import {create} from "../utils/rest/simulation";
-import {useRouter} from "next/router";
-import {useToasts} from "react-toast-notifications";
-import {getUserInfo} from "../utils/rest/auth";
 import Button from "../components/Button";
+
+import styles from '../styles/Index.module.css';
 
 const OPTIONS = ["sim1", "sim2", "sim3"];
 
 export async function getServerSideProps(context) {
-    const {user} = await getUserInfo(context.req.cookies?.token);
+    const { user } = await getUserInfo(context.req.cookies?.token);
 
     if (user) {
         return {
-            props: {user},
+            props: { user },
         };
     }
     return {
@@ -27,9 +28,9 @@ export async function getServerSideProps(context) {
     };
 }
 
-export default function Home({user}) {
-    const [value, setValue] = useState(OPTIONS[0]);
-    const {addToast} = useToasts();
+export default function Home({ user }) {
+    const [value, setValue] = useState("");
+    const { addToast } = useToasts();
     const router = useRouter();
 
     useEffect(() => {
@@ -55,27 +56,34 @@ export default function Home({user}) {
                 autoDismiss: true,
             })
         ).finally(() => {
-            router.push("/simulation/view")
-        })
+            router.push("/simulation/view");
+        });
     };
 
     return (
         <>
             <Layout user={user}>
-                <div>
-                    <span id="sim-choice">Choose a simulation from example</span>
-                    <Listbox
-                        aria-labelledby="sim-choice"
-                        value={value}
-                        onChange={setValue}
-                    >
-                        {OPTIONS.map((opt) => (
-                            <ListboxOption key={opt} value={opt}>
-                                {opt}
-                            </ListboxOption>
-                        ))}
-                    </Listbox>
-                    <Button onClick={() => createSim()}>Create sim</Button>
+                <div className={styles.container} id="index">
+                    <h2 className={styles.index__header}>Create your simulation</h2>
+
+                    <div id="index-simulation" className={styles.index}>
+                        <div id="index-choice" className = {styles.index__step}>
+                            <span className={styles.index__title}>1. Choose a template</span>
+                            <Listbox aria-labelledby="sim-choice" value={value} onChange={setValue} style={{ color: "rgb(0, 74, 119)" }} >
+                                {OPTIONS.map((opt) => (
+                                    <ListboxOption key={opt} value={opt}>
+                                        {opt}
+                                    </ListboxOption>
+                                ))}
+                            </Listbox>
+                        </div>
+
+                        <div id="index-start" className = {styles.index__step}>
+                            <span className={styles.index__title}>2. Confirm your choice</span>
+                            <Button onClick={() => createSim()} disabled={value === ""}>Start</Button>
+                        </div>
+                    </div>
+
                 </div>
             </Layout>
         </>

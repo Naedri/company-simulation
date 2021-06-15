@@ -1,7 +1,6 @@
 import Header from "../components/header";
 import Footer from "../components/footer";
 import { CSSProperties } from "react";
-import Link from "next/link";
 
 export default function Layout({ user, children }) {
     const layoutStyle : CSSProperties = {

@@ -2,8 +2,8 @@
 
 import express from "express";
 import LOGGER from "../../utils/logger";
-import {ControlPermissions} from "../../controllers/ControlPermissions";
-import {IPermissionSchema} from "../../model/IPermissionSchema";
+import { ControlPermissions } from "../../controllers/ControlPermissions";
+import { IPermissionSchema } from "../../model/IPermissionSchema";
 
 const router = express.Router();
 const PERMISSION_ROUTES_BASE_PATH = "/permissions";
@@ -24,6 +24,6 @@ router.put(`/`, (req, res) => {
     } else {
         res.sendStatus(401);
     }
-})
+});
 
-export {router, PERMISSION_ROUTES_BASE_PATH};
+export { router, PERMISSION_ROUTES_BASE_PATH };
