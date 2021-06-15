@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Listbox, ListboxOption } from "@reach/listbox";
-import { getUserInfo } from "../utils/rest/auth";
-import Layout from "../components/layout";
 import { create } from "../utils/rest/simulation";
 import { useRouter } from "next/router";
 import { useToasts } from "react-toast-notifications";
+import { getUserInfo } from "../utils/rest/auth";
+import Link from "next/link";
+import Layout from "../components/layout";
 import Button from "../components/Button";
 
 import styles from '../styles/Index.module.css';
@@ -12,20 +13,20 @@ import styles from '../styles/Index.module.css';
 const OPTIONS = ["sim1", "sim2", "sim3"];
 
 export async function getServerSideProps(context) {
-  const { user } = await getUserInfo(context.req.cookies?.token);
+    const { user } = await getUserInfo(context.req.cookies?.token);
 
-  if (user) {
+    if (user) {
+        return {
+            props: { user },
+        };
+    }
     return {
-      props: { user },
+        props: {},
+        redirect: {
+            destination: "login",
+            permanent: false,
+        },
     };
-  }
-  return {
-    props: {},
-    redirect: {
-      destination: "login",
-      permanent: false,
-    },
-  };
 }
 
 export default function Home({ user }) {
@@ -52,6 +53,15 @@ export default function Home({ user }) {
     );
     await router.push("/simulation/view");
   };
+  const renderAdminButton = () => {
+    if (user.isAdmin) {
+      return (
+          <Link href="/admin">
+            <a>Admin</a>
+          </Link>
+      );
+    }
+  };
 
   return (
     <>
@@ -73,7 +83,11 @@ export default function Home({ user }) {
             <div id="index-start" className = {styles.index__step}>
               <span className={styles.index__title}>2. Confirm your choice</span>
               <Button onClick={() => createSim()} disabled={value === ""}>Start</Button>
-              </div>
+            </div>
+
+            <div>
+                {renderAdminButton()}
+            </div>
 
           </div>
         </div>

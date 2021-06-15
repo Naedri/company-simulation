@@ -5,7 +5,7 @@ import GraphContainer from "../../components/GraphContainer";
 import Info from "../../components/SimulationInfo";
 import Configuration from "../../components/Configuration";
 import { getState } from "../../utils/rest/simulation";
-import { useToasts } from "react-toast-notifications";
+import Layout from "../../components/layout";
 
 export async function getServerSideProps(context) {
   const token = context.req.cookies?.token;
@@ -37,15 +37,17 @@ export async function getServerSideProps(context) {
 
 const View = ({ user }) => {
   return (
-    <GraphContextProvider>
-      <div className="h-screen w-full">
-        <div className="simulation">
-          <Configuration />
-          <GraphContainer />
-          <Info />
+    <Layout user={user}>
+      <GraphContextProvider>
+        <div className="h-screen w-full">
+          <div className="simulation">
+            <Configuration />
+            <GraphContainer />
+            <Info />
+          </div>
         </div>
-      </div>
-    </GraphContextProvider>
+      </GraphContextProvider>
+    </Layout>
   );
 };
 
