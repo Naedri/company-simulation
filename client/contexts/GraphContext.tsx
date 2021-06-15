@@ -10,7 +10,8 @@ type State = {
     colorLegend?: Record<string, string>;
     graphData?: Array<IComponent>;
     socket?: Socket;
-    dataOverTime?: Array<any>
+    dataOverTime?: Array<any>;
+    isFetching?: boolean;
 };
 type StateSetter = React.Dispatch<React.SetStateAction<State>>;
 
@@ -76,4 +77,7 @@ function setSocket(socket: Socket, setState: StateSetter) {
     setState((prevState => ({ ...prevState, socket })));
 }
 
-export { GraphContextProvider, useGraphContext, setGraphData, setColorLegend, setSelectedNode };
+function setFetching(isFetching: boolean, setState: StateSetter) {
+    setState((prevState => ({ ...prevState, isFetching })));
+}
+export { GraphContextProvider, useGraphContext, setGraphData, setColorLegend, setSelectedNode, setFetching };
