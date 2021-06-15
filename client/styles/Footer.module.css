@@ -10,3 +10,9 @@
     color: royalblue;
 }
 
+.footer__element:hover{
+    color: royalblue;
+    cursor: pointer;
+    text-decoration: underline;
+    color: dodgerblue;
+}
