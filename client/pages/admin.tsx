@@ -13,7 +13,7 @@ export async function getServerSideProps(context) {
     if (user) {
         if (user.isAdmin) {
             return {
-                props: { user },
+                props: {user},
             };
         } else {
             return {
@@ -34,7 +34,7 @@ export async function getServerSideProps(context) {
     };
 }
 
-const Admin = ({ user }) => {
+const Admin = ({user}) => {
 
     const {addToast} = useToasts();
 

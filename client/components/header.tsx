@@ -15,12 +15,13 @@ export default function Header({ user }) {
             </a>
         );
     });
-
     const renderAdminButton = () => {
         if (user.isAdmin) {
             return (
                 <Link href="/admin">
-                    <a className={styles.menu__link}>Admin panel</a>
+                    <li className={styles.menu__item}>
+                        <a className={styles.menu__link}>Admin</a>
+                    </li>
                 </Link>
             )
         }
@@ -36,7 +37,6 @@ export default function Header({ user }) {
                     <Link href="/">
                        <a className={styles.menu__link}>Home</a>
                     </Link>
-                    {renderAdminButton()}
                 </div>
                 {user && <div>
                     <p className={styles.menu__item__mail}>{user?.mail}</p>
@@ -50,6 +50,7 @@ export default function Header({ user }) {
                         <a className={styles.menu__link}>Simulation</a>
                         </li>
                     </Link>
+                    {renderAdminButton()}
                     <Link href="/login" passHref>
                         <li className={styles.menu__item}><LogoutButton/></li>
                     </Link>

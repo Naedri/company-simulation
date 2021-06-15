@@ -1,4 +1,4 @@
-import { IComponent } from "../model/Component";
+import { IComponent } from "../utils/model/IComponent";
 import componentsTemplate from "../utils/componentsTemplate.json";
 
 export class ComponentService {
