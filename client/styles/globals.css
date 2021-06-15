@@ -263,7 +263,8 @@ body {
   align-items: center;
   justify-content: space-between;
 }
-.simulation .danger {
+.simulation .danger,
+.simulation .danger:hover:disabled{
   background-color: #e74c3c;
 }
 
