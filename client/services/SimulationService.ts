@@ -1,8 +1,8 @@
-import {ComponentService} from "./ComponentService";
+import { ComponentService } from "./ComponentService";
 import GraphNode from "../components/GraphNode";
-import {IComponent} from "../utils/model/IComponent";
-import {Link, Node, NodeCoordinates} from "../librairies/@types/DiagramSchema";
-import {COLORS, getRandomColor} from "../utils/constant";
+import { IComponent } from "../utils/model/IComponent";
+import { Link, Node, NodeCoordinates } from "../librairies/@types/DiagramSchema";
+import { COLORS, getRandomColor } from "../utils/constant";
 
 export class SimulationService {
     public static getNodes(width: number, height: number, margin: number, components: Array<IComponent>): { nodes: Node<IComponent>[], colorMap: Record<string, string> } {
@@ -18,7 +18,7 @@ export class SimulationService {
                 }
                 return {
                     data: {
-                        ...component, fields: {...component.fields, color: colorMap[component.type]}
+                        ...component, fields: { ...component.fields, color: colorMap[component.type] }
                     },
                     id: component.id,
                     content: component.type.split(/(?=[A-Z])/).join(" "),
@@ -31,7 +31,7 @@ export class SimulationService {
             }
         );
 
-        return {nodes, colorMap}
+        return { nodes, colorMap };
     }
 
     public static getLinks(components: Array<IComponent>): Link[] {

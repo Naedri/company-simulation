@@ -5,7 +5,6 @@ import GraphContainer from "../../components/GraphContainer";
 import Info from "../../components/SimulationInfo";
 import Configuration from "../../components/Configuration";
 import { getState } from "../../utils/rest/simulation";
-import { useToasts } from "react-toast-notifications";
 import Layout from "../../components/layout";
 
 export async function getServerSideProps(context) {

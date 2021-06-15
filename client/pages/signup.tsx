@@ -27,8 +27,7 @@ export default function SignUp() {
       setLogSuccess(true);
       await router.replace("/");
     } else {
-      if (error?.response?.status === 409)
-        error.message = "Cette adresse mail est déjà utilisée.";
+      if (error?.response?.status === 409) error.message = "Cette adresse mail est déjà utilisée.";
       setError(error);
     }
   };

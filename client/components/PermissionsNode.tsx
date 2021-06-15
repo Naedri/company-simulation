@@ -2,10 +2,10 @@ import dynamic from "next/dynamic";
 
 const ReactJson = dynamic(
     () => import("react-json-view"),
-    {ssr: false}
+    { ssr: false }
 );
 
-export default function PermissionsNode({permissions, onEdit, onAdd, onDelete}) {
+export default function PermissionsNode({ permissions, onEdit, onAdd, onDelete }) {
     return (
         <section>
             <ReactJson src={permissions} name={false}
@@ -22,5 +22,5 @@ export default function PermissionsNode({permissions, onEdit, onAdd, onDelete}) 
                        }}
                        theme={"monokai"}/>
         </section>
-    )
+    );
 }

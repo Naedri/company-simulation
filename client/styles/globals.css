@@ -163,6 +163,7 @@ body {
   cursor: not-allowed;
 }
 
+#index-start .button:disabled,
 .signup .button.disabled,
 .signup .button:disabled {
   cursor: not-allowed;
@@ -268,11 +269,6 @@ body {
 
 .simulation .danger:hover {
   background-color: #c0392b;
-}
-
-.simulation .danger:hover:disabled {
-  background-color: #e74c3c;
-  cursor: not-allowed;
 }
 
 .bi.bi-diagram{
