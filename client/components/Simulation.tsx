@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Diagram, { useSchema } from "../librairies/src/index.js";
 
 

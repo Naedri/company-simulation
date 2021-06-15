@@ -1,69 +1,102 @@
-import {Listbox, ListboxOption} from "@reach/listbox";
-import {useEffect, useState} from "react";
-import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Listbox, ListboxOption } from "@reach/listbox";
+import { create } from "../utils/rest/simulation";
+import { useRouter } from "next/router";
+import { useToasts } from "react-toast-notifications";
+import { getUserInfo } from "../utils/rest/auth";
+import Layout from "../components/layout";
 import Button from "../components/Button";
-import {create} from "../utils/rest/simulation"
-import {useRouter} from "next/router";
-import {useToasts} from "react-toast-notifications";
+
+import styles from "../styles/Index.module.css";
 
 const OPTIONS = ["sim1", "sim2", "sim3"];
 
-export default function Home() {
-    const [value, setValue] = useState(OPTIONS[0]);
-    const {addToast} = useToasts();
-    const router = useRouter();
+export async function getServerSideProps(context) {
+  const { user } = await getUserInfo(context.req.cookies?.token);
 
-    useEffect(() => {
-        if (router.asPath.includes("error")) {
-            addToast("Create a simulation first.", {
-                appearance: "error",
-                autoDismiss: true,
-            });
-            router.replace("/");
-        }
-    }, [router, addToast])
+  if (user) {
+    return {
+      props: { user },
+    };
+  }
+  return {
+    props: {},
+    redirect: {
+      destination: "login",
+      permanent: false,
+    },
+  };
+}
 
-    const createSim = async () => {
-        await create(value).catch(e => addToast("Simulation already exists", {
-            appearance: "error",
-            autoDismiss: true,
-        }));
-        await router.push("/simulation/view");
+export default function Home({ user }) {
+  const [value, setValue] = useState("");
+  const { addToast } = useToasts();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.asPath.includes("error")) {
+      addToast("Create a simulation first.", {
+        appearance: "error",
+        autoDismiss: true,
+      });
+      router.replace("/");
     }
+  }, [router, addToast]);
 
-    return (
-        <>
-            <div>
-                <span id="sim-choice">Choose a simulation from example</span>
-                <Listbox aria-labelledby="sim-choice" value={value} onChange={setValue}>
-                    {OPTIONS.map((opt) => (
-                        <ListboxOption key={opt} value={opt}>
-                            {opt}
-                        </ListboxOption>
-                    ))}
-                </Listbox>
-                <Button onClick={() => createSim()}>Create sim</Button>
-                <Link href="/simulation/view">
-                    <a>Simulation</a>
-                </Link>
+  const createSim = async () => {
+    await create(value)
+      .then(() => {
+        addToast("Simulation Created", {
+          appearance: "success",
+          autoDismiss: true,
+          autoDismissTimeout: 2000,
+        });
+      })
+      .catch(() =>
+        addToast("Simulation already exists", {
+          appearance: "error",
+          autoDismiss: true,
+        })
+      )
+      .finally(() => {
+        router.push("/simulation/view");
+      });
+  };
+
+  return (
+    <>
+      <Layout user={user}>
+        <div className={styles.container} id="index">
+          <h2 className={styles.index__header}>Create your simulation</h2>
+
+          <div id="index-simulation" className={styles.index}>
+            <div id="index-choice" className={styles.index__step}>
+              <span className={styles.index__title}>1. Choose a template</span>
+              <Listbox
+                aria-labelledby="sim-choice"
+                value={value}
+                onChange={setValue}
+                style={{ color: "rgb(0, 74, 119)" }}
+              >
+                {OPTIONS.map((opt) => (
+                  <ListboxOption key={opt} value={opt}>
+                    {opt}
+                  </ListboxOption>
+                ))}
+              </Listbox>
             </div>
-            {/*
-  <NavBar />
-  <ul>
-    <li>
-      <Link href="/dashboard">
-        <a>dashboard</a>
-      </Link>
-    </li>
-    <li>
-      <Link href="/login">
-        <a>Login</a>
-      </Link>
-    </li>
-    <li>
-      <button onClick={() => logout()}>Logout</button>
-    </li>
-  </ul> */}
-        </>
-    );
+
+            <div id="index-start" className={styles.index__step}>
+              <span className={styles.index__title}>
+                2. Confirm your choice
+              </span>
+              <Button onClick={() => createSim()} disabled={value === ""}>
+                Start
+              </Button>
+            </div>
+          </div>
+        </div>
+      </Layout>
+    </>
+  );
 }

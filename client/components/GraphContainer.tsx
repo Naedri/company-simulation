@@ -1,27 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { SimulationService } from "../services/SimulationService";
 import { createSchema } from "../librairies/src";
 import Simulation from "./Simulation";
 import { setColorLegend, useGraphContext } from "../contexts/GraphContext";
-import {Tabs, TabList, Tab, TabPanels, TabPanel} from "@reach/tabs";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@reach/tabs";
+import SimplePlot from "./SimplePlot";
+import Skeleton from 'react-loading-skeleton';
 
 export default function GraphContainer() {
     const [schema, setSchema] = useState(null);
-    const { graphData, setGraphState } = useGraphContext();
+    const { graphData, setGraphState, isFetching } = useGraphContext();
 
     useEffect(() => {
         if (!graphData) return;
         const container = document.querySelector(".simulation__right-panel");
-        const nodeWidth = container.clientWidth / 8;
-        const nodeHeight = nodeWidth * 0.8;
-        const { nodes, colorMap } = SimulationService.getNodes(nodeWidth, nodeHeight, nodeWidth * 0.7, graphData);
+        const nodeWidth = container.clientWidth / 10;
+        const nodeHeight = nodeWidth;
+        const { nodes, colorMap } = SimulationService.getNodes(nodeWidth, nodeHeight, nodeWidth * 0.5, graphData);
         setColorLegend(colorMap, setGraphState);
         setSchema(createSchema({
             nodes,
             links: SimulationService.getLinks(graphData),
         }));
-
     }, [graphData, setGraphState]);
+
+    const DiagramMemoized = useMemo(() => {
+        return (!schema || isFetching) ?  <div style={{ fontSize: 20, lineHeight: 2 }}>
+    <Skeleton count={15} color="#202020" highlightColor="#444"/>
+    </div>: <Simulation initialSchema={schema}/>;
+    }, [schema, isFetching]);
 
     return (
         <div className="simulation__right-panel">
@@ -36,10 +43,10 @@ export default function GraphContainer() {
                 </TabList>
                 <TabPanels>
                     <TabPanel>
-                        {schema ? <Simulation initialSchema={schema}/> : <div className="loader"/>}
+                        {DiagramMemoized}
                     </TabPanel>
                     <TabPanel>
-                        Todo
+                       <SimplePlot/>
                     </TabPanel>
                 </TabPanels>
             </Tabs>

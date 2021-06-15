@@ -1,5 +1,5 @@
-import {IPermissionSchema} from "../model/IPermissionSchema";
-import {IComponentSimplified} from "../model/IComponentSimplified";
+import { IPermissionSchema } from "../model/IPermissionSchema";
+import { IComponentSimplified } from "../model/IComponentSimplified";
 
 export class ControlPermissions {
     private static schema: IPermissionSchema = {};
@@ -8,7 +8,7 @@ export class ControlPermissions {
     }
 
     static updatePermissions(permisssions: IPermissionSchema) {
-        ControlPermissions.schema = {...ControlPermissions.schema, ...permisssions};
+        ControlPermissions.schema = { ...permisssions };
     }
 
     static statesAreProtected(states: IComponentSimplified[]) {
@@ -30,7 +30,7 @@ export class ControlPermissions {
                     }
                 }
             }
-        })
+        });
     }
 
     static getPermissions(): IPermissionSchema {

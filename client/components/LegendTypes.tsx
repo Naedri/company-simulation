@@ -1,12 +1,11 @@
 import { useGraphContext } from "../contexts/GraphContext";
-import {useEffect} from "react";
+import { useEffect } from "react";
 
 export default function LegendType({ colorMap }: {colorMap: Record<string, string>}) {
     const { selectedNode } = useGraphContext();
-    useEffect(() => {
-        if(selectedNode)
-            document.getElementById(selectedNode.type)?.scrollIntoView({behavior: "smooth"});
-    }, [selectedNode])
+    // useEffect(() => {
+    //     if(selectedNode) document.getElementById(selectedNode.type)?.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest", alignToTop: false });
+    // }, [selectedNode]);
     return (
         <ul>
             {

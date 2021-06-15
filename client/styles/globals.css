@@ -20,8 +20,8 @@ dd {
 }
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
-ul[role="list"],
-ol[role="list"] {
+ul,
+ol {
   list-style: none;
 }
 
@@ -158,6 +158,12 @@ body {
   background-color: rgba(41, 128, 185, 1);
 }
 
+.button:hover:disabled{
+  background-color: rgba(52, 152, 219, 1);
+  cursor: not-allowed;
+}
+
+#index-start .button:disabled,
 .signup .button.disabled,
 .signup .button:disabled {
   cursor: not-allowed;
@@ -232,20 +238,16 @@ body {
   }
 
   .simulation__left-panel {
-    max-width: 15%;
-    flex-basis: 15%;
-    height: calc(100vh - 32px);
+    width: 15%;
   }
 
   .simulation__right-panel .content {
-    height: calc(100vh - 103px);
-    flex: 1;
+    height: calc(100vh);
   }
 
   .simulation__info-panel {
-    height: calc(100vh - 32px);
+    flex: 1;
     max-width: 30%;
-    flex-basis: 30%;
     display: flex;
   }
 }
@@ -254,13 +256,16 @@ body {
   padding-bottom: 1rem;
   font-size: 0.7rem;
   overflow-x: scroll;
+  display: flex;
+  flex-direction: column;
 }
 .simulation__info-panel li {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.simulation .danger {
+.simulation .danger,
+.simulation .danger:hover:disabled{
   background-color: #e74c3c;
 }
 
@@ -285,4 +290,8 @@ body {
   margin: 5px;
   border: 1px solid rgba(0, 0, 0, .2);
   flex-shrink: 0;
+}
+
+[data-reach-alert-dialog-overlay] {
+  z-index: 9999;
 }

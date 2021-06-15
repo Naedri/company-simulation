@@ -1,8 +1,8 @@
 import axios from "axios";
-import {apiUrl} from "../../constant";
-import {IComponent} from "../../model/IComponent";
+import { apiUrl } from "../../constant";
+import { IComponent } from "../../model/IComponent";
 
-let withCredConfig = {withCredentials: true};
+const withCredConfig = { withCredentials: true };
 
 async function create(exampleId = ""): Promise<void> {
     return await axios.get(`${apiUrl}/simulation/create/${exampleId}`, withCredConfig);
@@ -26,11 +26,11 @@ async function getState(token = null): Promise<[data?: IComponent[], error?: Err
         config.headers = { Cookie: `token=${token}` };
     }
     try {
-        const {data: result} = await axios.get<IComponent[]>(`${apiUrl}/simulation/getState`, config);
+        const { data: result } = await axios.get<IComponent[]>(`${apiUrl}/simulation/getState`, config);
         return [result, undefined];
     } catch (e) {
         return [undefined, e];
     }
 }
 
-export {create, step, stop, setState, getState};
+export { create, step, stop, setState, getState };

@@ -1,4 +1,5 @@
 import { getUserInfo } from "../utils/rest/auth";
+import Layout from "../components/layout";
 
 export async function getServerSideProps(context) {
   const { user } = await getUserInfo(context.req.cookies?.token);
@@ -19,10 +20,12 @@ export async function getServerSideProps(context) {
 
 const Dashboard = ({ user }) => {
   return (
-    <section>
-      <p>Dashboard</p>
-      <pre>{JSON.stringify(user, null, 2)}</pre>
-    </section>
+    <Layout user={user}>
+      <section>
+        <p>Dashboard</p>
+        <pre>{JSON.stringify(user, null, 2)}</pre>
+      </section>
+    </Layout>
   );
 };
 
