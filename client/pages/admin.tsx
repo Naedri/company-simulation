@@ -5,6 +5,7 @@ import {IPermissionSchema, isIPermissionSchema} from "../utils/model/IPermission
 import {InteractionProps} from "react-json-view";
 import PermissionsNode from "../components/PermissionsNode";
 import {useToasts} from "react-toast-notifications";
+import Layout from "../components/layout";
 
 export async function getServerSideProps(context) {
     const {user} = await getUserInfo(context.req.cookies?.token);
@@ -12,7 +13,7 @@ export async function getServerSideProps(context) {
     if (user) {
         if (user.isAdmin) {
             return {
-                props: {},
+                props: { user },
             };
         } else {
             return {
@@ -33,7 +34,7 @@ export async function getServerSideProps(context) {
     };
 }
 
-const Admin = () => {
+const Admin = ({ user }) => {
 
     const {addToast} = useToasts();
 
@@ -109,14 +110,17 @@ const Admin = () => {
     }
 
     return (
-        <div className="h-screen w-full">
-            <header>
-                <h1 className="title">Admin permissions</h1>
-            </header>
-            {loading ?
-                <div className="loader"/> :
-                <PermissionsNode permissions={permissions} onEdit={handleEdit} onAdd={handleAdd} onDelete={handleEdit}/>}
-        </div>
+        <Layout user={user}>
+            <div className="h-screen w-full">
+                <header>
+                    <h1 className="title">Admin permissions</h1>
+                </header>
+                {loading ?
+                    <div className="loader"/> :
+                    <PermissionsNode permissions={permissions} onEdit={handleEdit} onAdd={handleAdd}
+                                     onDelete={handleEdit}/>}
+            </div>
+        </Layout>
     );
 };
 
