@@ -1,7 +1,7 @@
 import LOGGER from "./utils/logger";
 
 if (process.env.NODE_ENV === "dev") {
-    require('dotenv').config({path: process.cwd() + '/.env.local'});
+    require('dotenv').config({ path: process.cwd() + '/.env.local' });
 }
 
 import express from "express";
@@ -11,9 +11,12 @@ import router from "./router";
 import config from './services/user/config';
 import SimulationInitializer from "./utils/SimulationInitializer";
 
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
 const jwt = require('express-jwt');
-const cors = require('cors')
+const cors = require('cors');
+const http = require("http");
+import { Server } from "socket.io";
+import SimulationSockets from "./sockets/simulation/SimulationSockets";
 
 const app = express();
 const PORT = "3000";
@@ -22,7 +25,7 @@ const corsOptions = {
     credentials: true
 };
 app.use(cors(corsOptions));
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(
@@ -30,12 +33,12 @@ app.use(
         secret: config.token.secret,
         algorithms: ['HS256'],
         getToken: (req: any) => req.cookies.token
-    }).unless({path: ['/users/login', '/users/register']})
+    }).unless({ path: ['/users/login', '/users/register'] })
 );
 
 app.use((err: { name: string; status: any; message: any; }, req: any, res: any, next: () => void) => {
-    if(err.name === 'UnauthorizedError') {
-        res.status(err.status).send({message:err.message});
+    if (err.name === 'UnauthorizedError') {
+        res.status(err.status).send({ message: err.message });
         LOGGER.INFO("Auth middleware", "Auth error");
         return;
     }
@@ -43,7 +46,7 @@ app.use((err: { name: string; status: any; message: any; }, req: any, res: any, 
 });
 app.use("/", router);
 
-app.use(function (req, res) {
+app.use((req, res) => {
     res.json({
         error: {
             status: 404,
@@ -52,7 +55,16 @@ app.use(function (req, res) {
     });
 });
 
-app.listen(PORT,() => {
+const httpServer = http.createServer(app);
+
+const socketIO = new Server(httpServer, {
+    cors: {
+        origin: ["http://localhost:8080"]
+    }
+});
+SimulationSockets.init(socketIO);
+
+httpServer.listen(PORT, () => {
     SimulationInitializer.initSimulationFactory();
-    console.log(`⚡️[server]: Server is running at https://localhost:${PORT}`);
+    console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
 });
