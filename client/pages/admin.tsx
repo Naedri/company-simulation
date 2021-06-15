@@ -13,7 +13,7 @@ export async function getServerSideProps(context) {
     if (user) {
         if (user.isAdmin) {
             return {
-                props: {},
+                props: { user },
             };
         } else {
             return {

@@ -6,6 +6,11 @@ import { getState, step, stop } from "../utils/rest/simulation";
 import { useRouter } from "next/router";
 import ClipLoader from "react-spinners/ClipLoader";
 import socketIOClient from "socket.io-client";
+import {
+    AlertDialog,
+    AlertDialogLabel,
+    AlertDialogDescription,
+} from "@reach/alert-dialog";
 
 const SOCKET_URL = "http://localhost:3000";
 
@@ -17,6 +22,10 @@ export default function Configuration() {
     const router = useRouter();
     const [intervalTime, setIntervalTime] = useState(1);
     const [isRunning, setRun] = useState(false);
+    const [showDialog, setShowDialog] = React.useState(false);
+    const cancelRef = React.useRef();
+    const open = () => setShowDialog(true);
+    const close = () => setShowDialog(false);
 
     useEffect(() => {
         // socket = socketIOClient(SOCKET_URL);
@@ -59,7 +68,13 @@ export default function Configuration() {
     }, [startTimer, stopTimer]);
 
 
-    const deleteTimer = async () => {
+    const deleteSim = async () => {
+        close();
+        addToast("Simulation deleted", {
+            appearance: "success",
+            autoDismiss: true,
+            autoDismissTimeout: 1000
+        });
         await stop();
         await router.replace("/");
     };
@@ -85,11 +100,25 @@ export default function Configuration() {
                 <ClipLoader color={"#00000"} loading={isRunning} size={30}/>
             </button>
             <button className="button danger" onClick={stopTimer} disabled={!isRunning}>Stop</button>
-            <button className="button danger" onClick={deleteTimer}>Delete simulation</button>
+            <button className="button danger" onClick={open}>Delete simulation</button>
             <p>Period</p>
             <div style={{ width: "100%" }}>
                 {Slider}
             </div>
+            {showDialog && (
+                <AlertDialog leastDestructiveRef={cancelRef}>
+                    <AlertDialogLabel>Please Confirm!</AlertDialogLabel>
+                    <AlertDialogDescription>
+                        Are you sure you want to delete this simulation?
+                    </AlertDialogDescription>
+                    <div className="alert-buttons">
+                        <button onClick={deleteSim}>Yes, delete</button>{" "}
+                        <button ref={cancelRef} onClick={close}>
+                            Nevermind, don't delete.
+                        </button>
+                    </div>
+                </AlertDialog>
+            )}
         </div>
     );
 }

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { SimulationService } from "../services/SimulationService";
 import { createSchema } from "../librairies/src";
 import Simulation from "./Simulation";
 import { setColorLegend, useGraphContext } from "../contexts/GraphContext";
-import { Tabs, TabList, Tab, TabPanels, TabPanel } from "@reach/tabs";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@reach/tabs";
 
 export default function GraphContainer() {
     const [schema, setSchema] = useState(null);
@@ -22,6 +22,10 @@ export default function GraphContainer() {
         }));
     }, [graphData, setGraphState]);
 
+    const DiagramMemoized = useMemo(() => {
+        return schema ? <Simulation initialSchema={schema}/> : <div className="loader"/>;
+    }, [schema]);
+
     return (
         <div className="simulation__right-panel">
             <Tabs>
@@ -35,7 +39,7 @@ export default function GraphContainer() {
                 </TabList>
                 <TabPanels>
                     <TabPanel>
-                        {schema ? <Simulation initialSchema={schema}/> : <div className="loader"/>}
+                        {DiagramMemoized}
                     </TabPanel>
                     <TabPanel>
                         Todo

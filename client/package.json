@@ -10,6 +10,8 @@
     "format": "prettier --write pages modules"
   },
   "dependencies": {
+    "@reach/alert-dialog": "^0.15.0",
+    "@reach/dialog": "^0.15.0",
     "@reach/listbox": "^0.15.0",
     "@reach/slider": "^0.15.0",
     "@reach/tabs": "^0.15.0",
