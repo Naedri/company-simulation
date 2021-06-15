@@ -8,7 +8,7 @@ export class ControlPermissions {
     }
 
     static updatePermissions(permisssions: IPermissionSchema) {
-        ControlPermissions.schema = { ...ControlPermissions.schema, ...permisssions };
+        ControlPermissions.schema = { ...permisssions };
     }
 
     static statesAreProtected(states: IComponentSimplified[]) {
