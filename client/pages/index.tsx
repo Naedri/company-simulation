@@ -67,11 +67,12 @@ export default function Home({ user }) {
     <>
       <Layout user={user}>
         <div className={styles.container} id="index">
-          <div className={styles.index}>
+            <h2 className={styles.index__header}>Create your simulation</h2>
 
+            <div id="index-simulation" className={styles.index}>
             <div id="index-choice" className = {styles.index__step}>
               <span className={styles.index__title}>1. Choose a template</span>
-              <Listbox aria-labelledby="sim-choice" value={value} onChange={setValue}>
+              <Listbox aria-labelledby="sim-choice" value={value} onChange={setValue} style={{ color: "rgb(0, 74, 119)" }} >
                 {OPTIONS.map((opt) => (
                       <ListboxOption key={opt} value={opt}>
                         {opt}
@@ -84,12 +85,8 @@ export default function Home({ user }) {
               <span className={styles.index__title}>2. Confirm your choice</span>
               <Button onClick={() => createSim()} disabled={value === ""}>Start</Button>
             </div>
-
-            <div>
-                {renderAdminButton()}
-            </div>
-
           </div>
+
         </div>
       </Layout>
     </>
