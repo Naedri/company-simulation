@@ -13,9 +13,9 @@ export default function GraphContainer() {
     useEffect(() => {
         if (!graphData) return;
         const container = document.querySelector(".simulation__right-panel");
-        const nodeWidth = container.clientWidth / 8;
-        const nodeHeight = nodeWidth * 0.8;
-        const { nodes, colorMap } = SimulationService.getNodes(nodeWidth, nodeHeight, nodeWidth * 0.7, graphData);
+        const nodeWidth = container.clientWidth / 10;
+        const nodeHeight = nodeWidth;
+        const { nodes, colorMap } = SimulationService.getNodes(nodeWidth, nodeHeight, nodeWidth * 0.5, graphData);
         setColorLegend(colorMap, setGraphState);
         setSchema(createSchema({
             nodes,

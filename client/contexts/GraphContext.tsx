@@ -25,7 +25,6 @@ function GraphContextProvider({ children }: ProviderProps) {
     useEffect(() => {
         (async function() {
             const [data, _] = await getState();
-            console.log(data);
             setGraphState((prevState => ({
                     ...prevState,
                     graphData: data,
@@ -60,6 +59,7 @@ function useGraphContext() {
     return context;
 }
 
+// We store everything in dataOverTime, this could be done by the server or we could store only what is needed
 function setGraphData(data: Array<IComponent>, setState: StateSetter) {
     setState((prevState => ({ ...prevState, graphData: data , dataOverTime: [...prevState.dataOverTime, data]})));
 }
