@@ -10,6 +10,7 @@ type State = {
     colorLegend?: Record<string, string>;
     graphData?: Array<IComponent>;
     socket?: Socket;
+    dataOverTime?: Array<any>
 };
 type StateSetter = React.Dispatch<React.SetStateAction<State>>;
 
@@ -23,14 +24,14 @@ function GraphContextProvider({ children }: ProviderProps) {
 
     useEffect(() => {
         (async function() {
-            const [data, error] = await getState();
+            const [data, _] = await getState();
             console.log(data);
-            setGraphState(
-                {
-                    colorLegend: undefined,
+            setGraphState((prevState => ({
+                    ...prevState,
                     graphData: data,
-                    selectedNode: undefined
-                });
+                    dataOverTime: [data]
+                })
+            ))
         }());
 
         const handleClick = (e) => {
@@ -60,7 +61,7 @@ function useGraphContext() {
 }
 
 function setGraphData(data: Array<IComponent>, setState: StateSetter) {
-    setState((prevState => ({ ...prevState, graphData: data })));
+    setState((prevState => ({ ...prevState, graphData: data , dataOverTime: [...prevState.dataOverTime, data]})));
 }
 
 function setColorLegend(legend: Record<string, string>, setState: StateSetter) {
@@ -74,4 +75,5 @@ function setSelectedNode(node: IComponent, setState: StateSetter) {
 function setSocket(socket: Socket, setState: StateSetter) {
     setState((prevState => ({ ...prevState, socket })));
 }
+
 export { GraphContextProvider, useGraphContext, setGraphData, setColorLegend, setSelectedNode };
