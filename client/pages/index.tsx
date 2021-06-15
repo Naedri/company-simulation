@@ -50,15 +50,6 @@ export default function Home({ user }) {
     );
     await router.push("/simulation/view");
   };
-  const renderAdminButton = () => {
-    if (user.isAdmin) {
-      return (
-          <Link href="/admin">
-            <a>Admin</a>
-          </Link>
-      )
-    }
-  }
 
   return (
     <>

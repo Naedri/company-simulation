@@ -15,6 +15,17 @@ export default function Header({ user }) {
             </a>
         );
     });
+
+    const renderAdminButton = () => {
+        if (user.isAdmin) {
+            return (
+                <Link href="/admin">
+                    <a className={styles.menu__link}>Admin panel</a>
+                </Link>
+            )
+        }
+    }
+
     return (
         <div className={styles.container}>
             <header className={`${styles.menu} ${styles.menu__border__bottom}`}>
@@ -25,6 +36,7 @@ export default function Header({ user }) {
                     <Link href="/">
                        <a className={styles.menu__link}>Home</a>
                     </Link>
+                    {renderAdminButton()}
                 </div>
                 {user && <div>
                     <p className={styles.menu__item__mail}>{user?.mail}</p>
