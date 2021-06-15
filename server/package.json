@@ -39,7 +39,10 @@
   "scripts": {
     "build": "tsc --project ./",
     "start": "tsc --project ./ && node ./build/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ./controllers ./database ./model ./routes ./services ./simulator ./utils ./router.ts ./server.ts ./Time.ts --ext .js,.jsx,.ts,.tsx,.css",
+    "lint:fix": "npm run lint -- --fix",
+    "format": "prettier --write ./controllers ./database ./model ./routes ./services ./simulator ./utils ./router.ts ./server.ts ./Time.ts"
   },
   "author": "",
   "license": "MIT"
