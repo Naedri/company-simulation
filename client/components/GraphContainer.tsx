@@ -4,6 +4,7 @@ import { createSchema } from "../librairies/src";
 import Simulation from "./Simulation";
 import { setColorLegend, useGraphContext } from "../contexts/GraphContext";
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@reach/tabs";
+import SimplePlot from "./SimplePlot";
 
 export default function GraphContainer() {
     const [schema, setSchema] = useState(null);
@@ -42,7 +43,7 @@ export default function GraphContainer() {
                         {DiagramMemoized}
                     </TabPanel>
                     <TabPanel>
-                        Todo
+                       <SimplePlot/>
                     </TabPanel>
                 </TabPanels>
             </Tabs>

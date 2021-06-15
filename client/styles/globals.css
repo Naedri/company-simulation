@@ -158,6 +158,11 @@ body {
   background-color: rgba(41, 128, 185, 1);
 }
 
+.button:hover:disabled{
+  background-color: rgba(52, 152, 219, 1);
+  cursor: not-allowed;
+}
+
 #index-start .button:disabled,
 .signup .button.disabled,
 .signup .button:disabled {
@@ -258,7 +263,8 @@ body {
   align-items: center;
   justify-content: space-between;
 }
-.simulation .danger {
+.simulation .danger,
+.simulation .danger:hover:disabled{
   background-color: #e74c3c;
 }
 
