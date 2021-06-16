@@ -95,6 +95,8 @@ In a terminal, download the repository.
 git clone https://github.com/Naedri/company-simulation.git
 cd company-simulation/
 ```
+### Create a database
+Create a PostgreSQL database. We recommend using elephantsql.com for convenience. Run the script in server/database/initBase.sql to create the necessary tables. 
 
 #### Local variables
 
@@ -123,9 +125,7 @@ cd ./server/
 npm install
 npm run start
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
+You will need to add NODE_ENV=DEV in your environnment variables for local development. Either way, you can rename .env.local to .env.  
 #### Launching the client
 
 In another terminal, install dependencies then launch the client.
