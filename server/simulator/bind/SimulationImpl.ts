@@ -23,6 +23,8 @@ export default class SimulationImpl implements ISimulation {
 
     sim: Simulation;
 
+    isStepManagedBySimulation: boolean;
+
     intervalOfstepManagedBySimulation: NodeJS.Timeout | undefined;
 
     constructor(simId: string = "") {
@@ -39,6 +41,7 @@ export default class SimulationImpl implements ISimulation {
             }
         }
         this.intervalOfstepManagedBySimulation = undefined;
+        this.isStepManagedBySimulation = false;
     }
 
     getStates(): IComponentSimplified[] {
@@ -91,8 +94,8 @@ export default class SimulationImpl implements ISimulation {
 
     runStepFromSimulation(callback: (state: IComponentSimplified[]|undefined, hasNextStep: boolean) => void): void {
         if (this.sim !== null) {
+            this.isStepManagedBySimulation = true;
             this.intervalOfstepManagedBySimulation = setInterval(() => {
-                console.log(this.sim.current_state.enterprise.inventory.funds_in_eur);
                 if (this.sim.current_state.enterprise.inventory.funds_in_eur > 0) {
                     this.sim.run_one_step();
                     callback(this.getStates(), true);
@@ -108,6 +111,7 @@ export default class SimulationImpl implements ISimulation {
     }
 
     stopStepFromSimulation(callback: (state: IComponentSimplified[]|undefined) => void): void {
+        this.isStepManagedBySimulation = false;
         clearInterval(this.intervalOfstepManagedBySimulation as NodeJS.Timeout);
         this.intervalOfstepManagedBySimulation = undefined;
         callback(undefined);
