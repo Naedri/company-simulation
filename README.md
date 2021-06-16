@@ -2,7 +2,7 @@
 
 Tutor : Remous Aris Koutsiamanis ([remous-aris.koutsiamanis@imt-atlantique.fr](mailto:remous-aris.koutsiamanis@imt-atlantique.fr))
 
-## Objectif
+## Objective
 
 The objective of this project is to gain experience in designing, creating and interacting with with web APIs, data processing and visualization libraries to present an interactive an interactive data dashboard.
 
@@ -79,29 +79,29 @@ entities in the simulation and make them accessible via the REST API.
 
 To log or to sign into the application.
 
-<p><img alt="login page" src="./doc/img/screen_login.png" width="400"></p>
+<p><img alt="login page" src="./doc/img/screen_login.png" width="500"></p>
 
 #### Home page
 
 To choose and create a simulation from a template.
 
-<p><img alt="home page" src="./doc/img/screen_home.png" width="400"></p>
+<p><img alt="home page" src="./doc/img/screen_home.png" width="500"></p>
 
 #### Simulation board
 
 To edit the evolution of the simulation and to visualize interactions between its components.
 
-<p><img alt="simulation board node graph" src="./doc/img/screen_simulation_node.png" width="400"></p>
+<p><img alt="simulation board node graph" src="./doc/img/screen_simulation_node.png" width="500"></p>
 
 To watch the evolution of the financial founds of the simulation over time.
 
-<p><img alt="simulation board plot" src="./doc/img/screen_simulation_plot.png" width="400"></p>
+<p><img alt="simulation board plot" src="./doc/img/screen_simulation_plot.png" width="500"></p>
 
 #### Administration dashboard
 
 To allow or disable modifications of specific variables of the simulation. 
 
-<p><img alt="admin board" src="./doc/img/screen_admin.png" width="400"></p>
+<p><img alt="admin board" src="./doc/img/screen_admin.png" width="500"></p>
 
 ## How to use the app ?
 
