@@ -14,7 +14,6 @@ import {
 
 const SOCKET_URL = "http://localhost:3000";
 
-
 export default function Configuration(props) {
     const { addToast } = useToasts();
     const { setGraphState, socket } = useGraphContext();

@@ -34,6 +34,11 @@ export async function getServerSideProps(context) {
   };
 }
 
+/**
+ * The page where the simulation is displayed
+ * @param user
+ * @constructor
+ */
 const View = ({ user }) => {
   return (
     <GraphContextProvider>

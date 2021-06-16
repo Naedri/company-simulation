@@ -4,6 +4,10 @@ import { HiHome } from 'react-icons/hi';
 import { forwardRef } from "react";
 import { logout } from "../utils/rest/auth";
 
+/**
+ * @param user should include an 'mail' attribute to be shown
+ * @constructor
+ */
 export default function Header({ user }) {
     // eslint-disable-next-line react/display-name
     const LogoutButton = forwardRef <any, any> (({ onClick, href }, ref) => {

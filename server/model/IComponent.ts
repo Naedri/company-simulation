@@ -1,3 +1,6 @@
+/**
+ * Representation of a component of a simulation
+ */
 export interface IComponent {
     id: string;
     type: string;

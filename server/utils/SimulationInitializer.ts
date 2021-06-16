@@ -3,6 +3,9 @@ import ISimulationFactory from "../model/ISimulationFactory";
 import LOGGER from "../utils/logger";
 import PreconfiguredSimulationFactory from "../simulator/bind/PreconfiguredSimulationFactory";
 
+/**
+ * Initialize & exploit the ISimulationFactory
+ */
 export default class SimulationInitializer {
     private static simulationFactory: ISimulationFactory;
 

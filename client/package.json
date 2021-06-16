@@ -6,9 +6,9 @@
     "dev": "next dev -p 8080",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint  components contexts hooks modules pages services styles utils --ext .js,.jsx,.ts,.tsx,.css",
+    "lint": "eslint  components contexts hooks pages services styles utils --ext .js,.jsx,.ts,.tsx,.css",
     "lint:fix": "npm run lint -- --fix",
-    "format": "prettier --write pages modules"
+    "format": "prettier --write pages"
   },
   "dependencies": {
     "@popperjs/core": "^2.9.2",

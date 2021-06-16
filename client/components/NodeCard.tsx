@@ -10,6 +10,10 @@ const ReactJson = dynamic(
     {ssr: false}
 );
 
+/**
+ * Display details of a given node
+ * @constructor
+ */
 export default function NodeCard() {
     const {selectedNode, graphData, setGraphState} = useGraphContext();
 

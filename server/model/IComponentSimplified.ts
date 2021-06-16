@@ -1,3 +1,6 @@
+/**
+ * IComponent without IComponent as fields
+ */
 export interface IComponentSimplified {
     id: string;
     type: string;

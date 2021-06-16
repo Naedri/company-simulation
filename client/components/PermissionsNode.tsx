@@ -5,6 +5,13 @@ const ReactJson = dynamic(
     { ssr: false }
 );
 
+/**
+ * Permissions Editor
+ * @param permissions permissions from server
+ * @param onEdit callback when editor data is Edited
+ * @param onAdd callback when editor data is Added
+ * @param onDelete callback when editor data is Deleted
+ */
 export default function PermissionsNode({ permissions, onEdit, onAdd, onDelete }) {
     return (
         <section>

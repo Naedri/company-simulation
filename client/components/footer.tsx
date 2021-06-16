@@ -2,7 +2,7 @@ import Link from "next/link";
 import { AiFillHeart } from 'react-icons/ai';
 import styles from '../styles/Footer.module.css';
 
-export default function Form() {
+export default function Footer() {
     return (
         <div className={styles.footer__container}>
             <Link href="https://github.com/Naedri/company-simulation/">

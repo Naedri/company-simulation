@@ -1,11 +1,13 @@
 import { useGraphContext } from "../contexts/GraphContext";
 import { useEffect } from "react";
 
+/**
+ * React component representing the component type near of it's own color
+ * @param colorMap
+ * @constructor
+ */
 export default function LegendType({ colorMap }: {colorMap: Record<string, string>}) {
     const { selectedNode } = useGraphContext();
-    // useEffect(() => {
-    //     if(selectedNode) document.getElementById(selectedNode.type)?.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest", alignToTop: false });
-    // }, [selectedNode]);
     return (
         <ul>
             {

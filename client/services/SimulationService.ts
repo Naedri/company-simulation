@@ -4,7 +4,15 @@ import { IComponent } from "../utils/model/IComponent";
 import { Link, Node, NodeCoordinates } from "../librairies/@types/DiagramSchema";
 import { COLORS, getRandomColor } from "../utils/constant";
 
+
 export class SimulationService {
+    /**
+     * Return a list of Nodes from an array of components
+     * @param width
+     * @param height
+     * @param margin
+     * @param components The components received from the server
+     */
     public static getNodes(width: number, height: number, margin: number, components: Array<IComponent>): { nodes: Node<IComponent>[], colorMap: Record<string, string> } {
         const colorMap: Record<string, string> = {};
         let currIndex = 0;
@@ -34,6 +42,10 @@ export class SimulationService {
         return { nodes, colorMap };
     }
 
+    /**
+     * Computes all the links of the given array of components
+     * @param components The components received from the server
+     */
     public static getLinks(components: Array<IComponent>): Link[] {
         const result: { [key: string]: Link } = {};
         components.forEach((component) => {

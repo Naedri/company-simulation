@@ -1,5 +1,8 @@
 import Field from "./Field";
 
+/**
+ * Input without a State
+ */
 export default function UncontrolledInput({
                                               id,
                                               type = "text",

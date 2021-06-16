@@ -37,6 +37,10 @@ export async function getServerSideProps(context) {
   };
 }
 
+/**
+ * Admin page to modify permissions
+ * @param user connected
+ */
 const Admin = ({ user }) => {
   const { addToast } = useToasts();
 

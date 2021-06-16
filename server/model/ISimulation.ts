@@ -1,5 +1,8 @@
 import { IComponentSimplified } from "./IComponentSimplified";
 
+/**
+ * Abstract representation of a Simulation
+ */
 export interface ISimulation {
     seed: number;
     // Is True if stepFromSimulation is called from simulation

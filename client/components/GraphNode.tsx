@@ -5,6 +5,11 @@ import styles from "../styles/GraphNode.module.css";
 import {setSelectedNode, useGraphContext} from "../contexts/GraphContext";
 import {usePopper} from "react-popper";
 
+/**
+ * Implement NodeGraph to show a customized version of Node
+ * @param props contains data
+ * @constructor
+ */
 const GraphNode: FC<Node<IComponent>> = (props) => {
     const {selectedNode, setGraphState} = useGraphContext();
     const [visible, setVisibility] = useState(false);

@@ -1,8 +1,11 @@
 import {Axis, Heading, LineSeries, Plot} from "react-plot";
 import {useGraphContext} from "../contexts/GraphContext";
 
-const factor = 2;
 
+/**
+ * Example of a plotting of currency over time.
+ * @constructor
+ */
 export default function SimplePlot() {
 
     const {dataOverTime} = useGraphContext();

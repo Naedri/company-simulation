@@ -21,6 +21,11 @@ type Context = State & { setGraphState: StateSetter };
 const GraphContext = React.createContext<Context>(null);
 GraphContext.displayName = "GraphContext";
 
+/**
+ * Contains all the necessary state of the graph.
+ * @param children
+ * @constructor
+ */
 function GraphContextProvider({ children }: ProviderProps) {
     const [graphState, setGraphState] = React.useState<State>({
         colorLegend: undefined,
