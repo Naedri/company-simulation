@@ -23,8 +23,8 @@ export class SimulationService {
                     id: component.id,
                     content: component.type.split(/(?=[A-Z])/).join(" "),
                     coordinates: ([
-                        width * (index % 4) + margin * (index % 4) + margin,
-                        Math.floor(index / 4) * height + margin * Math.floor(index / 4) + 20,
+                        width * (index % 5) + margin * (index % 5) + margin,
+                        Math.floor(index / 5) * height + margin * Math.floor(index / 5) + 20,
                     ] as NodeCoordinates),
                     render: GraphNode,
                 };
@@ -38,7 +38,7 @@ export class SimulationService {
         const result: { [key: string]: Link } = {};
         components.forEach((component) => {
             const input = component.id;
-            for (const value of Object.values(component)) {
+            for (const value of Object.values(component.fields)) {
                 if (ComponentService.isLinkedComponent(value)) {
                     result[input + "-" + value.id] = {
                         input,

@@ -6,11 +6,11 @@ import {
     Machine,
     MachineType,
     DepartmentTypes,
-    Time
+    Time, Enterprise, ItemQuantity
 } from "../model/enterprise";
 import { Simulation } from "../engine/engine";
 
-type WrappedTypes =
+export type WrappedTypes =
     Machine
     | MachineType
     | DepartmentTypes
@@ -22,6 +22,8 @@ type WrappedTypes =
     | ItemOrder
     | ItemPurchase
     | ItemSale
+    | Enterprise
+    | ItemQuantity
     ;
 
 // TODO: add undefined
@@ -62,22 +64,3 @@ export class ComponentWrapper<T extends WrappedTypes> implements IComponentSimpl
     }
 }
 
-export class ComponentArrayWrapper<T extends WrappedTypes> implements IComponentSimplified {
-    id: string;
-
-    type: string;
-
-    fields: { [key: string]: string | number | boolean | null | Object };
-
-    constructor(
-        sim: Simulation,
-        id: string,
-        array_type_name: string,
-        wrapped: T[]
-    ) {
-        this.id = id;
-        this.type = array_type_name;
-
-        this.fields = { 'array': wrapped.map(elem => makeFields(elem as unknown as Record<string, FieldValuesType>)) };
-    }
-}

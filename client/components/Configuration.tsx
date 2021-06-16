@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useRef, useState, useEffect } from "react";
 import { SliderHandle, SliderInput, SliderMarker, SliderRange, SliderTrack, } from "@reach/slider";
 import { useToasts } from "react-toast-notifications";
-import { setGraphData, useGraphContext } from "../contexts/GraphContext";
+import { setGraphData, useGraphContext, setFetching } from "../contexts/GraphContext";
 import { getState, step, stop } from "../utils/rest/simulation";
 import { useRouter } from "next/router";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -37,9 +37,11 @@ export default function Configuration() {
         const ms = intervalTime * 1000; // ms
         setRun(true);
         intervalId.current = setInterval(async () => {
+            setFetching(true, setGraphState);
             await step();
             const [updatedState] = await getState();
             setGraphData(updatedState, setGraphState);
+            setFetching(false, setGraphState);
         }, ms);
     }, [intervalTime, setGraphData, step, getState]);
 
@@ -52,9 +54,11 @@ export default function Configuration() {
 
     const incrementOnce = async () => {
         stopTimer();
+        setFetching(true, setGraphState);
         await step();
         const [updatedState] = await getState();
         setGraphData(updatedState, setGraphState);
+        setFetching(false, setGraphState);
     };
 
 
@@ -62,7 +66,6 @@ export default function Configuration() {
         // delete previous interval before call another
         if (intervalId.current !== null) {
             stopTimer();
-            console.log("Supposed request");
             startTimer();
         }
     }, [startTimer, stopTimer]);

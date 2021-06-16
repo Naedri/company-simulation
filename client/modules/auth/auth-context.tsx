@@ -5,11 +5,10 @@ type User = {
   id: number;
 };
 
-const UserContext =
-  React.createContext<{
-    user: User | null;
-    setUser: Dispatch<SetStateAction<User>>;
-  }>(null);
+const UserContext = React.createContext<{
+  user: User | null;
+  setUser: Dispatch<SetStateAction<User>>;
+}>(null);
 
 function UserProvider({ children }) {
   const [user, setUser] = useState<User | null>(null);

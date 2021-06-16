@@ -242,8 +242,7 @@ body {
   }
 
   .simulation__right-panel .content {
-    height: calc(100vh - 100px);
-    flex: 1;
+    height: calc(100vh);
   }
 
   .simulation__info-panel {
@@ -257,6 +256,8 @@ body {
   padding-bottom: 1rem;
   font-size: 0.7rem;
   overflow-x: scroll;
+  display: flex;
+  flex-direction: column;
 }
 .simulation__info-panel li {
   display: flex;

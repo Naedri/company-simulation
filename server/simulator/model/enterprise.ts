@@ -46,12 +46,14 @@ export class MachineType implements Typed, Named {
 /**
  * A quantity of  an item
  */
-export class ItemQuantity implements Typed {
+export class ItemQuantity implements Typed, Named {
     constructor(
         public readonly item: Item,
         public quantity: number,
+        public readonly name: string = "",
         public readonly type_name: string = "ItemQuantity"
     ) {
+        this.name = type_name + "__" + item.name + "*" + quantity;
     }
 }
 
