@@ -10,8 +10,10 @@ type State = {
     colorLegend?: Record<string, string>;
     graphData?: Array<IComponent>;
     socket?: Socket;
-    dataOverTime?: Array<any>
+    dataOverTime?: Array<any>;
+    isFetching?: boolean;
 };
+
 type StateSetter = React.Dispatch<React.SetStateAction<State>>;
 
 type Context = State & { setGraphState: StateSetter };
@@ -20,18 +22,22 @@ const GraphContext = React.createContext<Context>(null);
 GraphContext.displayName = "GraphContext";
 
 function GraphContextProvider({ children }: ProviderProps) {
-    const [graphState, setGraphState] = React.useState<State>(undefined);
+    const [graphState, setGraphState] = React.useState<State>({
+        colorLegend: undefined,
+        graphData: undefined,
+        selectedNode: undefined,
+        socket: undefined
+    });
 
     useEffect(() => {
         (async function() {
             const [data, _] = await getState();
-            console.log(data);
             setGraphState((prevState => ({
                     ...prevState,
                     graphData: data,
                     dataOverTime: [data]
                 })
-            ))
+            ));
         }());
 
         const handleClick = (e) => {
@@ -60,6 +66,7 @@ function useGraphContext() {
     return context;
 }
 
+// We store everything in dataOverTime, this could be done by the server or we could store only what is needed
 function setGraphData(data: Array<IComponent>, setState: StateSetter) {
     setState((prevState => ({ ...prevState, graphData: data , dataOverTime: [...prevState.dataOverTime, data]})));
 }
@@ -76,4 +83,8 @@ function setSocket(socket: Socket, setState: StateSetter) {
     setState((prevState => ({ ...prevState, socket })));
 }
 
-export { GraphContextProvider, useGraphContext, setGraphData, setColorLegend, setSelectedNode };
+function setFetching(isFetching: boolean, setState: StateSetter) {
+    setState((prevState => ({ ...prevState, isFetching })));
+}
+
+export { GraphContextProvider, useGraphContext, setGraphData, setColorLegend, setSelectedNode, setSocket, setFetching };

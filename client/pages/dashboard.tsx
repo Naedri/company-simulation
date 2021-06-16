@@ -20,12 +20,12 @@ export async function getServerSideProps(context) {
 
 const Dashboard = ({ user }) => {
   return (
-      <Layout user={user}>
-        <section>
-          <p>Dashboard</p>
-          <pre>{JSON.stringify(user, null, 2)}</pre>
-        </section>
-      </Layout>
+    <Layout user={user}>
+      <section>
+        <p>Dashboard</p>
+        <pre>{JSON.stringify(user, null, 2)}</pre>
+      </section>
+    </Layout>
   );
 };
 

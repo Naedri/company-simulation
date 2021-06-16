@@ -6,23 +6,38 @@ import SimulationInitializer from "../utils/SimulationInitializer";
 export class ControlSimulations {
     private static simulations: { [userId: string]: ISimulation } = {};
 
-    private constructor() {
-    }
-
-
     static create(id: string, identifier: string) {
         if (ControlSimulations.simulations[id]) {
             throw new Error("Simulation already initialize");
         }
         ControlSimulations.simulations[id] = SimulationInitializer.getSimulation(identifier);
-
     }
 
     static step(id: string) {
         if (!ControlSimulations.simulations[id]) {
             throw new Error("Simulation not created yet");
         }
-        ControlSimulations.simulations[id].step();
+        if (!ControlSimulations.simulations[id].intervalOfstepManagedBySimulation) {
+            ControlSimulations.simulations[id].step();
+        }
+    }
+
+    static stepFromSimulation(id: string, callback:(state:IComponentSimplified[]|undefined, hasNextStep: boolean) => void) {
+        if (!ControlSimulations.simulations[id]) {
+            throw new Error("Simulation not created yet");
+        }
+        if (!ControlSimulations.simulations[id].intervalOfstepManagedBySimulation) {
+            ControlSimulations.simulations[id].runStepFromSimulation(callback);
+        }
+    }
+
+    static stopFromSimulation(id: string, callback:(state:IComponentSimplified[]|undefined) => void) {
+        if (!ControlSimulations.simulations[id]) {
+            throw new Error("Simulation not created yet");
+        }
+        if (ControlSimulations.simulations[id].intervalOfstepManagedBySimulation) {
+            ControlSimulations.simulations[id].stopStepFromSimulation(callback);
+        }
     }
 
     static stop(id: string) {

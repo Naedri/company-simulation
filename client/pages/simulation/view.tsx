@@ -37,17 +37,15 @@ export async function getServerSideProps(context) {
 
 const View = ({ user }) => {
   return (
-    <Layout user={user}>
-      <GraphContextProvider>
-        <div className="h-screen w-full">
-          <div className="simulation">
-            <Configuration />
-            <GraphContainer />
-            <Info />
-          </div>
+    <GraphContextProvider>
+      <div className="h-screen w-full">
+        <div className="simulation">
+          <Configuration userId={user.id}/>
+          <GraphContainer />
+          <Info />
         </div>
-      </GraphContextProvider>
-    </Layout>
+      </div>
+    </GraphContextProvider>
   );
 };
 

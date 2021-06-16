@@ -5,12 +5,25 @@ import { sim as sim1 } from "../engine/examples/enterprise_example1";
 import { sim as sim2 } from "../engine/examples/enterprise_example2";
 import { sim as sim3 } from "../engine/examples/enterprise_example3";
 import { IComponentSimplified } from "../../model/IComponentSimplified";
-import { ComponentArrayWrapper, ComponentWrapper } from "./ComponentImpl";
+import { ComponentWrapper } from "./ComponentImpl";
+
+const iterateObjects = (obj: any, f: any) => {
+    f(obj);
+    Object.keys(obj).forEach(key => {
+        // console.log(`key: ${key}, value: ${obj[key]}`);
+
+        if ((typeof obj[key] === 'object')) {
+            iterateObjects(obj[key], f);
+        }
+    });
+};
 
 export default class SimulationImpl implements ISimulation {
     seed: number;
 
     sim: Simulation;
+
+    intervalOfstepManagedBySimulation: NodeJS.Timeout | undefined;
 
     constructor(simId: string = "") {
         if (simId === "") {
@@ -25,27 +38,43 @@ export default class SimulationImpl implements ISimulation {
                 throw new Error(`Simulation with id '${simId}' does not exist`);
             }
         }
+        this.intervalOfstepManagedBySimulation = undefined;
     }
 
     getStates(): IComponentSimplified[] {
         const s = this.sim.current_state;
-        const components: IComponentSimplified[] = [];
-        components.push(new ComponentWrapper(this.sim, s.time));
-        components.push(new ComponentWrapper(this.sim, s.enterprise.supervisor_admin_department));
-        components.push(new ComponentWrapper(this.sim, s.enterprise.purchasing_department));
-        components.push(new ComponentWrapper(this.sim, s.enterprise.sales_department));
-        components.push(new ComponentWrapper(this.sim, s.enterprise.production_department));
-        components.push(new ComponentWrapper(this.sim, s.enterprise.support_department));
-        components.push(new ComponentArrayWrapper(this.sim, "employees", typeof s.enterprise.employees, s.enterprise.employees));
-        components.push(new ComponentArrayWrapper(this.sim, "items", typeof s.enterprise.items, s.enterprise.items));
-        components.push(new ComponentArrayWrapper(this.sim, "machine_types", typeof s.enterprise.machine_types, s.enterprise.machine_types));
-        components.push(new ComponentArrayWrapper(this.sim, "machines", typeof s.enterprise.machines, s.enterprise.machines));
-        components.push(new ComponentWrapper(this.sim, s.enterprise.inventory));
-        components.push(new ComponentArrayWrapper(this.sim, "job_market", typeof s.enterprise.job_market, s.enterprise.job_market));
-        components.push(new ComponentArrayWrapper(this.sim, "market_prices", typeof s.enterprise.market_prices, s.enterprise.market_prices));
-        components.push(new ComponentArrayWrapper(this.sim, "auto_sell_items", typeof s.enterprise.auto_sell_items, s.enterprise.auto_sell_items));
-        components.push(new ComponentArrayWrapper(this.sim, "item_orders", typeof s.enterprise.item_orders, s.enterprise.item_orders));
-        return components;
+        const db: Map<string, IComponentSimplified> = new Map();
+        const flatObj = JSON.parse(JSON.stringify(this.sim.current_state.enterprise));
+        const fGather = (o: any) => {
+            // console.log(Object.keys(o));
+            if(Object.keys(o).includes("name")) {
+                db.set(o.name, new ComponentWrapper(this.sim, o));
+            }
+        };
+        iterateObjects(flatObj, fGather);
+
+        const fReplace = (o: any) => {
+            // console.log(Object.keys(o));
+            if(Object.keys(o).includes("name")) {
+                if(db.has(o.name)) {
+                    const theName = o.name;
+                    // console.log("Before:", Object.getOwnPropertyNames(o));
+                    for (const prop of Object.getOwnPropertyNames(o)) {
+                        delete o[prop];
+                    }
+                    o.id = theName;
+                    // console.log("After :", Object.getOwnPropertyNames(o));
+                } else {
+                    throw new Error(`Object with name ${o.name} is not already in the db`);
+                }
+            }
+        };
+
+        db.forEach(comp => {
+            iterateObjects(comp, fReplace);
+        });
+
+        return Array.from(db.values());
     }
 
     setState(state: IComponentSimplified[]): void {
@@ -58,5 +87,29 @@ export default class SimulationImpl implements ISimulation {
         } else {
             throw new Error("No active simulation.");
         }
+    }
+
+    runStepFromSimulation(callback: (state: IComponentSimplified[]|undefined, hasNextStep: boolean) => void): void {
+        if (this.sim !== null) {
+            this.intervalOfstepManagedBySimulation = setInterval(() => {
+                console.log(this.sim.current_state.enterprise.inventory.funds_in_eur);
+                if (this.sim.current_state.enterprise.inventory.funds_in_eur > 0) {
+                    this.sim.run_one_step();
+                    callback(this.getStates(), true);
+                }else{
+                    this.stopStepFromSimulation((state) => {
+                        callback(state, false);
+                    });
+                }
+            }, 2000);
+        } else {
+            throw new Error("No active simulation.");
+        }
+    }
+
+    stopStepFromSimulation(callback: (state: IComponentSimplified[]|undefined) => void): void {
+        clearInterval(this.intervalOfstepManagedBySimulation as NodeJS.Timeout);
+        this.intervalOfstepManagedBySimulation = undefined;
+        callback(undefined);
     }
 }
