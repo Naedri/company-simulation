@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import Diagram, { useSchema } from "../librairies/src/index.js";
 
 
@@ -7,7 +7,7 @@ export default function Simulation({ initialSchema }) {
 
     return (
         <div className="content">
-            <Diagram schema={schema} onChange={onChange} foo={""}/>
+            <Diagram schema={schema} onChange={onChange}/>
         </div>
     );
 }
