@@ -18,15 +18,13 @@ import { setSelectedNode, useGraphContext } from "../../../../contexts/GraphCont
 const DiagramNode = (props) => {
   const {
     id, content, coordinates, type, inputs, outputs, data, onPositionChange, onPortRegister, onNodeRemove,
-    onDragNewSegment, onMount, onSegmentFail, onSegmentConnect, render, className, disableDrag, onClick
+    onDragNewSegment, onMount, onSegmentFail, onSegmentConnect, render, className, disableDrag, onClick, selectedNodeId
   } = props;
   const registerPort = usePortRegistration(inputs, outputs, onPortRegister); // get the port registration method
   const { ref, onDragStart, onDrag } = useDrag({ throttleBy: 14 }); // get the drag n drop methods
   const dragStartPoint = useRef(coordinates); // keeps the drag start point in a persistent reference
-  const { selectedNode, setGraphState } = useGraphContext();
 
   const handleClick = () => {
-    setSelectedNode(props.data, setGraphState);
     onClick(id);
   };
 
@@ -60,7 +58,7 @@ const DiagramNode = (props) => {
       { [`bi-diagram-node-${type}`]: !!type && !render },
       className), [type, className]);
 
-  const isSelected = selectedNode?.id === props.data.id;
+  const isSelected = selectedNodeId === props.data.id;
   const styleNode = isSelected ? {
     zIndex: 1000
   } : {

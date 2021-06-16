@@ -13,12 +13,11 @@ import { SchemaType } from '../shared/Types';
  * with the user.
  */
 const Diagram = (props) => {
-  const { schema, onChange, ...rest } = props;
+  const { schema, onChange, selectedNodeId: parentSelectedNodeId, ...rest } = props;
   const [segment, setSegment] = useState();
   const { current: portRefs } = useRef({}); // keeps the port elements references
   const { current: nodeRefs } = useRef({}); // keeps the node elements references
-  const [selectedNodeId, setSelectedNodeId] = useState(undefined);
-
+  const [selectedNodeId, setSelectedNodeId] = useState(parentSelectedNodeId);
   // when nodes change, performs the onChange callback with the new incoming data
   const onNodesChange = (nextNodes) => {
     if (onChange) {
@@ -84,6 +83,7 @@ const Diagram = (props) => {
         onClick={(id) => {
           setSelectedNodeId(id);
         }}
+        selectedNodeId={selectedNodeId}
       />
       <LinksCanvas nodes={schema.nodes} links={schema.links} segment={segment} onChange={onLinkDelete} selectedNodeId={selectedNodeId} />
     </DiagramCanvas>
@@ -99,11 +99,14 @@ Diagram.propTypes = {
    * The callback to be performed every time the model changes
    */
   onChange: PropTypes.func,
+
+  selectedNodeId: PropTypes.string
 };
 
 Diagram.defaultProps = {
   schema: { nodes: [], links: [] },
   onChange: undefined,
+  selectedNodeId: undefined
 };
 
 export default React.memo(Diagram);

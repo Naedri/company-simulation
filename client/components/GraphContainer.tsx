@@ -9,7 +9,7 @@ import Skeleton from 'react-loading-skeleton';
 
 export default function GraphContainer() {
     const [schema, setSchema] = useState(null);
-    const { graphData, setGraphState, isFetching } = useGraphContext();
+    const { graphData, setGraphState, isFetching, selectedNode } = useGraphContext();
 
     useEffect(() => {
         if (!graphData) return;
@@ -27,8 +27,8 @@ export default function GraphContainer() {
     const DiagramMemoized = useMemo(() => {
         return (!schema || isFetching) ?  <div style={{ fontSize: 20, lineHeight: 2 }}>
     <Skeleton count={15} color="#202020" highlightColor="#444"/>
-    </div>: <Simulation initialSchema={schema}/>;
-    }, [schema, isFetching]);
+    </div>: <Simulation initialSchema={schema} selectedNodeId={selectedNode?.id}/>;
+    }, [schema, isFetching, selectedNode]);
 
     return (
         <div className="simulation__right-panel">

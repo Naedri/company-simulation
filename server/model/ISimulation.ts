@@ -2,8 +2,8 @@ import { IComponentSimplified } from "./IComponentSimplified";
 
 export interface ISimulation {
     seed: number;
-    // Is True if stepFromSimulation is called until end of simulation
-    intervalOfstepManagedBySimulation: NodeJS.Timeout | undefined;
+    // Is True if stepFromSimulation is called from simulation
+    isStepManagedBySimulation: boolean;
 
     step(): void;
 

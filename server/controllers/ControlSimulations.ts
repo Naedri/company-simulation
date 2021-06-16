@@ -17,7 +17,7 @@ export class ControlSimulations {
         if (!ControlSimulations.simulations[id]) {
             throw new Error("Simulation not created yet");
         }
-        if (!ControlSimulations.simulations[id].intervalOfstepManagedBySimulation) {
+        if (!ControlSimulations.simulations[id].isStepManagedBySimulation) {
             ControlSimulations.simulations[id].step();
         }
     }
@@ -26,7 +26,7 @@ export class ControlSimulations {
         if (!ControlSimulations.simulations[id]) {
             throw new Error("Simulation not created yet");
         }
-        if (!ControlSimulations.simulations[id].intervalOfstepManagedBySimulation) {
+        if (!ControlSimulations.simulations[id].isStepManagedBySimulation) {
             ControlSimulations.simulations[id].runStepFromSimulation(callback);
         }
     }
@@ -35,7 +35,7 @@ export class ControlSimulations {
         if (!ControlSimulations.simulations[id]) {
             throw new Error("Simulation not created yet");
         }
-        if (ControlSimulations.simulations[id].intervalOfstepManagedBySimulation) {
+        if (ControlSimulations.simulations[id].isStepManagedBySimulation) {
             ControlSimulations.simulations[id].stopStepFromSimulation(callback);
         }
     }
