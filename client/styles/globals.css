@@ -49,6 +49,10 @@ picture {
   display: block;
 }
 
+svg.bi-link-canvas-layer{
+  overflow: visible;
+}
+
 /* Inherit fonts for inputs and buttons */
 input,
 button,
