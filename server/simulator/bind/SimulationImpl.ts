@@ -23,6 +23,8 @@ export default class SimulationImpl implements ISimulation {
 
     sim: Simulation;
 
+    intervalOfstepManagedBySimulation: NodeJS.Timeout | undefined;
+
     constructor(simId: string = "") {
         if (simId === "") {
             this.sim = sim1;
@@ -36,6 +38,7 @@ export default class SimulationImpl implements ISimulation {
                 throw new Error(`Simulation with id '${simId}' does not exist`);
             }
         }
+        this.intervalOfstepManagedBySimulation = undefined;
     }
 
     getStates(): IComponentSimplified[] {
@@ -84,5 +87,29 @@ export default class SimulationImpl implements ISimulation {
         } else {
             throw new Error("No active simulation.");
         }
+    }
+
+    runStepFromSimulation(callback: (state: IComponentSimplified[]|undefined, hasNextStep: boolean) => void): void {
+        if (this.sim !== null) {
+            this.intervalOfstepManagedBySimulation = setInterval(() => {
+                console.log(this.sim.current_state.enterprise.inventory.funds_in_eur);
+                if (this.sim.current_state.enterprise.inventory.funds_in_eur > 0) {
+                    this.sim.run_one_step();
+                    callback(this.getStates(), true);
+                }else{
+                    this.stopStepFromSimulation((state) => {
+                        callback(state, false);
+                    });
+                }
+            }, 2000);
+        } else {
+            throw new Error("No active simulation.");
+        }
+    }
+
+    stopStepFromSimulation(callback: (state: IComponentSimplified[]|undefined) => void): void {
+        clearInterval(this.intervalOfstepManagedBySimulation as NodeJS.Timeout);
+        this.intervalOfstepManagedBySimulation = undefined;
+        callback(undefined);
     }
 }

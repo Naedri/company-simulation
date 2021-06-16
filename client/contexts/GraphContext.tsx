@@ -13,6 +13,7 @@ type State = {
     dataOverTime?: Array<any>;
     isFetching?: boolean;
 };
+
 type StateSetter = React.Dispatch<React.SetStateAction<State>>;
 
 type Context = State & { setGraphState: StateSetter };
@@ -21,7 +22,12 @@ const GraphContext = React.createContext<Context>(null);
 GraphContext.displayName = "GraphContext";
 
 function GraphContextProvider({ children }: ProviderProps) {
-    const [graphState, setGraphState] = React.useState<State>(undefined);
+    const [graphState, setGraphState] = React.useState<State>({
+        colorLegend: undefined,
+        graphData: undefined,
+        selectedNode: undefined,
+        socket: undefined
+    });
 
     useEffect(() => {
         (async function() {
@@ -31,7 +37,7 @@ function GraphContextProvider({ children }: ProviderProps) {
                     graphData: data,
                     dataOverTime: [data]
                 })
-            ))
+            ));
         }());
 
         const handleClick = (e) => {
@@ -80,4 +86,5 @@ function setSocket(socket: Socket, setState: StateSetter) {
 function setFetching(isFetching: boolean, setState: StateSetter) {
     setState((prevState => ({ ...prevState, isFetching })));
 }
-export { GraphContextProvider, useGraphContext, setGraphData, setColorLegend, setSelectedNode, setFetching };
+
+export { GraphContextProvider, useGraphContext, setGraphData, setColorLegend, setSelectedNode, setSocket, setFetching };

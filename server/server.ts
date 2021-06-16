@@ -14,6 +14,10 @@ import SimulationInitializer from "./utils/SimulationInitializer";
 const cookieParser = require('cookie-parser');
 const jwt = require('express-jwt');
 const cors = require('cors');
+const http = require("http");
+import { Server } from "socket.io";
+import SimulationSockets from "./sockets/simulation/SimulationSockets";
+
 
 const app = express();
 const PORT = "3000";
@@ -34,8 +38,8 @@ app.use(
 );
 
 app.use((err: { name: string; status: any; message: any; }, req: any, res: any, next: () => void) => {
-    if(err.name === 'UnauthorizedError') {
-        res.status(err.status).send({message:err.message});
+    if (err.name === 'UnauthorizedError') {
+        res.status(err.status).send({ message: err.message });
         LOGGER.INFO("Auth middleware", "Auth error");
         return;
     }
@@ -52,7 +56,16 @@ app.use((req, res) => {
     });
 });
 
-app.listen(PORT,() => {
+const httpServer = http.createServer(app);
+
+const socketIO = new Server(httpServer, {
+    cors: {
+        origin: ["http://localhost:8080"]
+    }
+});
+SimulationSockets.init(socketIO);
+
+httpServer.listen(PORT, () => {
     SimulationInitializer.initSimulationFactory();
     console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`);
 });
