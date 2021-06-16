@@ -125,7 +125,10 @@ cd ./server/
 npm install
 npm run start
 ```
-You will need to add NODE_ENV=DEV in your environnment variables for local development.
+You will need to add NODE_ENV=dev in your environnment variables for local development.
+```bash
+NODE_ENV=dev npm run start
+```
 #### Launching the client
 
 In another terminal, install dependencies then launch the client.
