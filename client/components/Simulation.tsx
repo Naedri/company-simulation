@@ -7,7 +7,7 @@ export default function Simulation({ initialSchema }) {
 
     return (
         <div className="content">
-            <Diagram schema={schema} onChange={onChange}/>
+            <Diagram schema={schema} onChange={onChange} foo={""}/>
         </div>
     );
 }

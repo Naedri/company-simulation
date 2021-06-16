@@ -5,7 +5,6 @@ import { getState, step, stop } from "../utils/rest/simulation";
 import { useRouter } from "next/router";
 import ClipLoader from "react-spinners/ClipLoader";
 import socketIOClient from "socket.io-client";
-import LOGGER from "../../server/utils/logger";
 
 import {
     AlertDialog,
@@ -33,14 +32,14 @@ export default function Configuration(props) {
         });
 
         localSocket.on("updateSimulation", (nextState) => {
-            LOGGER.INFO("Configuration", "Receive updateSimulation");
+            console.log("Configuration", "Receive updateSimulation");
             setFetching(true, setGraphState);
             setGraphData(nextState, setGraphState);
             setFetching(false, setGraphState);
         });
 
         localSocket.on("stopSimulation", () => {
-            LOGGER.INFO("Configuration", "Receive stopSimulation");
+            console.log("Configuration", "Receive updateSimulation");
             setIsSimulationRunningFromServer(false);
         });
         setSocket(localSocket, setGraphState);
@@ -48,7 +47,7 @@ export default function Configuration(props) {
 
     const startTimer = useCallback(() => {
         if (!isSimulationRunningFromServer) {
-            LOGGER.INFO("Configuration", "Emit runGetStepFromSimulation");
+            console.log("Configuration", "Receive updateSimulation");
             socket.emit("runGetStepFromSimulation", { userId });
             setIsSimulationRunningFromServer(true);
         }
@@ -56,7 +55,7 @@ export default function Configuration(props) {
 
     const stopTimer = useCallback(() => {
         if (isSimulationRunningFromServer) {
-            LOGGER.INFO("Configuration", "Emit stopGetStepFromSimulation");
+            console.log("Configuration", "Receive updateSimulation");
             socket.emit("stopGetStepFromSimulation", { userId });
         }
     }, [socket, isSimulationRunningFromServer]);
