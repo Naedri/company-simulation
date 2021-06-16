@@ -54,16 +54,11 @@ const DiagramNode = (props) => {
   // perform the onMount callback when the node is allowed to register
   useNodeRegistration(ref, onMount, id);
 
+  const isSelected = selectedNodeId === props.data.id;
   const classList = useMemo(() => classNames('bi bi-diagram-node',
       { [`bi-diagram-node-${type}`]: !!type && !render },
-      className), [type, className]);
-
-  const isSelected = selectedNodeId === props.data.id;
-  const styleNode = isSelected ? {
-    zIndex: 1000
-  } : {
-    zIndex: 1
-  };
+      (isSelected ? "selected" : ""),
+      className), [type, className, isSelected]);
 
   // generate ports
   const options = { registerPort, onDragNewSegment, onSegmentFail, onSegmentConnect };
@@ -72,7 +67,7 @@ const DiagramNode = (props) => {
   const customRenderProps = { id, render, content, type, inputs: InputPorts, outputs: OutputPorts, data, className };
 
   return (
-    <div className={classList} ref={ref} style={{ ...getDiagramNodeStyle(coordinates, disableDrag), ...styleNode }} onMouseDown={handleClick}>
+    <div className={classList} ref={ref} style={getDiagramNodeStyle(coordinates, disableDrag)} onMouseDown={handleClick}>
       {render && typeof render === 'function' && render(customRenderProps)}
       {!render && (
         <>

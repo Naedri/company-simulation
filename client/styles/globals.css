@@ -52,7 +52,12 @@ picture {
 svg.bi-link-canvas-layer{
   overflow: visible;
 }
-
+.bi.bi-diagram .bi.bi-diagram-node.selected{
+  z-index: 1000;
+}
+.bi.bi-diagram .bi.bi-diagram-node:hover{
+  z-index: 1001;
+}
 /* Inherit fonts for inputs and buttons */
 input,
 button,
