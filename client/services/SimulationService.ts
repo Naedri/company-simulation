@@ -46,7 +46,7 @@ export class SimulationService {
                         className: "link",
                         readonly: true
                     };
-                } else if (value instanceof Array) {
+                } else if (Array.isArray(value)) {
                     for (const v of value) {
                         if (ComponentService.isLinkedComponent(v)) {
                             result[input + "-" + v.id] = {
