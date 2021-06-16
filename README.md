@@ -1,89 +1,107 @@
-# Simulation basée sur le web
+# Web-based simulation
 
-Tuteur : Remous Aris Koutsiamanis ([remous-aris.koutsiamanis@imt-atlantique.fr](mailto:remous-aris.koutsiamanis@imt-atlantique.fr))
+Tutor : Remous Aris Koutsiamanis ([remous-aris.koutsiamanis@imt-atlantique.fr](mailto:remous-aris.koutsiamanis@imt-atlantique.fr))
 
 ## Objectif
 
-L’objectif de ce projet est d’acquérir de l’expérience dans la conception, la création et l’interaction
-avec des API Web, des bibliothèques de traitement et de visualisation des données afin de présenter
-un tableau de bord interactif pour les données.
+The objective of this project is to gain experience in designing, creating and interacting with with web APIs, data processing and visualization libraries to present an interactive an interactive data dashboard.
 
-## Contexte, problématique
+## Context, problematic
 
-Le projet s’inscrit dans le contexte d’un simulateur d’événements discrets basé sur le web qui peut
-être utilisé dans l’enseignement des étudiants en informatique.
+The project is in the context of a web-based discrete event simulator that can be used in teaching computer science students.
 
-Le sujet simulé sera une entreprise simple (matières premières, machines de production, personnel,
-produits fabriqués, coûts, profits, etc.) mais le système développé devrait être suffisamment général
-pour être facilement modifié et étendu pour fonctionner avec des simulateurs structurés de manière
-analogue sur d’autres sujets. Le simulateur lui-même sera fourni par le tuteur.
+The simulated subject will be a simple company (raw materials, production machines, personnel, manufactured products, costs, profits, etc.) but the developed system should be general enough to be easily modified and extended to work with similarly structured simulators on other subjects. The simulator itself will be provided by the tutor.
 
-Le travail concerne à la fois le côté serveur et le côté client d’une application. Plus précisément, la
-partie serveur crée, gère et fournit un accès à la simulation tout en fournissant une API REST pour
-accéder à la simulation et à ces fonctionnalités de gestion.
+The work involves both the server side and the client side of an application. Specifically, the server side creates, manages, and provides access to the simulation while providing a REST API to access the simulation and these management features.
 
-Le côté client accède à l’API REST pour gérer et interagir avec la simulation et l’utilise pour permettre
-aux utilisateurs d’interagir et d’afficher des informations concernant la simulation dans un
-navigateur Web.
+The client side accesses the REST API to manage and interact with the simulation and uses it to allow users to interact and display information about the simulation in a web browser.
 
-Les fonctionnalités qui devraient être fournies sont :
+The functionality that should be provided is:
 
-- Créer, démarrer, arrêter une simulation.
-- Configurer les paramètres de la simulation.
-- Stocker les paramètres de configuration de la simulation (dans une base de données simple)
-  pour permettre de rejouer exactement la même simulation.
-- Récupérer des informations en direct par sondage (client pull) et en continu (server push).
-- Présenter/afficher des informations à l’aide de graphiques interactifs (pour l’exemple de
-  simulateur donné).
-- Interagir avec la simulation (demander et appliquer des modifications).
-- Fournir un accès authentifié aux utilisateurs (stocké dans une base de données).
-  - Un minimum de deux catégories d’utilisateurs est nécessaire pour chaque simulation :
-    - Les propriétaires de la simulation peuvent créer, modifier, supprimer, démarrer,
-      arrêter et interagir (recevoir les informations, demander que des changements soient
-      apportés pendant l’exécution) avec la simulation.
-    - Les utilisateurs de la simulation peuvent uniquement interagir avec une simulation.
-      2/2
+- Create, start, stop a simulation.
+- Configure simulation parameters.
+- Store simulation configuration parameters (in a simple database) to allow replay of the exact same simulation.
+- Retrieve live information by polling (client pull) and continuously (server push).
+- Present/display information using interactive graphics (for the given simulator example).
+- Interact with the simulation (request and apply changes).
+- Provide authenticated access to users (stored in a database).
+  - A minimum of two user categories are required for each simulation:
+    - Simulation owners can create, modify, delete, start,
+      stop and interact (receive information, request changes to be made during execution) with
+      The simulation owners can create, modify, delete, start, stop and interact (receive information, request changes to be made during execution) with the simulation.
+    - Simulation users can only interact with a simulation.
 
-Dans le cadre de ces étapes, les étudiants devront décider d’une manière flexible de représenter les
-entités dans la simulation et de les rendre accessibles via l’API REST.
+As part of these steps, students will need to decide on a flexible way to represent entities in the simulation and make them
+entities in the simulation and make them accessible via the REST API.
 
-## Phases et Livrables
+## Phases and Deliverables
 
 ### Sprint 1
 
-- Concevoir :
-  - La représentation du modèle de simulation et les interactions possibles avec celui-ci :
-    - Créer, démarrer, arrêter, modifier les paramètres, obtenir des informations,
-      demander et appliquer des modifications.
-  - La représentation de l’authentification (utilisateurs, permissions).
-- Implémenter :
-  - La gestion d’une simulation en cours dans le serveur.
-  - La persistance / le stockage des informations de la simulation dans le serveur.
-  - L’API REST.
+- Design:
+  - The representation of the simulation model and possible interactions with it:
+    - Create, start, stop, change parameters, get information,
+      request and apply modifications.
+  - Representation of the authentication (users, permissions).
+- Implementing :
+  - The management of a running simulation in the server.
+  - Persistence / storage of simulation information in the server.
+  - The REST API.
 
 ### Sprint 2
 
-- Mettre en œuvre une interface web pour accéder à l’API REST.
-- Afficher des exemples d’informations provenant de la simulation.
-- Permettre d’interagir avec la simulation.
-- Implémenter l’accès authentifié.
+- Implement a web interface to access the REST API.
+- Display sample information from the simulation.
+- Allow interaction with the simulation.
+- Implement authenticated access.
 
-## Environnement technologique (langage, outils dev, matériel spécifique ?)
+## Technological environment
 
-- Serveur : en Python ou JavaScript ou **TypeScript** (mais autres possibles après validation du
-  tuteur).
-  - Base de données : Choix libre.
-  - Simulateur d’entreprises : Fourni par le tuteur.
-- Client : JavaScript ou **Typescript et React** (mais autres possibles après validation du tuteur).
-  - Compatibilité des navigateurs Safari, Firefox et Chrome.
+- Server: **TypeScript and Express** 
+  - Database : PostgreSQL.
+  - Business simulator: Provided by the tutor.
+- Client:  **TypeScript and NextJS**
+  - Compatibility with Safari, Firefox and Chrome browsers.
 
-## Livrables
+## Deliverables
 
-- Code source du projet avec :
-  - Documentation.
-  - Versionnement (Github/Gitlab/autre).
-- Propositions d’amélioration.
-- Évaluations des résultats.
+- Project source code with :
+  - Documentation (Swagger).
+  - Versioning (Github).
+- Improvement proposals.
+- Evaluation of results.
+
+## Results
+
+### Front end
+
+#### Login page
+
+To log or to sign into the application.
+
+<p><img alt="login page" src="./doc/img/screen_login.png" width="400"></p>
+
+#### Home page
+
+To choose and create a simulation from a template.
+
+<p><img alt="home page" src="./doc/img/screen_home.png" width="400"></p>
+
+#### Simulation board
+
+To edit the evolution of the simulation and to visualize interactions between its components.
+
+<p><img alt="simulation board node graph" src="./doc/img/screen_simulation_node.png" width="400"></p>
+
+To watch the evolution of the financial founds of the simulation over time.
+
+<p><img alt="simulation board plot" src="./doc/img/screen_simulation_plot.png" width="400"></p>
+
+#### Administration dashboard
+
+To allow or disable modifications of specific variables of the simulation. 
+
+<p><img alt="admin board" src="./doc/img/screen_admin.png" width="400"></p>
 
 ## How to use the app ?
 
