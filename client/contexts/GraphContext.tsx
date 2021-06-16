@@ -37,7 +37,7 @@ function GraphContextProvider({ children }: ProviderProps) {
                     graphData: data,
                     dataOverTime: [data]
                 })
-            ))
+            ));
         }());
 
         const handleClick = (e) => {
@@ -85,10 +85,6 @@ function setSocket(socket: Socket, setState: StateSetter) {
 
 function setFetching(isFetching: boolean, setState: StateSetter) {
     setState((prevState => ({ ...prevState, isFetching })));
-}
-
-function setSocket(socket: Socket, setState: StateSetter) {
-    setState((prevState => ({ ...prevState, socket })));
 }
 
 export { GraphContextProvider, useGraphContext, setGraphData, setColorLegend, setSelectedNode, setSocket, setFetching };

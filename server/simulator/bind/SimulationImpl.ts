@@ -23,7 +23,7 @@ export default class SimulationImpl implements ISimulation {
 
     sim: Simulation;
 
-    stepManagedBySimulation: boolean;
+    intervalOfstepManagedBySimulation: NodeJS.Timeout | undefined;
 
     constructor(simId: string = "") {
         if (simId === "") {
@@ -38,7 +38,7 @@ export default class SimulationImpl implements ISimulation {
                 throw new Error(`Simulation with id '${simId}' does not exist`);
             }
         }
-        this.stepManagedBySimulation = false;
+        this.intervalOfstepManagedBySimulation = undefined;
     }
 
     getStates(): IComponentSimplified[] {
@@ -89,23 +89,27 @@ export default class SimulationImpl implements ISimulation {
         }
     }
 
-    stepFromSimulation(callback: (state: IComponentSimplified[]|undefined, hasNextStep: boolean) => void): void {
+    runStepFromSimulation(callback: (state: IComponentSimplified[]|undefined, hasNextStep: boolean) => void): void {
         if (this.sim !== null) {
-            this.stepManagedBySimulation = true;
-            const interval = setInterval(() => {
-                console.log(this.sim);
-                console.log(this.sim.enterprise.inventory.funds_in_eur);
-                if (this.sim.enterprise.inventory.funds_in_eur > 0){
+            this.intervalOfstepManagedBySimulation = setInterval(() => {
+                console.log(this.sim.current_state.enterprise.inventory.funds_in_eur);
+                if (this.sim.current_state.enterprise.inventory.funds_in_eur > 0) {
                     this.sim.run_one_step();
                     callback(this.getStates(), true);
                 }else{
-                    clearInterval(interval);
-                    this.stepManagedBySimulation = false;
-                    callback(undefined, false);
+                    this.stopStepFromSimulation((state) => {
+                        callback(state, false);
+                    });
                 }
             }, 2000);
         } else {
             throw new Error("No active simulation.");
         }
+    }
+
+    stopStepFromSimulation(callback: (state: IComponentSimplified[]|undefined) => void): void {
+        clearInterval(this.intervalOfstepManagedBySimulation as NodeJS.Timeout);
+        this.intervalOfstepManagedBySimulation = undefined;
+        callback(undefined);
     }
 }

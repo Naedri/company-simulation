@@ -40,7 +40,7 @@ const View = ({ user }) => {
     <GraphContextProvider>
       <div className="h-screen w-full">
         <div className="simulation">
-          <Configuration />
+          <Configuration userId={user.id}/>
           <GraphContainer />
           <Info />
         </div>
