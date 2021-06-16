@@ -5,19 +5,19 @@ import { IComponent } from "../../model/IComponent";
 const withCredConfig = { withCredentials: true };
 
 async function create(exampleId = ""): Promise<void> {
-    return await axios.get(`${apiUrl}/simulation/create/${exampleId}`, withCredConfig);
+    return axios.get(`${apiUrl}/simulation/create/${exampleId}`, withCredConfig);
 }
 
 async function step(): Promise<void> {
-    return await axios.post(`${apiUrl}/simulation/step`, {}, withCredConfig);
+    return axios.post(`${apiUrl}/simulation/step`, {}, withCredConfig);
 }
 
 async function stop(): Promise<void> {
-    return await axios.post(`${apiUrl}/simulation/stop`, {}, withCredConfig);
+    return axios.post(`${apiUrl}/simulation/stop`, {}, withCredConfig);
 }
 
 async function setState(states: IComponent[]): Promise<void> {
-    return await axios.post(`${apiUrl}/simulation/setState`, states, withCredConfig);
+    return axios.patch(`${apiUrl}/simulation/setState`, states, withCredConfig);
 }
 
 async function getState(token = null): Promise<[data?: IComponent[], error?: Error]> {
