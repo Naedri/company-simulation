@@ -4,7 +4,7 @@ Tutor : Remous Aris Koutsiamanis ([remous-aris.koutsiamanis@imt-atlantique.fr](m
 
 ## Objective
 
-The objective of this project is to gain experience in designing, creating and interacting with with web APIs, data processing and visualization libraries to present an interactive an interactive data dashboard.
+The objective of this project is to gain experience in designing, creating and interacting with web APIs, data processing and visualization libraries to present an interactive an interactive data dashboard.
 
 ## Context, problematic
 
